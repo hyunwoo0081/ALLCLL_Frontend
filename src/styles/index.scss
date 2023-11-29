@@ -1,0 +1,173 @@
+$primary-color: #C3002F;
+$primary-color-hover: #9F151A;
+$light-gray: #E6E6E6;
+$gray: #666666;
+$black: #000000;
+$background-color: #FAFAFA;
+
+:root {
+  font-family: 'Inter', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light;
+  /*color: rgba(255, 255, 255, 0.87);*/
+  /*background-color: #242424;*/
+  color: black;
+  background-color: $background-color;
+
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+div.responsive {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 18px;
+
+  div.container_box {
+    background: white;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #E6E6E6;
+  }
+}
+
+.width_100 {
+  width: 100%;
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+input[type="text"], input[type="password"] {
+  padding: 6px 12px;
+  color: $black;
+  font-size: 18px;
+  font-weight: 500;
+  background: white;
+  border-radius: 6px;
+  border: $light-gray solid 1px;
+  height: 50px;
+  box-sizing: border-box;
+
+  &::placeholder {
+    color: #8F8F8F;
+  }
+
+  &:focus {
+    outline: $primary-color solid 1px;
+    border: $primary-color solid 1px;
+  }
+
+  &:disabled {
+    background: $light-gray;
+    border: $light-gray solid 1px;
+    cursor: not-allowed;
+  }
+}
+
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  
+  height: 50px;
+  padding: 6px 12px;
+  font-size: 18px;
+  font-weight: 500;
+  color: white;
+  background: $primary-color;
+  border-radius: 6px;
+  border: $primary-color solid 1px;
+  cursor: pointer;
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover {
+    background: $primary-color-hover;
+  }
+  &:focus {
+    outline: $primary-color-hover solid 1px;
+  }
+  &:disabled {
+    background: $light-gray;
+    border: $light-gray solid 1px;
+    cursor: not-allowed;
+  }
+}
+
+button.cancel {
+  background: white;
+  color: $primary-color ;
+  border: $primary-color solid 1px;
+
+  &:hover {
+    background: $primary-color;
+    color: white;
+  }
+}
+
+button.link {
+  background: none;
+  border: none;
+  color: $primary-color;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 0;
+  height: auto;
+  text-decoration: underline;
+  cursor: pointer;
+
+  &:focus {
+    outline: $primary-color-hover solid 1px;
+  }
+
+  &:hover, &:active {
+    color: $primary-color-hover;
+    border: none;
+    outline: none;
+  }
+}
+
+select {
+  padding: 6px 12px;
+  color: $black;
+  font-size: 18px;
+  font-weight: 500;
+  background: white;
+  border-radius: 6px;
+  border: $light-gray solid 1px;
+  height: 50px;
+  box-sizing: border-box;
+
+  &:focus {
+    outline: $primary-color solid 1px;
+    border: $primary-color solid 1px;
+  }
+
+  &:disabled {
+    background: $light-gray;
+    border: $light-gray solid 1px;
+    color: #8F8F8F;
+    cursor: not-allowed;
+  }
+}
+

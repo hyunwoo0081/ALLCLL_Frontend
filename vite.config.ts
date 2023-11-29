@@ -3,8 +3,10 @@ import react from '@vitejs/plugin-react'
 import path from 'path';
 
 // https://vitejs.dev/config/
+const TargetServer = 'http://localhost:8080';
 export default defineConfig({
   plugins: [react()],
+  base: '/',
   resolve: {
     alias: {
       '@static': path.resolve(__dirname, 'static'),
@@ -13,5 +15,16 @@ export default defineConfig({
       '@pages': path.resolve(__dirname, 'src/pages'),
       '@styles': path.resolve(__dirname, 'src/styles')
     }
+  },
+
+  server: {
+    proxy: {
+      '/api': {
+        target: TargetServer,
+        changeOrigin: true,
+        secure: false,
+        ws: true
+      }
+    }
   }
-})
+});

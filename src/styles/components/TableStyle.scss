@@ -1,0 +1,73 @@
+div.search_layout {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+
+  div.inputs_layout {
+    display: flex;
+    flex: auto;
+
+    & > * {
+      flex: auto;
+      border-radius: 0;
+
+      &:first-child {
+        border-top-left-radius: 12px;
+        border-bottom-left-radius: 12px;
+      }
+      &:last-child {
+        border-top-right-radius: 12px;
+        border-bottom-right-radius: 12px;
+      }
+
+      &:focus {
+        z-index: 1;
+      }
+    }
+
+    & > select {
+      flex: none;
+      width: 160px;
+    }
+  }
+
+  button {
+    gap: 18px;
+    padding: 9px 18px;
+    font-weight: 700;
+    border-radius: 12px;
+  }
+}
+
+table.container_box {
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #E6E6E6;
+
+  thead {
+    border-bottom: black solid 2px;
+
+    tr {
+      position: sticky;
+      top: 0;
+      background: white;
+      z-index: 1;
+
+      th {
+        font-size: 16px;
+        font-weight: 700;
+        color: black;
+        text-align: left;
+        padding: 12px 0;
+      }
+    }
+  }
+
+  button {
+    padding: 0 8px;
+    height: 32px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+}

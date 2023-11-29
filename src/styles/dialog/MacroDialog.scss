@@ -1,0 +1,26 @@
+div.macro_dialog_body {
+  & > div {
+    display: flex;
+    justify-content: space-between;
+
+    & > * {
+      flex: auto;
+    }
+  }
+  img {
+    height: 80px;
+  }
+}
+
+div.apply_dialog_body {
+  div {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    gap: 12px;
+    padding: 24px;
+  }
+  img {
+    height: 80px;
+  }
+}

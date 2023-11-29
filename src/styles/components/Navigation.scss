@@ -1,0 +1,88 @@
+$primary-color: #C3002F;
+$primary-color-hover: #9F151A;
+$light-gray: #E6E6E6;
+$gray: #666666;
+$black: #000000;
+$background-color: #FAFAFA;
+
+nav.navigation {
+  position: sticky;
+  top: 0;
+
+  background: $background-color;
+  border-bottom: 1px solid var(--light-gray, #E6E6E6);
+
+  div.navigation_flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
+    height: 64px;
+
+    div.logo {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+
+      image {
+        width: 48px;
+        height: 48px;
+      }
+
+      h2 {
+        font-size: 24px;
+        font-weight: 600;
+        color: black;
+      }
+    }
+
+    div.auth_layout {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+
+      button {
+        display: initial;
+        height: auto;
+        padding: 6px 12px;
+        font-size: 16px;
+      }
+    }
+  }
+
+  div.navigation_shortcuts {
+    padding: 0 20px 0 64px;
+    ul {
+      display: flex;
+      align-items: center;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        box-sizing: content-box;
+        padding: 2px 2px 3px 2px;
+
+        &.selected {
+          border-bottom: 2px solid $primary-color;
+          padding: 2px 2px 2px 2px;
+          margin-bottom: -1px;
+
+        }
+
+        a {
+          padding: 0 18px;
+          color: var(--gray, #666666);
+          text-decoration: none;
+          font-size: 18px;
+          font-weight: 500;
+
+          &:hover, &.selected, &:active {
+            font-weight: 700;
+            color: $primary-color;
+          }
+        }
+      }
+    }
+  }
+}
