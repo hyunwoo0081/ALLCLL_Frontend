@@ -1,16 +1,17 @@
 import DialogTemplate from '../DialogTemplate.tsx';
 import '@styles/dialog/MacroDialog.scss';
+import {ApplyType} from '../../constant/types.ts';
 
 interface IMacroDialog {
   isOpen: boolean;
   closeDialog: () => void;
-  nextStep: (isSuccess?:boolean) => void;
+  nextStep: (_?:ApplyType) => void;
   subjectName: string;
 }
 
 function SubjectApplyDialog({isOpen, closeDialog, nextStep, subjectName}: IMacroDialog) {
   function submit() {
-    nextStep(true);
+    nextStep(ApplyType.SUCCESS);
   }
 
   return (

@@ -21,6 +21,10 @@ export interface IRecentDataResponse {
   results: IRecentData[];
 }
 
+export enum ApplyType {
+  Macro, Apply, SUCCESS, FAIL, DONE
+}
+
 export const DataFormats = {
   SubjectTitles: {
     courseId: '학수번호',

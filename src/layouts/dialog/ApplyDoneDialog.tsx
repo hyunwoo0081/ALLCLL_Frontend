@@ -18,7 +18,7 @@ function ApplyFailDialog({isOpen, closeDialog}: IMacroDialog) {
       <div className='dialog_body apply_dialog_body'>
         <div>
           <img src='/sample.png' alt=''/>
-          <span>수강여석이 없습니다!</span> <br/> <br/> <br/> <br/> <br/>
+          <span>이미 수강신청된 과목입니다!</span> <br/> <br/> <br/> <br/> <br/>
         </div>
       </div>
       <div className='dialog_footer'>

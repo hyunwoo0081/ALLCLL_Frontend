@@ -4,12 +4,9 @@ import MacroDialog from '../layouts/dialog/MacroDialog.tsx';
 import SubjectApplyDialog from '../layouts/dialog/SubjectApplyDialog.tsx';
 import ApplySuccessDialog from '../layouts/dialog/ApplySuccessDialog.tsx';
 import ApplyFailDialog from '../layouts/dialog/ApplyFailDialog.tsx';
-import {DataFormats} from '../constant/types.ts';
+import ApplyDoneDialog from '../layouts/dialog/ApplyDoneDialog.tsx';
+import {ApplyType, DataFormats} from '../constant/types.ts';
 import '@styles/components/TableStyle.scss';
-
-enum ApplyType {
-  Macro, Apply, SUCCESS, FAIL
-}
 
 function SimulationPage() {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
@@ -27,10 +24,11 @@ function SimulationPage() {
     setIsDialogOpen(false);
     setApplyType(ApplyType.Macro);
   }
-  function nextStep(isSuccess : boolean|undefined) {
-    isSuccess = isSuccess ?? true;
-    if (applyType < ApplyType.SUCCESS)
-      setApplyType(prev => prev + 1 + Number(!isSuccess));
+  function nextStep(nextApplyType?: ApplyType) {
+    if (nextApplyType !== undefined)
+      setApplyType(nextApplyType);
+    else if (applyType < ApplyType.SUCCESS)
+      setApplyType(prev => prev+1);
     else {
       // Todo: Refresh table
       closeDialog();
@@ -43,6 +41,7 @@ function SimulationPage() {
       <SubjectApplyDialog isOpen={isDialogOpen && applyType === ApplyType.Apply} closeDialog={closeDialog} nextStep={nextStep} subjectName={selectedSubjectTitle}/>
       <ApplySuccessDialog isOpen={isDialogOpen && applyType === ApplyType.SUCCESS} closeDialog={closeDialog} nextStep={nextStep}/>
       <ApplyFailDialog isOpen={isDialogOpen && applyType === ApplyType.FAIL} closeDialog={closeDialog}/>
+      <ApplyDoneDialog isOpen={isDialogOpen && applyType === ApplyType.DONE} closeDialog={closeDialog}/>
 
       <PageDefaultLayout className=''>
         <div className='search_layout'>
