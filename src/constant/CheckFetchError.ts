@@ -8,14 +8,15 @@ export interface IErrorTypes {
 }
 
 async function CheckFetchError(response: Response, errorTypes: IErrorTypes[], navigate: NavigateFunction) {
-  const message = await response.text();
-
   if (response.ok)
     return response;
 
-  if (response.status === 401)
+  if (response.status === 403) {
     AuthControl.logout(navigate);
+    throw new Error('로그인이 필요합니다');
+  }
 
+  const message = await response.text();
   errorTypes.forEach((errorType) => {
     if (errorType.errorBody === message) {
       if (errorType.action)
