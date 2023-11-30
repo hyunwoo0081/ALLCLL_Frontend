@@ -73,3 +73,10 @@ table.container_box {
     font-weight: 600;
   }
 }
+
+div.grid_layout {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: center;
+  gap: 0;
+}
