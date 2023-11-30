@@ -1,5 +1,7 @@
 import DialogTemplate from '../DialogTemplate.tsx';
+import {useNavigate} from 'react-router-dom';
 import {ApplyType, ISubject} from '../../constant/types.ts';
+import API from '../../constant/API.ts';
 import '@styles/dialog/MacroDialog.scss';
 
 interface IMacroDialog {
@@ -10,8 +12,38 @@ interface IMacroDialog {
 }
 
 function SubjectApplyDialog({isOpen, closeDialog, nextStep, selectedSubject}: IMacroDialog) {
+  const navigate = useNavigate();
+  
   function submit() {
-    nextStep(ApplyType.SUCCESS);
+    const playId = Number(localStorage.getItem('playId'));
+    const {courseId, classId, offeringDepartment} = selectedSubject!;
+
+    if (isNaN(playId)) {
+      alert('시뮬레이션을 찾을 수 없습니다.');
+      return;
+    }
+
+    if (!selectedSubject) {
+      alert('선택 된 과목을 찾을 수 없습니다');
+      return;
+    }
+
+    const request = {
+      playId,
+      courseId,
+      classId,
+      offeringDepartment
+    }
+
+    API.fetch2Json('/api/v2/mock/register', 'POST', request, [], navigate)
+      .then((res) => {
+        console.log(res);
+        nextStep(ApplyType.SUCCESS);
+      })
+      .catch((err) => {
+        console.error(err);
+        nextStep(ApplyType.FAIL);
+      });
   }
 
   return (
