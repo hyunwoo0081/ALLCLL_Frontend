@@ -33,7 +33,7 @@ function Login4PasswordPage() {
       return;
     }
     if (!CheckStringType.password(password)) {
-      setErrorMessage('비밀번호를 입력해주세요');
+      setErrorMessage('비밀번호가 적절하지 랂습니다\n8~16자 문자 숫자로 입력해주세요');
       PasswordInputRef.current?.focus();
       return;
     }
@@ -73,7 +73,7 @@ function Login4PasswordPage() {
                value={email}
                onChange={e => setEmail(e.target.value)}/>
         <input type='password'
-               placeholder='비밀번호'
+               placeholder='비밀번호(8~16자 문자 숫자)'
                ref={PasswordInputRef}
                disabled={fetching}
                value={password}
