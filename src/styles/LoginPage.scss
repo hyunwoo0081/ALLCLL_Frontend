@@ -1,3 +1,10 @@
+$primary-color: #C3002F;
+$primary-color-hover: #9F151A;
+$light-gray: #E6E6E6;
+$gray: #666666;
+$black: #000000;
+$background-color: #FAFAFA;
+
 div.login_page {
   align-items: center;
   justify-content: center;
@@ -33,5 +40,19 @@ div.login_page {
     input[type="text"], input[type="password"] {
       flex: 1;
     }
+  }
+
+  div.error_box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+
+    font-weight: 600;
+    color: $primary-color;
+    max-width: 100%;
+    background:#C3002F22;
+    padding: 16px 16px;
+    border-radius: 6px;
   }
 }
