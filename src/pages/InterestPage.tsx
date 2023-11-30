@@ -5,7 +5,7 @@ import '@styles/components/TableStyle.scss';
 
 
 const SearchTitles: Array<keyof ISubject> = ['courseTitle', 'instructorName', 'offeringDepartment', 'classTime'];
-const SearchDisabled: Array<keyof ISubject> = ['classTime'];
+const SearchDisabled: Array<keyof ISubject> = ['offeringDepartment', 'classTime'];
 
 function InterestPage() {
   // const [subjects, setSubjects] = useState<ISubject[]>([]);
