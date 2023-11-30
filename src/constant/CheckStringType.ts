@@ -4,10 +4,12 @@ const CheckStringType = {
     return emailRegex.test(email);
   },
   password(password: string) {
-    return !!password;
+    const passwordRegex = /^(?=.*\d)[a-zA-Z\d]{8,16}$/;
+    return passwordRegex.test(password);
   },
   authCode(authCode: string) {
-    return !!authCode;
+    const authCodeRegex = /^[A-Z0-9]{6}$/;
+    return authCodeRegex.test(authCode);
   }
 }
 

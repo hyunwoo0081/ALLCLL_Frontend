@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react';
 import DialogTemplate from '../DialogTemplate.tsx';
 import {ApplyType} from '../../constant/types.ts';
 import '@styles/dialog/MacroDialog.scss';
+import API from "../../constant/API.ts";
 
 interface IMacroDialog {
   isOpen: boolean;
@@ -14,6 +15,8 @@ function MacroDialog({isOpen, closeDialog, nextStep}: IMacroDialog) {
 
   useEffect(() => {
     setAuthCode('');
+    API.fetch2Json('/api/v2/mock/auth', 'GET', {}, [], () => {})
+      .then((res) => console.log(res));
   }, [isOpen]);
   
   function submit() {
@@ -21,7 +24,13 @@ function MacroDialog({isOpen, closeDialog, nextStep}: IMacroDialog) {
       alert('코드를 입력해주세요');
       return;
     }
-    nextStep();
+
+    API.fetch2Json('/api/v2/mock/captcha/check', 'POST', {authCode}, [], () => {})
+      .then((res) => {
+        console.log(res);
+        nextStep();
+      })
+      .catch((err) => console.error(err))
   }
   
   return (
