@@ -1,7 +1,7 @@
 import {NavigateFunction} from 'react-router-dom';
 import AuthControl from './AuthControl.ts';
 
-interface IErrorTypes {
+export interface IErrorTypes {
   errorBody: string;
   errorMessage: string;
   action?: () => void;

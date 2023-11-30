@@ -8,6 +8,19 @@ export interface ISubject {
   classTime: string;
 }
 
+export interface IRecentData {
+  id: number;
+  date: string;
+  numberOfCoursesToRegister: number;
+  takenTime: string;
+  numberOfRegisteredCourses: number;
+  coursesDetail: string;
+}
+
+export interface IRecentDataResponse {
+  results: IRecentData[];
+}
+
 export const DataFormats = {
   SubjectTitles: {
     courseId: '학수번호',
@@ -17,5 +30,13 @@ export const DataFormats = {
     offeringDepartment: '개설학과',
     instructorName: '교수명',
     classTime: '요일 및 강의시간',
-  }
+  },
+  RecentDataTitles: {
+    id: '',
+    date: '날짜',
+    numberOfCoursesToRegister: '신청할 과목 수',
+    takenTime: '소요 시간',
+    numberOfRegisteredCourses: '신청한 과목 수',
+    coursesDetail: '과목 상세 정보',
+  },
 }

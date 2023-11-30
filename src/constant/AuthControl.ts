@@ -18,6 +18,15 @@ const AuthControl = {
 
     navigate('/');
   },
+  getHeader() {
+    let header: object = {'Content-Type': 'application/json'};
+    const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1');
+
+    if (token)
+      header = {...header, Authorization: token};
+
+    return header;
+  }
 };
 
 function getJWTJson(token: string) {
