@@ -38,7 +38,6 @@ function Navigation() {
         ) : (
           <div className='auth_layout'>
             <button className='cancel' onClick={() => navigate('/login')}>Login</button>
-            <button onClick={() => navigate('/login/email')}>Sign Up</button>
           </div>
         )}
       </div>

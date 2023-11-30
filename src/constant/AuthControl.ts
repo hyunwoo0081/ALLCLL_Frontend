@@ -6,6 +6,8 @@ const AuthControl = {
   },
   login(navigate: NavigateFunction) {
     const path = window.location.pathname;
+    document.cookie = `token=${'dummy_token'}; expires=${new Date()}; path=/`;
+
     localStorage.setItem('loginType', path === '/login/password' ? 'password' : 'email');
     navigate('/dashboard');
   },

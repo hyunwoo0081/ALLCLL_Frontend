@@ -26,7 +26,7 @@ function Login4PasswordPage() {
         <input type='password' placeholder='비밀번호' value={password} onChange={e => setPassword(e.target.value)}/>
 
         <button onClick={() => AuthControl.login(navigate)}>로그인</button>
-        <button className='link' onClick={() => navigate('/login/email', {replace: true})}>이메일 로그인 및 회원가입</button>
+        <button className='link' onClick={() => navigate('/login/email', {replace: true})}>이메일 로그인</button>
       </div>
     </PageDefaultLayout>
   );
