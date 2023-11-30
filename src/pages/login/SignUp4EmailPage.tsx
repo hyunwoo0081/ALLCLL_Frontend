@@ -1,9 +1,10 @@
-import PageDefaultLayout from '../../layouts/PageDefaultLayout.tsx';
 import {useNavigate} from 'react-router-dom';
+import PageDefaultLayout from '../../layouts/PageDefaultLayout.tsx';
 import '@styles/LoginPage.scss';
 
 function signUp4EmailPage() {
   const navigate = useNavigate();
+  document.title = 'AllCll | 이메일 로그인';
 
   return (
     <PageDefaultLayout className='login_page'>

@@ -16,6 +16,8 @@ function SimulationPage() {
   const [applyType, setApplyType] = useState<ApplyType>(ApplyType.Macro);
   const [selectedSubjectTitle, setSelectedSubjectTitle] = useState<string>('');
 
+  document.title = 'AllCll | 수강신청';
+
   function openDialog(subjectTitle: string) {
     setSelectedSubjectTitle(subjectTitle);
     setApplyType(ApplyType.Macro);

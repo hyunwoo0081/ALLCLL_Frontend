@@ -1,9 +1,14 @@
-import PageDefaultLayout from '../layouts/PageDefaultLayout.tsx';
+import {useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
+import PageDefaultLayout from '../layouts/PageDefaultLayout.tsx';
 import '@styles/LandingPage.scss';
 
 function LandingPage() {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = 'AllCll | 수강 신청 연습';
+  }, []);
   
   return (
     <>

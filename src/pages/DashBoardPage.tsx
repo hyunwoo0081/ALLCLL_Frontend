@@ -15,6 +15,8 @@ function DashBoardPage() {
       .then(res => setRecentRecords(res.results))
       .catch(e => console.error(e))
       .finally(() => setFetching(false));
+
+    document.title = 'AllCll | 대시보드';
   }, [navigate]);
 
   return (

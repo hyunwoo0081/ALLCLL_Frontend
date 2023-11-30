@@ -23,6 +23,7 @@ function Login4PasswordPage() {
   useEffect(() => {
     if (isLogin)
       navigate('/', {replace: true});
+    document.title = 'AllCll | 로그인';
   }, [isLogin, navigate]);
 
   function login() {

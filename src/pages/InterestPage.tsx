@@ -31,7 +31,9 @@ function InterestPage() {
       .then(res => setSubjects(res.results))
       .catch(e => console.error(e))
       .finally(() => setFetching(false));
-  }, []);
+
+    document.title = 'AllCll | 관심과목';
+  }, [navigate]);
 
   function searchSubjects() {
     let isValid = true;

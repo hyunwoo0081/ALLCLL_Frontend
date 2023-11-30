@@ -20,6 +20,7 @@ function Login4EmailPage() {
   useEffect(() => {
     if (isLogin)
       navigate('', {replace: true});
+    document.title = 'AllCll | 이메일 로그인';
   }, [isLogin, navigate]);
   
   function nextstep() {

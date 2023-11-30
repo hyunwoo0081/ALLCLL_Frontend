@@ -10,6 +10,7 @@ div.search_layout {
     & > * {
       flex: auto;
       border-radius: 0;
+      min-width: auto;
 
       &:first-child {
         border-top-left-radius: 12px;
