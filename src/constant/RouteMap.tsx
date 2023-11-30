@@ -1,6 +1,5 @@
 import LandingPage from '../pages/LandingPage.tsx';
 import Login4PasswordPage from '../pages/login/Login4PasswordPage.tsx';
-import SignUp4EmailPage from '../pages/login/SignUp4EmailPage.tsx';
 import Login4EmailPage from '../pages/login/Login4EmailPage.tsx';
 import LoginEmailAuthPage from '../pages/login/LoginEmailAuthPage.tsx';
 import LoginRouter from '../pages/login/LoginRouter.tsx';
@@ -41,10 +40,6 @@ const RouteMap = [
     {
         path: '/login/password',
         element: (<Login4PasswordPage />)
-    },
-    {
-        path: '/signup',
-        element: (<SignUp4EmailPage />)
     },
     {
         path: '*',
