@@ -27,6 +27,13 @@ const AuthControl = {
       header = {...header, Authorization: `Bearer ${token}`};
 
     return header;
+  },
+  getDefaultPage() {
+    const isLogin = this.isLogin();
+    if (isLogin)
+      return '/dashboard';
+    else
+      return '/';
   }
 };
 

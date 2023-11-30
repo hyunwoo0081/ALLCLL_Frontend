@@ -27,7 +27,7 @@ function Navigation() {
   return (
     <nav className='navigation'>
       <div className='navigation_flex'>
-        <div className='logo'>
+        <div className='logo' tabIndex={0} onClick={() => navigate(AuthControl.getDefaultPage())}>
           <img src='/vite.svg' alt=''/>
           <h2>ALLCLL</h2>
         </div>
