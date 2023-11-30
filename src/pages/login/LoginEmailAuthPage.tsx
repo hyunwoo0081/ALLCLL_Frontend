@@ -24,9 +24,23 @@ function LoginEmailAuthPage() {
     document.title = 'AllCll | 이메일 로그인';
   }, [isLogin, navigate]);
 
+  useEffect(() => {
+    AuthCodeInputRef.current?.focus();
+
+    function onEnter(e: KeyboardEvent) {
+      if (e.key === 'Enter')
+        login();
+    }
+
+    AuthCodeInputRef.current?.addEventListener('keydown', onEnter);
+    return () => {
+      AuthCodeInputRef.current?.removeEventListener('keydown', onEnter);
+    };
+  }, []);
+
   function login() {
     if (!CheckStringType.authCode(authCode)) {
-      setErrorMessage('인증번호를 입력해주세요');
+      setErrorMessage('인증번호 형식이 올바르지 않습니다');
       AuthCodeInputRef.current?.focus();
       return;
     }

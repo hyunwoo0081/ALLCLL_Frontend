@@ -28,7 +28,7 @@ function Navigation() {
     <nav className='navigation'>
       <div className='navigation_flex'>
         <div className='logo'>
-          <img src='vite.svg' alt=''/>
+          <img src='/vite.svg' alt=''/>
           <h2>ALLCLL</h2>
         </div>
         {isLogin ? (

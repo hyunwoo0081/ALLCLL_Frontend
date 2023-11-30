@@ -22,7 +22,21 @@ function Login4EmailPage() {
       navigate('', {replace: true});
     document.title = 'AllCll | 이메일 로그인';
   }, [isLogin, navigate]);
-  
+
+  useEffect(() => {
+    EmailInputRef.current?.focus();
+
+    function onEnter(e: KeyboardEvent) {
+      if (e.key === 'Enter')
+        nextstep();
+    }
+
+    EmailInputRef.current?.addEventListener('keydown', onEnter);
+    return () => {
+      EmailInputRef.current?.removeEventListener('keydown', onEnter);
+    };
+  }, []);
+
   function nextstep() {
     if (!CheckStringType.email(email)) {
       setErrorMessage('이메일 형식이 올바르지 않습니다');

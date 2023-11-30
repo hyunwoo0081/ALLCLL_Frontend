@@ -26,9 +26,25 @@ function Login4PasswordPage() {
     document.title = 'AllCll | 로그인';
   }, [isLogin, navigate]);
 
+  useEffect(() => {
+    EmailInputRef.current?.focus();
+
+    function onEnter(e: KeyboardEvent) {
+      if (e.key === 'Enter')
+        login();
+    }
+
+    EmailInputRef.current?.addEventListener('keydown', onEnter);
+    PasswordInputRef.current?.addEventListener('keydown', onEnter);
+    return () => {
+      EmailInputRef.current?.removeEventListener('keydown', onEnter);
+      PasswordInputRef.current?.removeEventListener('keydown', onEnter);
+    };
+  }, []);
+
   function login() {
     if (!CheckStringType.email(email)) {
-      setErrorMessage('이메일을 입력해주세요');
+      setErrorMessage('이메일 형식이 올바르지 않습니다');
       EmailInputRef.current?.focus();
       return;
     }
