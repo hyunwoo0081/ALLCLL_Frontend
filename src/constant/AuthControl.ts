@@ -2,7 +2,8 @@ import {NavigateFunction} from 'react-router-dom';
 
 const AuthControl = {
   isLogin() {
-    return document.cookie.includes('token=');
+    const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1');
+    return !!token;
   },
   login(navigate: NavigateFunction, token: string) {
     const path = window.location.pathname;
@@ -23,7 +24,7 @@ const AuthControl = {
     const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1');
 
     if (token)
-      header = {...header, Authorization: token};
+      header = {...header, Authorization: `Bearer ${token}`};
 
     return header;
   }
