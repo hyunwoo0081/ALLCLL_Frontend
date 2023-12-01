@@ -1,8 +1,8 @@
 import {useEffect, useState} from 'react';
 import DialogTemplate from '../DialogTemplate.tsx';
 import {ApplyType} from '../../constant/types.ts';
+import API from '../../constant/API.ts';
 import '@styles/dialog/MacroDialog.scss';
-import API from "../../constant/API.ts";
 
 interface IMacroDialog {
   isOpen: boolean;
@@ -12,11 +12,17 @@ interface IMacroDialog {
 
 function MacroDialog({isOpen, closeDialog, nextStep}: IMacroDialog) {
   const [authCode, setAuthCode] = useState<string>('');
+  const [captcha, setCaptcha] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   useEffect(() => {
     setAuthCode('');
-    API.fetch2Json('/api/v2/mock/auth', 'GET', {}, [], () => {})
-      .then((res) => console.log(res));
+    
+    if (!isOpen) return;
+    
+    API.fetch2Json('/api/v2/mock/captcha', 'GET', {}, [], () => {})
+      .then((res) => setCaptcha(res.image))
+      .catch((err) => setErrorMessage(err.message));
   }, [isOpen]);
   
   function submit() {
@@ -45,7 +51,13 @@ function MacroDialog({isOpen, closeDialog, nextStep}: IMacroDialog) {
         <div>
           <div>
             <h3>생성된 코드</h3>
-            <img src='/sample.png' alt=''/>
+            {errorMessage ? (
+              <span>{errorMessage}</span>
+            ) : !captcha ? (
+              <span>코드를 생성중입니다</span>
+            ) : (
+              <img src={captcha} alt=''/>
+            )}
           </div>
           <div>
             <h3>코드 입력</h3>
