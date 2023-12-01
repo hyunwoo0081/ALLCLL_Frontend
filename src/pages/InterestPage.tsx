@@ -66,15 +66,33 @@ function InterestPage() {
   }
 
   // TODO: Add/Remove Subject API Call
+  function changeSubjectStatus(subject: ISubject) {
+    const {courseId, classId, offeringDepartment} = subject;
+    const req = {
+      numberOfCourses: 1,
+      courses: [{courseId, classId, offeringDepartment}],
+    }
+
+    API.fetch2Json('/api/v2/interestedCourse', 'POST', req, [], navigate)
+      .then(res => {
+        setSearchedSubjects(res.courses);
+        setSearchOpened(true);
+      })
+      .catch(e => console.error(e))
+      .finally(() => setSearching(false));
+  }
+
   function addSubject(subject: ISubject) {
     setSearchedSubjects(prev => prev.filter(s => s.courseId !== subject.courseId));
     setSubjects(prev => [...prev, subject]);
+    changeSubjectStatus(subject);
   }
 
   function removeSubject(subject: ISubject) {
     setSubjects(prev => prev.filter(s => s.courseId !== subject.courseId));
     if (subject.courseTitle.startsWith(searchValues.courseTitle) && subject.instructorName.startsWith(searchValues.instructorName))
       setSearchedSubjects(prev => [...prev, subject]);
+    changeSubjectStatus(subject);
   }
 
   return (
