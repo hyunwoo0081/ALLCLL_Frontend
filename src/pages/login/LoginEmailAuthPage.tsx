@@ -62,7 +62,7 @@ function LoginEmailAuthPage() {
       ];
       await CheckFetchError(res, errors, navigate);
 
-      AuthControl.login(navigate, await res.text());
+      await AuthControl.login(navigate, await res.text());
     })
       .catch(e => setErrorMessage(e.message))
       .finally(() => setFetching(false));
