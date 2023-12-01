@@ -33,7 +33,7 @@ function JwtLogin() {
   }, [login]);
 
   function login() {
-    AuthControl.login(navigate, authCode).then();
+    AuthControl.login(navigate, authCode);
   }
 
   return (

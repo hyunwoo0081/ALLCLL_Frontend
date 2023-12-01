@@ -5,19 +5,13 @@ const AuthControl = {
     const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1');
     return !!token;
   },
-  async saveToken(token: string) {
+  saveToken(token: string) {
     const {exp} = getJWTJson(token);
     document.cookie = `token=${token}; expires=${new Date(exp * 1000)}; path=/`;
     console.log('token expired: ', new Date(exp * 1000));
-
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(true);
-      }, 1000);
-    });
   },
-  async login(navigate: NavigateFunction, token: string) {
-    await this.saveToken(token);
+  login(navigate: NavigateFunction, token: string) {
+    this.saveToken(token);
 
     const path = window.location.pathname;
     localStorage.setItem('loginType', path === '/login/password' ? 'password' : 'email');
