@@ -9,9 +9,10 @@ interface IMacroDialog {
   closeDialog: () => void;
   nextStep: (_?:ApplyType) => void;
   selectedSubject: ISubject|null;
+  setFinishTrigger: (trigger: boolean) => void;
 }
 
-function SubjectApplyDialog({isOpen, closeDialog, nextStep, selectedSubject}: IMacroDialog) {
+function SubjectApplyDialog({isOpen, closeDialog, nextStep, selectedSubject, setFinishTrigger}: IMacroDialog) {
   const navigate = useNavigate();
   
   function submit() {
@@ -35,10 +36,16 @@ function SubjectApplyDialog({isOpen, closeDialog, nextStep, selectedSubject}: IM
       offeringDepartment
     }
 
-    API.fetch2Json('/api/v2/mock/register', 'POST', request, [], navigate)
+    const Errors = [
+      {errorBody: 'Mock not found', errorMessage: '수강신청이 존재하지 않습니다', action: closeDialog},
+      {errorBody: 'Course not found', errorMessage: '존재하지 않는 과목입니다', action: closeDialog},
+      {errorBody: 'Registered already', errorMessage: '이미 신청된 과목입니다', action: () => nextStep(ApplyType.DONE)}
+    ];
+    API.fetch2Json('/api/v2/mock/register', 'POST', request, Errors, navigate)
       .then((res) => {
         console.log(res);
         nextStep(ApplyType.SUCCESS);
+        setFinishTrigger(res.finished);
       })
       .catch((err) => {
         console.error(err);

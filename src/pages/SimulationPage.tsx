@@ -6,6 +6,7 @@ import SubjectApplyDialog from '../layouts/dialog/SubjectApplyDialog.tsx';
 import ApplySuccessDialog from '../layouts/dialog/ApplySuccessDialog.tsx';
 import ApplyFailDialog from '../layouts/dialog/ApplyFailDialog.tsx';
 import ApplyDoneDialog from '../layouts/dialog/ApplyDoneDialog.tsx';
+import FinishDialog from '../layouts/dialog/FinishDialog.tsx';
 import {ApplyType, DataFormats, ISubject} from '../constant/types.ts';
 import {IErrorTypes} from '../constant/CheckFetchError.ts';
 import API from '../constant/API.ts';
@@ -19,6 +20,7 @@ function SimulationPage() {
   const [selectedSubject, setSelectedSubject] = useState<ISubject|null>(null);
 
   const [onSimulation, setOnSimulation] = useState<boolean>(false);
+  const [simulationFinishTrigger, setSimulationFinishTrigger] = useState<boolean>(false);
   const [simulationId, setSimulationId] = useState<number>(-1);
   const [loading, setLoading] = useState<boolean>(false);
   const [subjects, setSubjects] = useState<ISubject[]>([]);
@@ -52,6 +54,20 @@ function SimulationPage() {
       .finally(() => setLoading(false));
   }, [navigate]);
 
+  // Finish Trigger
+  useEffect(() => {
+    if (!onSimulation || !simulationFinishTrigger || !isDialogOpen) return;
+
+    setOnSimulation(false);
+    setSimulationFinishTrigger(false);
+    setSubjects([]);
+    setAppliedSubjects([]);
+    localStorage.removeItem('playId');
+
+    setIsDialogOpen(true);
+    setApplyType(ApplyType.FINISHED);
+  }, [onSimulation, simulationFinishTrigger, isDialogOpen]);
+
   function openDialog(subject: ISubject) {
     setSelectedSubject(subject);
     setApplyType(ApplyType.Macro);
@@ -82,6 +98,7 @@ function SimulationPage() {
         localStorage.setItem('playId', res.interestedCourse.playId);
         setSimulationId(res.interestedCourse.playId);
         setSubjects(res.interestedCourse.courses);
+        setAppliedSubjects([]);
         setOnSimulation(true);
       })
       .catch((err) => {
@@ -114,10 +131,11 @@ function SimulationPage() {
   return (
     <>
       <MacroDialog isOpen={isDialogOpen && applyType === ApplyType.Macro} closeDialog={closeDialog} nextStep={nextStep}/>
-      <SubjectApplyDialog isOpen={isDialogOpen && applyType === ApplyType.Apply} closeDialog={closeDialog} nextStep={nextStep} selectedSubject={selectedSubject}/>
+      <SubjectApplyDialog isOpen={isDialogOpen && applyType === ApplyType.Apply} closeDialog={closeDialog} nextStep={nextStep} selectedSubject={selectedSubject} setFinishTrigger={setSimulationFinishTrigger}/>
       <ApplySuccessDialog isOpen={isDialogOpen && applyType === ApplyType.SUCCESS} closeDialog={closeDialog} nextStep={nextStep}/>
       <ApplyFailDialog isOpen={isDialogOpen && applyType === ApplyType.FAIL} closeDialog={closeDialog}/>
       <ApplyDoneDialog isOpen={isDialogOpen && applyType === ApplyType.DONE} closeDialog={closeDialog}/>
+      <FinishDialog isOpen={isDialogOpen && applyType === ApplyType.FINISHED} closeDialog={closeDialog} playId={simulationId}/>
 
       <PageDefaultLayout className=''>
         <div className='search_layout'>
