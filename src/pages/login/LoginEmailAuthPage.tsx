@@ -4,7 +4,7 @@ import PageDefaultLayout from '../../layouts/PageDefaultLayout.tsx';
 import useLogin from '../../hooks/useLogin.ts';
 import CheckFetchError from '../../constant/CheckFetchError.ts';
 import useLoginErrorBox from '../../hooks/useLoginErrorBox.tsx';
-import CheckStringType from "../../constant/CheckStringType.ts";
+import CheckStringType from '../../constant/CheckStringType.ts';
 import AuthControl from '../../constant/AuthControl.ts';
 import '@styles/LoginPage.scss';
 
@@ -12,6 +12,7 @@ function LoginEmailAuthPage() {
   const navigate = useNavigate();
   const [fetching, setFetching] = useState<boolean>(false);
   const [authCode, setAuthCode] = useState<string>('');
+  const [sending, setSending] = useState<boolean>(false);
   const email = new URLSearchParams(window.location.search).get('email') ?? '';
 
   const AuthCodeInputRef = useRef<HTMLInputElement>(null);
@@ -67,6 +68,25 @@ function LoginEmailAuthPage() {
       .finally(() => setFetching(false));
   }
 
+  function resendAuthCode() {
+    setSending(true);
+    fetch('/api/v2/auth/login/email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({email})
+    }).then(async res => {
+      const errors = [
+        {errorBody: 'Email address not found', errorMessage: '가입 시도한 적 없는 메일 주소입니다'},
+        {errorBody: 'Invalid email format', errorMessage: '이메일 형식이 올바르지 않습니다'},
+      ];
+      await CheckFetchError(res, errors, navigate);
+    })
+      .catch(e => setErrorMessage(e.message))
+      .finally(() => setSending(false));
+  }
+
   return (
     <PageDefaultLayout className='login_page'>
       <div className='login_layout'>
@@ -74,10 +94,12 @@ function LoginEmailAuthPage() {
 
         {ErrorBox}
 
-        <p>
-          이메일로 인증번호를 발송했습니다. <br/>
-          인증번호를 입력해주세요.
-        </p>
+        {!sending && !ErrorBox && (
+          <p className='message_box'>
+            이메일로 인증번호를 발송했습니다. <br/>
+            인증번호를 입력해주세요.
+          </p>
+        )}
         <input type='text'
                placeholder='인증번호'
                ref={AuthCodeInputRef}
@@ -86,7 +108,10 @@ function LoginEmailAuthPage() {
                onChange={e => setAuthCode(e.target.value)}/>
 
         <button onClick={login} disabled={fetching}>로그인</button>
-        <button className='link' onClick={() => navigate('/login/password')}>비밀번호로 로그인</button>
+        <div className='flex_row'>
+          <button className='link' onClick={() => navigate('/login/password')}>비밀번호로 로그인</button>
+          <button className='link' onClick={resendAuthCode} disabled={sending}>인증번호 재전송</button>
+        </div>
       </div>
     </PageDefaultLayout>
   );

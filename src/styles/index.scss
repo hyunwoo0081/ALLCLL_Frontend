@@ -164,6 +164,11 @@ button.link {
     border: none;
     outline: none;
   }
+
+  &:disabled {
+    color: $gray;
+    cursor: not-allowed;
+  }
 }
 
 button.image_button {

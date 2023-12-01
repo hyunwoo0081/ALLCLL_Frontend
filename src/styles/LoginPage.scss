@@ -42,6 +42,14 @@ div.login_page {
     }
   }
 
+  div.flex_row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+
   div.error_box {
     display: flex;
     flex-flow: column;
@@ -53,7 +61,17 @@ div.login_page {
     color: $primary-color;
     max-width: 100%;
     background:#C3002F22;
-    padding: 16px 16px;
+    padding: 16px;
     border-radius: 6px;
+  }
+
+  p.message_box {
+    box-sizing: border-box;
+    text-align: center;
+    padding: 16px;
+    color: rgb(13, 60, 97);
+    background: rgb(230, 238, 255);
+    border-radius: 6px;
+    font-weight: 600;
   }
 }
