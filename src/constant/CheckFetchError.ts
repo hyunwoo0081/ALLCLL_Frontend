@@ -12,7 +12,7 @@ async function CheckFetchError(response: Response, errorTypes: IErrorTypes[], na
     return response;
 
   if (response.status === 403) {
-    AuthControl.logout(navigate);
+    AuthControl.logout(navigate, '/login');
     throw new Error('로그인이 필요합니다');
   }
 

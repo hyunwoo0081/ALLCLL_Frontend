@@ -14,10 +14,10 @@ const AuthControl = {
     localStorage.setItem('loginType', path === '/login/password' ? 'password' : 'email');
     navigate('/dashboard');
   },
-  logout(navigate: NavigateFunction) {
+  logout(navigate: NavigateFunction, path?: string) {
     document.cookie = `token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 
-    navigate('/');
+    navigate(path ?? '/');
   },
   getHeader() {
     let header: object = {'Content-Type': 'application/json'};
