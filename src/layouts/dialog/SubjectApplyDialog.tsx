@@ -44,12 +44,11 @@ function SubjectApplyDialog({isOpen, closeDialog, nextStep, selectedSubject, set
     API.fetch2Json('/api/v2/mock/register', 'POST', request, Errors, navigate)
       .then((res) => {
         console.log(res);
-        nextStep(ApplyType.SUCCESS);
+        nextStep(res.succeed ? ApplyType.SUCCESS : ApplyType.FAIL);
         setFinishTrigger(res.finished);
       })
       .catch((err) => {
         console.error(err);
-        nextStep(ApplyType.FAIL);
       });
   }
 
