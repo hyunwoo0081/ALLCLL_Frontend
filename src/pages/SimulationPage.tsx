@@ -34,7 +34,7 @@ function SimulationPage() {
   // 이미 시뮬레이션 진행 중인지 확인
   useEffect(() => {
     const playId = Number(localStorage.getItem('playId'));
-    if (isNaN(playId)) return;
+    if (isNaN(playId) || playId <= 0) return;
 
     const Errors: IErrorTypes[] = [
       {errorBody: 'Mock not found',
