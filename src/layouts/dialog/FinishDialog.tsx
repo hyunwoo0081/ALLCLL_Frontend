@@ -36,16 +36,17 @@ function FinishDialog({isOpen, closeDialog, playId}: IMacroDialog) {
     ]
     API.fetch2Json(`/api/v2/mock/result?playId=${playId}`, 'GET', {}, Errors, navigate)
       .then((res) => setContents(res));
-  }, []);
+  }, [isOpen]);
+
   return (
     <DialogTemplate isOpen={isOpen}>
       <div className='dialog_header'>
-        <h2></h2>
+        <h2>수강신청 결과</h2>
         <button onClick={closeDialog}>
           <img src='/Close.svg' alt=''/>
         </button>
       </div>
-      <div className='dialog_body apply_dialog_body'>
+      <div className='dialog_body finish_dialog'>
         <h2>{contents.takenTime}</h2>
         <div>
           <p>수강신청을 완료했습니다.</p>
