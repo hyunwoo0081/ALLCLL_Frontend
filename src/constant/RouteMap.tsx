@@ -2,6 +2,7 @@ import LandingPage from '../pages/LandingPage.tsx';
 import Login4PasswordPage from '../pages/login/Login4PasswordPage.tsx';
 import Login4EmailPage from '../pages/login/Login4EmailPage.tsx';
 import LoginEmailAuthPage from '../pages/login/LoginEmailAuthPage.tsx';
+import RefreshPasswordPage from '../pages/RefreshPasswordPage.tsx';
 import LoginRouter from '../pages/login/LoginRouter.tsx';
 import DashBoardPage from '../pages/DashBoardPage.tsx';
 import SimulationPage from '../pages/SimulationPage.tsx';
@@ -40,6 +41,10 @@ const RouteMap = [
     {
         path: '/login/password',
         element: (<Login4PasswordPage />)
+    },
+    {
+        path: '/refresh/password',
+        element: (<RefreshPasswordPage />)
     },
     {
         path: '*',

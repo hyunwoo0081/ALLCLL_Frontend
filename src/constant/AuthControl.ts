@@ -34,6 +34,12 @@ const AuthControl = {
       return '/dashboard';
     else
       return '/';
+  },
+  getInfoFromToken() {
+    const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1');
+    if (!token) return null;
+
+    return getJWTJson(token);
   }
 };
 

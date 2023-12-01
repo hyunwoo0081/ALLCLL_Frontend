@@ -65,7 +65,6 @@ function InterestPage() {
       .finally(() => setSearching(false));
   }
 
-  // TODO: Add/Remove Subject API Call
   function changeSubjectStatus(subject: ISubject) {
     const {courseId, classId, offeringDepartment} = subject;
     const req = {
