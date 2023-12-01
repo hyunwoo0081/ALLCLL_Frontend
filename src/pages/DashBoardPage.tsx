@@ -40,7 +40,6 @@ function DashBoardPage() {
             <tbody>
             {recentRecords.map((record, index) => (
               <tr key={index}>
-                <td>{index+1}</td>
                 {Object.keys(record).map((key: string, index) => (
                   <td key={index}>{record[key as keyof IRecentData]}</td>
                 ))}

@@ -72,12 +72,11 @@ function InterestPage() {
       courses: [{courseId, classId, offeringDepartment}],
     }
 
-    API.fetch2Json('/api/v2/interestedCourse', 'POST', req, [], navigate)
-      .then(res => {
-        setSearchedSubjects(res.courses);
+    API.fetch('/api/v2/interestedCourse', 'POST', req, [], navigate)
+      .then(() => {
         setSearchOpened(true);
       })
-      .catch(e => console.error(e))
+      .catch(() => console.error('관심 과목 변경 실패'))
       .finally(() => setSearching(false));
   }
 
@@ -177,7 +176,7 @@ function InterestPage() {
                 <td>
                   <button onClick={() => removeSubject(subject)}>삭제</button>
                 </td>
-                {Object.values(DataFormats.SubjectTitles).map((title, index) => (
+                {Object.values(subject).map((title, index) => (
                   <td key={index}>{title}</td>
                 ))}
               </tr>
