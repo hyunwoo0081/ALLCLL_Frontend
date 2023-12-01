@@ -28,7 +28,9 @@ function Login4PasswordPage() {
 
   useEffect(() => {
     EmailInputRef.current?.focus();
+  }, []);
 
+  useEffect(() => {
     function onEnter(e: KeyboardEvent) {
       if (e.key === 'Enter')
         login();
@@ -40,16 +42,18 @@ function Login4PasswordPage() {
       EmailInputRef.current?.removeEventListener('keydown', onEnter);
       PasswordInputRef.current?.removeEventListener('keydown', onEnter);
     };
-  }, []);
+  }, [login]);
 
   function login() {
     if (!CheckStringType.email(email)) {
       setErrorMessage('이메일 형식이 올바르지 않습니다');
+      PasswordInputRef.current?.blur();
       EmailInputRef.current?.focus();
       return;
     }
     if (!CheckStringType.password(password)) {
-      setErrorMessage('비밀번호가 적절하지 랂습니다\n8~16자 문자 숫자로 입력해주세요');
+      setErrorMessage('비밀번호가 적절하지 않습니다\n8~16자 문자 숫자로 입력해주세요');
+      EmailInputRef.current?.blur();
       PasswordInputRef.current?.focus();
       return;
     }
