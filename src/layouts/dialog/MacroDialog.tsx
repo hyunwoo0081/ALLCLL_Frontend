@@ -31,7 +31,7 @@ function MacroDialog({isOpen, closeDialog, nextStep}: IMacroDialog) {
       return;
     }
 
-    API.fetch2Json('/api/v2/mock/captcha/check', 'POST', {authCode}, [], () => {})
+    API.fetch('/api/v2/mock/captcha/check', 'POST', {authCode}, [], () => {})
       .then((res) => {
         console.log(res);
         nextStep();

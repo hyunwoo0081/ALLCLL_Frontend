@@ -79,4 +79,17 @@ div.grid_layout {
   grid-template-columns: repeat(4, 1fr);
   align-items: center;
   gap: 0;
+
+  div {
+    font-weight: 600;
+    &.success {
+      color: #4CAF50;
+    }
+    &.fail {
+      color: #F44336;
+    }
+    &.done {
+      color: #989898;
+    }
+  }
 }

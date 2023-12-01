@@ -7,7 +7,7 @@ interface IBody {
 }
 
 const API = {
-  async fetch2Json(url: string, method: string = 'GET', body: IBody = {}, errors: IErrorTypes[], navigate: NavigateFunction) {
+  async fetch(url: string, method: string = 'GET', body: IBody = {}, errors: IErrorTypes[], navigate: NavigateFunction) {
     let reqData :object = {
       method: method,
       headers: AuthControl.getHeader(),
@@ -25,12 +25,22 @@ const API = {
     }
 
     const response = await fetch(url, reqData);
-    
+
     if (!response.ok) {
       await CheckFetchError(response, errors, navigate);
     }
+
+    return response;
+  },
+  async fetch2Json(url: string, method: string = 'GET', body: IBody = {}, errors: IErrorTypes[], navigate: NavigateFunction) {
+    const response = await this.fetch(url, method, body, errors, navigate);
     
     return await response.json();
+  },
+  async fetch2Text(url: string, method: string = 'GET', body: IBody = {}, errors: IErrorTypes[], navigate: NavigateFunction) {
+    const response = await this.fetch(url, method, body, errors, navigate);
+
+    return await response.text();
   },
 }
 

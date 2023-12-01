@@ -12,6 +12,8 @@ import {IErrorTypes} from '../constant/CheckFetchError.ts';
 import API from '../constant/API.ts';
 import '@styles/components/TableStyle.scss';
 
+const StatusClass = ['', '', 'success', 'fail', 'done'];
+
 function SimulationPage() {
   const navigate = useNavigate();
   
@@ -25,6 +27,7 @@ function SimulationPage() {
   const [loading, setLoading] = useState<boolean>(false);
   const [subjects, setSubjects] = useState<ISubject[]>([]);
   const [appliedSubjects, setAppliedSubjects] = useState<ISubject[]>([]);
+  const [submitStatus, setSubmitStatus] = useState<ApplyType[]>([]);
 
   document.title = 'AllCll | 수강신청';
 
@@ -76,6 +79,19 @@ function SimulationPage() {
   function closeDialog() {
     setIsDialogOpen(false);
     setApplyType(ApplyType.Macro);
+
+    if (applyType === ApplyType.SUCCESS || applyType === ApplyType.FAIL) {
+      if (appliedSubjects.some((subject) => sameSubject(subject, selectedSubject!)))
+        return;
+
+      setAppliedSubjects(prev => [...prev, selectedSubject!]);
+      setSubmitStatus(prev => [...prev, applyType])
+    }
+    else if (applyType === ApplyType.DONE) {
+      setSubmitStatus(prev => prev.map((status, index) =>
+        sameSubject(appliedSubjects[index], selectedSubject!) ? ApplyType.DONE : status)
+      );
+    }
   }
   function nextStep(nextApplyType?: ApplyType) {
     if (nextApplyType !== undefined)
@@ -83,7 +99,6 @@ function SimulationPage() {
     else if (applyType < ApplyType.SUCCESS)
       setApplyType(prev => prev+1);
     else {
-      setAppliedSubjects(prev => [...prev, selectedSubject!]);
       refreshTable();
       closeDialog();
     }
@@ -95,8 +110,8 @@ function SimulationPage() {
       .then((res) => {
         console.log(res);
 
-        localStorage.setItem('playId', res.interestedCourse.playId);
-        setSimulationId(res.interestedCourse.playId);
+        localStorage.setItem('playId', res.playId);
+        setSimulationId(res.playId);
         setSubjects(res.interestedCourse.courses);
         setAppliedSubjects([]);
         setOnSimulation(true);
@@ -132,6 +147,10 @@ function SimulationPage() {
       })
       .catch((err) => console.error(err))
       .finally(() => setLoading(false));
+  }
+
+  function sameSubject(a: ISubject, b: ISubject) {
+    return a.courseId === b.courseId && a.classId === b.classId && a.offeringDepartment === b.offeringDepartment;
   }
 
   return (
@@ -179,7 +198,7 @@ function SimulationPage() {
                 <td>
                   <button onClick={() => openDialog(subject)}>신청</button>
                 </td>
-                {Object.values(DataFormats.SubjectTitles).map((title, index) => (
+                {Object.values(subject).map((title, index) => (
                   <td key={index}>{title}</td>
                 ))}
               </tr>
@@ -196,7 +215,10 @@ function SimulationPage() {
 
           <div className='container_box grid_layout'>
             {appliedSubjects.map((subject, index) => (
-              <div key={index}>{subject.courseTitle}</div>
+              <div key={index}
+                   className={StatusClass[submitStatus[index]]}>
+                {subject.courseTitle}
+              </div>
             ))}
           </div>
 
