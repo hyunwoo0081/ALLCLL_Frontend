@@ -36,7 +36,7 @@ function LoginEmailAuthPage() {
     return () => {
       AuthCodeInputRef.current?.removeEventListener('keydown', onEnter);
     };
-  }, []);
+  }, [login]);
 
   function login() {
     if (!CheckStringType.authCode(authCode)) {
