@@ -35,7 +35,7 @@ function Login4EmailPage() {
     return () => {
       EmailInputRef.current?.removeEventListener('keydown', onEnter);
     };
-  }, []);
+  }, [nextstep]);
 
   function nextstep() {
     if (!CheckStringType.email(email)) {
