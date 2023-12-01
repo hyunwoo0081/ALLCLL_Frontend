@@ -13,7 +13,7 @@ const AuthControl = {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(true);
-      }, 200);
+      }, 1000);
     });
   },
   async login(navigate: NavigateFunction, token: string) {
@@ -34,6 +34,7 @@ const AuthControl = {
   getHeader() {
     let header: object = {'Content-Type': 'application/json'};
     const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1');
+    console.log('getHeader -> token', token);
 
     if (token)
       header = {...header, Authorization: `Bearer ${token}`};
