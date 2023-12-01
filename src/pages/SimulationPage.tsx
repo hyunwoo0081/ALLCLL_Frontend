@@ -42,7 +42,7 @@ function SimulationPage() {
     ]
 
     setLoading(true);
-    API.fetch2Json('/api/v2/mock/status', 'GET', {param: playId}, Errors, navigate)
+    API.fetch2Json('/api/v2/mock/status', 'GET', {playId}, Errors, navigate)
       .then((res) => {
         setSimulationId(Number(playId));
         setSubjects(res.interestedCourseToRegister.courses);
@@ -93,11 +93,15 @@ function SimulationPage() {
 
   function refreshTable() {
     setLoading(true);
-    API.fetch2Json('/api/v2/mock/courses/unregistered', 'GET', {param: simulationId}, [], navigate)
+    Promise.all([
+      API.fetch2Json('/api/v2/mock/courses/unregistered', 'GET', {playId: simulationId}, [], navigate),
+      API.fetch2Json('/api/v2/mock/courses/registered', 'GET', {playId: simulationId}, [], navigate)
+    ])
       .then((res) => {
-        console.log(res);
+        const [unregistered, registered] = res;
 
-        setSubjects(res.unregisteredInterestedCourses);
+        setSubjects(unregistered.unregisteredInterestedCourses);
+        setAppliedSubjects(registered.registeredCourses);
         setOnSimulation(true);
       })
       .catch((err) => {

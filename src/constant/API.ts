@@ -13,11 +13,16 @@ const API = {
       headers: AuthControl.getHeader(),
       credentials: 'omit',
     }
+
     if (method !== 'GET')
       reqData = {
         ...reqData,
         body: JSON.stringify(body),
       }
+    else {
+      const params = new URLSearchParams(body);
+      url += '?' + params.toString();
+    }
 
     const response = await fetch(url, reqData);
     
