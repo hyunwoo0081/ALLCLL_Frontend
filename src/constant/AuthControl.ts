@@ -10,11 +10,15 @@ const AuthControl = {
 
     const {exp} = getJWTJson(token);
     document.cookie = `token=${token}; expires=${new Date(exp * 1000)}; path=/`;
+    console.log('token expired: ', new Date(exp * 1000));
 
     localStorage.setItem('loginType', path === '/login/password' ? 'password' : 'email');
     navigate('/dashboard');
   },
   logout(navigate: NavigateFunction, path?: string) {
+    const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1');
+
+    console.log('isLogin -> logout | token', token);
     document.cookie = `token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 
     navigate(path ?? '/');
