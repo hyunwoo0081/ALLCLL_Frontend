@@ -28,7 +28,7 @@ function InterestPage() {
   useEffect(() => {
     setFetching(true);
     API.fetch2Json('/api/v2/interestedCourse', 'GET', {}, [], navigate)
-      .then(res => setSubjects(res.results))
+      .then(res => setSubjects(res.courses))
       .catch(e => console.error(e))
       .finally(() => setFetching(false));
 
