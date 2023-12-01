@@ -109,22 +109,28 @@ function SimulationPage() {
   }
 
   function refreshTable() {
-    setLoading(true);
-    Promise.all([
-      API.fetch2Json('/api/v2/mock/courses/unregistered', 'GET', {playId: simulationId}, [], navigate),
-      API.fetch2Json('/api/v2/mock/courses/registered', 'GET', {playId: simulationId}, [], navigate)
-    ])
-      .then((res) => {
-        const [unregistered, registered] = res;
+    const playId = simulationId <= 0 ? Number(localStorage.getItem('playId')) : simulationId;
+    if (isNaN(playId)) return;
 
-        setSubjects(unregistered.unregisteredInterestedCourses);
-        setAppliedSubjects(registered.registeredCourses);
+    const Errors: IErrorTypes[] = [
+      {errorBody: 'Mock not found',
+        errorMessage: '시뮬레이션을 찾을 수 없습니다.',
+        action: () => {
+          setOnSimulation(false);
+          localStorage.removeItem('playId');
+        }
+      },
+    ]
+
+    setLoading(true);
+    API.fetch2Json('/api/v2/mock/status', 'GET', {playId}, Errors, navigate)
+      .then((res) => {
+        setSimulationId(Number(playId));
+        setSubjects(res.interestedCourseToRegister.courses);
+        setAppliedSubjects(res.registeredCourse.courses);
         setOnSimulation(true);
       })
-      .catch((err) => {
-        alert('적절하지 않은 접근입니다');
-        console.error(err);
-      })
+      .catch((err) => console.error(err))
       .finally(() => setLoading(false));
   }
 
