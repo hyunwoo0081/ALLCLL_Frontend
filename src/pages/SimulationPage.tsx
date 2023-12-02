@@ -60,6 +60,7 @@ function SimulationPage() {
   // Finish Trigger
   useEffect(() => {
     if (!onSimulation || !simulationFinishTrigger || isDialogOpen) return;
+    console.log('Finish Trigger', onSimulation, simulationFinishTrigger, isDialogOpen);
 
     setOnSimulation(false);
     setSimulationFinishTrigger(false);
@@ -99,7 +100,8 @@ function SimulationPage() {
     else if (applyType < ApplyType.SUCCESS)
       setApplyType(prev => prev+1);
     else {
-      refreshTable();
+      if (!simulationFinishTrigger)
+        refreshTable();
       closeDialog();
     }
   }

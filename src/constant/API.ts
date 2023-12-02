@@ -21,7 +21,8 @@ const API = {
       }
     else {
       const params = new URLSearchParams(body);
-      url += '?' + params.toString();
+      if (params.toString() !== '')
+        url += '?' + params.toString();
     }
 
     const response = await fetch(url, reqData);

@@ -34,7 +34,7 @@ function FinishDialog({isOpen, closeDialog, playId}: IMacroDialog) {
     const Errors: IErrorTypes[] = [
       {errorBody: 'Mock did not terminate successfully', errorMessage: '종료되지 않은 시뮬레이션입니다', action: closeDialog},
     ]
-    API.fetch2Json(`/api/v2/mock/result?playId=${playId}`, 'GET', {}, Errors, navigate)
+    API.fetch2Json(`/api/v2/mock/result`, 'GET', {playId}, Errors, navigate)
       .then((res) => setContents(res));
   }, [isOpen]);
 
