@@ -2,13 +2,20 @@ div.macro_dialog_body {
   & > div {
     display: flex;
     justify-content: space-between;
+    gap: 16px;
 
     & > * {
       flex: auto;
     }
   }
-  img {
+  img.captcha {
     height: 80px;
+  }
+
+  div.header_flex {
+    display: flex;
+    align-items: center;
+    gap: 12px;
   }
 }
 

@@ -20,10 +20,14 @@ function MacroDialog({isOpen, closeDialog, nextStep}: IMacroDialog) {
     
     if (!isOpen) return;
     
+    refreshCaptcha();
+  }, [isOpen]);
+
+  function refreshCaptcha() {
     API.fetch2Json('/api/v2/mock/captcha', 'GET', {}, [], () => {})
       .then((res) => setCaptcha(res.image))
       .catch((err) => setErrorMessage(err.message));
-  }, [isOpen]);
+  }
   
   function submit() {
     if (!authCode) {
@@ -50,13 +54,18 @@ function MacroDialog({isOpen, closeDialog, nextStep}: IMacroDialog) {
       <div className='dialog_body macro_dialog_body'>
         <div>
           <div>
-            <h3>생성된 코드</h3>
+            <div className='header_flex'>
+              <h3>생성된 코드</h3>
+              <button className='image_button'>
+                <img src='/Close.svg' alt=''/>
+              </button>
+            </div>
             {errorMessage ? (
               <span>{errorMessage}</span>
             ) : !captcha ? (
               <span>코드를 생성중입니다</span>
             ) : (
-              <img src={captcha} alt=''/>
+              <img className='captcha' src={captcha} alt=''/>
             )}
           </div>
           <div>
