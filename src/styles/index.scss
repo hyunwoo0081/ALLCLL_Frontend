@@ -213,3 +213,24 @@ select {
   }
 }
 
+table {
+  border-collapse: collapse;
+  td {
+    border-bottom: 1px solid $light-gray;
+    padding: 8px 4px;
+    min-width: 60px;
+  }
+
+  .highlight {
+    color: $primary-color;
+    &.bold {
+      color: $primary-color-hover;
+    }
+  }
+  .center {
+    text-align: center;
+  }
+  .bold {
+    font-weight: 600;
+  }
+}

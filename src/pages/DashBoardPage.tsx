@@ -19,6 +19,13 @@ function DashBoardPage() {
     document.title = 'AllCll | 대시보드';
   }, [navigate]);
 
+  function getDateString(date: string) {
+    const [day, time] = date.split('T');
+    const dateString = day.split('-').join('/');
+
+    return `${dateString} ${time}`;
+  }
+
   return (
     <PageDefaultLayout className=''>
       <div className='container_box'>
@@ -31,18 +38,22 @@ function DashBoardPage() {
         ) : (
           <table className='width_100'>
             <thead>
-            <tr>
-              {Object.values(DataFormats.RecentDataTitles).map((title, index) => (
-                <th key={index}>{title}</th>
-              ))}
-            </tr>
+              <tr>
+                {Object.values(DataFormats.RecentDataTitles).map((_, index) => (
+                  <th key={index}></th>
+                ))}
+              </tr>
             </thead>
             <tbody>
             {recentRecords.map((record, index) => (
-              <tr key={index}>
-                {Object.keys(record).map((key: string, index) => (
-                  <td key={index}>{record[key as keyof IRecentData]}</td>
-                ))}
+              <tr key={index} className={record.numberOfRegisteredCourses >= record.numberOfCoursesToRegister ? 'highlight' : ''}>
+                <td className='bold center'>{record.id}</td>
+                <td className='center'>{getDateString(record.date)}</td>
+                <td className={record.numberOfRegisteredCourses >= record.numberOfCoursesToRegister ? 'center bold' : 'center'}>
+                  {record.numberOfRegisteredCourses >= record.numberOfCoursesToRegister ? '올클' : `${record.numberOfRegisteredCourses}개`}
+                </td>
+                <td>{record.takenTime}</td>
+                <td>{record.coursesDetail}</td>
               </tr>
             ))}
             </tbody>
