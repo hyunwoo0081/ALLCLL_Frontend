@@ -8,7 +8,6 @@ const AuthControl = {
   saveToken(token: string) {
     const {exp} = getJWTJson(token);
     document.cookie = `token=${token}; expires=${new Date(exp * 1000)}; path=/`;
-    console.log('token expired: ', new Date(exp * 1000));
   },
   login(navigate: NavigateFunction, token: string) {
     this.saveToken(token);
@@ -18,9 +17,6 @@ const AuthControl = {
     navigate('/dashboard');
   },
   logout(navigate: NavigateFunction, path?: string) {
-    const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1');
-
-    console.log('isLogin -> logout | token', token);
     document.cookie = `token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 
     navigate(path ?? '/');
@@ -28,7 +24,6 @@ const AuthControl = {
   getHeader() {
     let header: object = {'Content-Type': 'application/json'};
     const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1');
-    console.log('getHeader -> token', token);
 
     if (token)
       header = {...header, Authorization: `Bearer ${token}`};
