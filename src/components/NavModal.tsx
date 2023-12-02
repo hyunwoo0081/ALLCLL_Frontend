@@ -75,7 +75,7 @@ function NavModal({isOpen, setIsOpen}: { isOpen: boolean, setIsOpen: (isOpen: bo
           </p>
         )}
         <button onClick={changePassword}>비밀번호 변경</button>
-        <button onClick={changePassword}>로그아웃</button>
+        <button onClick={() => AuthControl.logout(navigate)}>로그아웃</button>
       </div>
     </div>
   )
