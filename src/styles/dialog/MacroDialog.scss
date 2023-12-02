@@ -8,14 +8,20 @@ div.macro_dialog_body {
       flex: auto;
     }
   }
+
+  h3 {
+    margin: 4px 0;
+    font-size: 16px;
+  }
+
   img.captcha {
-    height: 52px;
+    height: 50px;
   }
 
   div.header_flex {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
   }
 }
 

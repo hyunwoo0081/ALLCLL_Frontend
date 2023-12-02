@@ -60,7 +60,6 @@ function SimulationPage() {
   // Finish Trigger
   useEffect(() => {
     if (!onSimulation || !simulationFinishTrigger || isDialogOpen) return;
-    console.log('Finish Trigger', onSimulation, simulationFinishTrigger, isDialogOpen);
 
     setOnSimulation(false);
     setSimulationFinishTrigger(false);
