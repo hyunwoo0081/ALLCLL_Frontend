@@ -8,6 +8,12 @@ import '@styles/components/TableStyle.scss';
 
 const SearchTitles: Array<keyof ISubject> = ['courseTitle', 'instructorName', 'offeringDepartment', 'classTime'];
 const SearchDisabled: Array<keyof ISubject> = ['offeringDepartment', 'classTime'];
+const InitSearchValue = {
+  courseTitle: '',
+  instructorName: '',
+  offeringDepartment: '',
+  classTime: '',
+};
 
 function InterestPage() {
   const navigate = useNavigate();
@@ -18,12 +24,8 @@ function InterestPage() {
   const [searchedSubjects, setSearchedSubjects] = useState<ISubject[]>([]);
   const [subjects, setSubjects] = useState<ISubject[]>([]);
 
-  const [searchValues, setSearchValues] = useState({
-    courseTitle: '',
-    instructorName: '',
-    offeringDepartment: '',
-    classTime: '',
-  });
+  const [currSearchValues, setCurrSearchValues] = useState(InitSearchValue);
+  const [searchValues, setSearchValues] = useState(InitSearchValue);
 
   useEffect(() => {
     setFetching(true);
@@ -56,6 +58,7 @@ function InterestPage() {
     }
 
     setSearching(true);
+    setCurrSearchValues(prev => ({...prev, ...searchParams}));
     API.fetch2Json('/api/v2/course', 'GET', searchParams, [], navigate)
       .then(res => {
         setSearchedSubjects(res.courses);
@@ -81,16 +84,20 @@ function InterestPage() {
   }
 
   function addSubject(subject: ISubject) {
-    setSearchedSubjects(prev => prev.filter(s => s.courseId !== subject.courseId));
+    setSearchedSubjects(prev => prev.filter(s => !sameSubject(s, subject)));
     setSubjects(prev => [...prev, subject]);
     changeSubjectStatus(subject);
   }
 
   function removeSubject(subject: ISubject) {
-    setSubjects(prev => prev.filter(s => s.courseId !== subject.courseId));
-    if (subject.courseTitle.startsWith(searchValues.courseTitle) && subject.instructorName.startsWith(searchValues.instructorName))
+    setSubjects(prev => prev.filter(s => !sameSubject(s, subject)));
+    if (subject.courseTitle.startsWith(currSearchValues.courseTitle) && subject.instructorName.startsWith(currSearchValues.instructorName))
       setSearchedSubjects(prev => [...prev, subject]);
     changeSubjectStatus(subject);
+  }
+
+  function sameSubject(a: ISubject, b: ISubject) {
+    return a.courseId === b.courseId && a.classId === b.classId && a.offeringDepartment === b.offeringDepartment;
   }
 
   return (
