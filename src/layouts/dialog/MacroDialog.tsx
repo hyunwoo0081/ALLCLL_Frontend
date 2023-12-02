@@ -8,9 +8,10 @@ interface IMacroDialog {
   isOpen: boolean;
   closeDialog: () => void;
   nextStep: (_?:ApplyType) => void;
+  playId: number,
 }
 
-function MacroDialog({isOpen, closeDialog, nextStep}: IMacroDialog) {
+function MacroDialog({isOpen, closeDialog, nextStep, playId}: IMacroDialog) {
   const [authCode, setAuthCode] = useState<string>('');
   const [captcha, setCaptcha] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
@@ -24,7 +25,7 @@ function MacroDialog({isOpen, closeDialog, nextStep}: IMacroDialog) {
   }, [isOpen]);
 
   function refreshCaptcha() {
-    API.fetch2Json('/api/v2/mock/captcha', 'GET', {}, [], () => {})
+    API.fetch2Json('/api/v2/mock/captcha', 'GET', {playId}, [], () => {})
       .then((res) => setCaptcha(res.image))
       .catch((err) => setErrorMessage(err.message));
   }
@@ -35,7 +36,7 @@ function MacroDialog({isOpen, closeDialog, nextStep}: IMacroDialog) {
       return;
     }
 
-    API.fetch('/api/v2/mock/captcha/check', 'POST', {authCode}, [], () => {})
+    API.fetch('/api/v2/mock/captcha/check', 'POST', {playId, authCode}, [], () => {})
       .then((res) => {
         console.log(res);
         nextStep();

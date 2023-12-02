@@ -155,7 +155,7 @@ function SimulationPage() {
 
   return (
     <>
-      <MacroDialog isOpen={isDialogOpen && applyType === ApplyType.Macro} closeDialog={closeDialog} nextStep={nextStep}/>
+      <MacroDialog isOpen={isDialogOpen && applyType === ApplyType.Macro} closeDialog={closeDialog} nextStep={nextStep} playId={simulationId}/>
       <SubjectApplyDialog isOpen={isDialogOpen && applyType === ApplyType.Apply} closeDialog={closeDialog} nextStep={nextStep} selectedSubject={selectedSubject} setFinishTrigger={setSimulationFinishTrigger}/>
       <ApplySuccessDialog isOpen={isDialogOpen && applyType === ApplyType.SUCCESS} closeDialog={closeDialog} nextStep={nextStep}/>
       <ApplyFailDialog isOpen={isDialogOpen && applyType === ApplyType.FAIL} closeDialog={closeDialog}/>
