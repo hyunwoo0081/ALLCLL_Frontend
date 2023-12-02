@@ -7,6 +7,8 @@ import CheckFetchError from '../../constant/CheckFetchError.ts';
 import CheckStringType from '../../constant/CheckStringType.ts';
 import '@styles/LoginPage.scss';
 
+export const AUTH_LIMIT_TIME = 3 * 60 * 1000;
+
 function Login4EmailPage() {
   const navigate = useNavigate();
 
@@ -59,7 +61,8 @@ function Login4EmailPage() {
       ];
       await CheckFetchError(res, errors, navigate);
 
-      navigate(`/login/email/auth?email=${email}`, {replace: true});
+      const deadline = new Date(new Date().getTime() + AUTH_LIMIT_TIME).getTime();
+      navigate(`/login/email/auth?email=${email}&deadline=${deadline}`, {replace: true});
     })
       .catch(e => setErrorMessage(e.message))
       .finally(() => setFetching(false));

@@ -4,6 +4,7 @@ import PageDefaultLayout from '../../layouts/PageDefaultLayout.tsx';
 import useLogin from '../../hooks/useLogin.ts';
 import CheckFetchError from '../../constant/CheckFetchError.ts';
 import useLoginErrorBox from '../../hooks/useLoginErrorBox.tsx';
+import {AUTH_LIMIT_TIME} from './Login4EmailPage.tsx';
 import CheckStringType from '../../constant/CheckStringType.ts';
 import AuthControl from '../../constant/AuthControl.ts';
 import '@styles/LoginPage.scss';
@@ -13,7 +14,9 @@ function LoginEmailAuthPage() {
   const [fetching, setFetching] = useState<boolean>(false);
   const [authCode, setAuthCode] = useState<string>('');
   const [sending, setSending] = useState<boolean>(false);
+  const [leftTimeString, setLeftTimeString] = useState<string>(`${Math.floor(AUTH_LIMIT_TIME/60/1000)}:00`)
   const email = new URLSearchParams(window.location.search).get('email') ?? '';
+  const deadline = Number(new URLSearchParams(window.location.search).get('deadline'));
 
   const AuthCodeInputRef = useRef<HTMLInputElement>(null);
   const {setErrorMessage, ErrorBox} = useLoginErrorBox();
@@ -33,11 +36,24 @@ function LoginEmailAuthPage() {
         login();
     }
 
+    function updateTimer() {
+      const leftTime = deadline - new Date().getTime();
+      const minute = Math.floor(leftTime / (60 * 1000));
+      const second = Math.floor((leftTime % (60 * 1000)) / 1000);
+
+      setLeftTimeString(
+        leftTime <= 0 ? '0:00' :
+          second < 10 ? `${minute}:0${second}` : `${minute}:${second}`);
+    }
+    updateTimer();
+
     AuthCodeInputRef.current?.addEventListener('keydown', onEnter);
+    const timer = setInterval(updateTimer, 1000);
     return () => {
       AuthCodeInputRef.current?.removeEventListener('keydown', onEnter);
+      clearInterval(timer);
     };
-  }, [login]);
+  }, [deadline, login]);
 
   function login() {
     if (!CheckStringType.authCode(authCode)) {
@@ -82,6 +98,9 @@ function LoginEmailAuthPage() {
         {errorBody: 'Invalid email format', errorMessage: '이메일 형식이 올바르지 않습니다'},
       ];
       await CheckFetchError(res, errors, navigate);
+
+      const deadline = new Date(new Date().getTime() + AUTH_LIMIT_TIME).getTime();
+      navigate(`/login/email/auth?email=${email}&deadline=${deadline}`, {replace: true});
     })
       .catch(e => setErrorMessage(e.message))
       .finally(() => setSending(false));
@@ -96,18 +115,26 @@ function LoginEmailAuthPage() {
 
         {!sending && !ErrorBox && (
           <p className='message_box'>
-            이메일로 인증번호를 발송했습니다. <br/>
+            {email} 로 <br/>
+            인증번호를 발송했습니다. <br/>
             인증번호를 입력해주세요.
           </p>
         )}
-        <input type='text'
-               placeholder='인증번호'
-               ref={AuthCodeInputRef}
-               disabled={fetching}
-               value={authCode}
-               onChange={e => setAuthCode(e.target.value)}/>
+        <div className='auth_input_layout'>
+          <input type='text'
+                 placeholder='인증번호'
+                 ref={AuthCodeInputRef}
+                 disabled={fetching}
+                 value={authCode}
+                 onChange={e => setAuthCode(e.target.value)}/>
+          <span className={leftTimeString === '0:00' ? 'disabled' : ''}
+            onClick={e => {
+            e.preventDefault();
+            AuthCodeInputRef.current?.focus();
+          }}>{leftTimeString}</span>
+        </div>
 
-        <button onClick={login} disabled={fetching}>로그인</button>
+        <button onClick={login} disabled={fetching || leftTimeString === '0:00'}>로그인</button>
         <div className='flex_row'>
           <button className='link' onClick={() => navigate('/login/password')}>비밀번호로 로그인</button>
           <button className='link' onClick={resendAuthCode} disabled={sending}>인증번호 재전송</button>

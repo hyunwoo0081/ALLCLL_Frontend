@@ -34,11 +34,21 @@ div.login_page {
   }
 
   div.auth_input_layout {
-    display: flex;
-    gap: 12px;
+    position: relative;
 
     input[type="text"], input[type="password"] {
-      flex: 1;
+      width: 100%;
+    }
+
+    span {
+      position: absolute;
+      transform: translate(-150%, 50%);
+      font-weight: 600;
+      color: $primary-color;
+
+      &.disabled {
+        color: $gray;
+      }
     }
   }
 
