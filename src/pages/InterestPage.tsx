@@ -5,6 +5,9 @@ import {DataFormats, ISubject} from '../constant/types.ts';
 import API from '../constant/API.ts';
 import '@styles/components/TableStyle.scss';
 
+enum LazyStatus {
+  Changed, Fetching, Accepted, Rejected
+}
 
 const SearchTitles: Array<keyof ISubject> = ['courseTitle', 'instructorName', 'offeringDepartment', 'classTime'];
 const SearchDisabled: Array<keyof ISubject> = ['offeringDepartment', 'classTime'];
@@ -26,6 +29,7 @@ function InterestPage() {
 
   const [currSearchValues, setCurrSearchValues] = useState(InitSearchValue);
   const [searchValues, setSearchValues] = useState(InitSearchValue);
+  const [lazyStatus, setLazyStatus] = useState<LazyStatus>(LazyStatus.Accepted);
 
   useEffect(() => {
     setFetching(true);
@@ -36,6 +40,33 @@ function InterestPage() {
 
     document.title = 'AllCll | 관심과목';
   }, [navigate]);
+
+  useEffect(() => {
+    if (lazyStatus !== LazyStatus.Changed) return;
+
+    const debounceTimer = setTimeout(() => {
+      const req = {
+        numberOfCourses: subjects.length,
+        courses: [subjects.map(sub => ({
+          courseId: sub.courseId,
+          classId: sub.classId,
+          offeringDepartment: sub.offeringDepartment,
+        }))],
+      }
+
+      setLazyStatus(LazyStatus.Fetching);
+      API.fetch('/api/v2/interestedCourse', 'POST', req, [], navigate)
+        .then(() => {
+            setLazyStatus(prev => prev !== LazyStatus.Changed ? LazyStatus.Accepted : prev);
+        })
+        .catch(() => {
+          setLazyStatus(prev => prev !== LazyStatus.Changed ? LazyStatus.Rejected : prev);
+        })
+        .finally(() => setSearching(false));
+    }, 1500);
+
+    return () => clearTimeout(debounceTimer);
+  }, [subjects.length, lazyStatus]);
 
   function searchSubjects() {
     let isValid = true;
@@ -61,42 +92,31 @@ function InterestPage() {
     setCurrSearchValues(prev => ({...prev, ...searchParams}));
     API.fetch2Json('/api/v2/course', 'GET', searchParams, [], navigate)
       .then(res => {
-        setSearchedSubjects(res.courses);
+        setSearchedSubjects(res.courses.filter((subject: ISubject) => !subjects.some(value => sameSubjectExact(value, subject))));
         setSearchOpened(true);
       })
       .catch(e => console.error(e))
       .finally(() => setSearching(false));
   }
 
-  function changeSubjectStatus(subject: ISubject) {
-    const {courseId, classId, offeringDepartment} = subject;
-    const req = {
-      numberOfCourses: 1,
-      courses: [{courseId, classId, offeringDepartment}],
-    }
-
-    API.fetch('/api/v2/interestedCourse', 'POST', req, [], navigate)
-      .then(() => {
-        setSearchOpened(true);
-      })
-      .catch(() => console.error('관심 과목 변경 실패'))
-      .finally(() => setSearching(false));
-  }
-
   function addSubject(subject: ISubject) {
-    setSearchedSubjects(prev => prev.filter(s => !sameSubject(s, subject)));
+    setSearchedSubjects(prev => prev.filter(s => !sameSubjectExact(s, subject)));
     setSubjects(prev => [...prev, subject]);
-    changeSubjectStatus(subject);
+    setLazyStatus(LazyStatus.Changed);
   }
 
   function removeSubject(subject: ISubject) {
     setSubjects(prev => prev.filter(s => !sameSubject(s, subject)));
-    if (subject.courseTitle.startsWith(currSearchValues.courseTitle) && subject.instructorName.startsWith(currSearchValues.instructorName))
+    if (currSearchValues.courseTitle.length >= 2 && currSearchValues.instructorName.length >= 2
+      && subject.courseTitle.startsWith(currSearchValues.courseTitle) && subject.instructorName.startsWith(currSearchValues.instructorName))
       setSearchedSubjects(prev => [...prev, subject]);
-    changeSubjectStatus(subject);
+    setLazyStatus(LazyStatus.Changed);
   }
 
   function sameSubject(a: ISubject, b: ISubject) {
+    return a.courseId === b.courseId;
+  }
+  function sameSubjectExact(a: ISubject, b: ISubject) {
     return a.courseId === b.courseId && a.classId === b.classId && a.offeringDepartment === b.offeringDepartment;
   }
 
@@ -147,7 +167,8 @@ function InterestPage() {
             {searchedSubjects.map((subject, index) => (
               <tr key={index}>
                 <td>
-                  <button onClick={() => addSubject(subject)}>신청</button>
+                  <button onClick={() => addSubject(subject)}
+                          disabled={subjects.some(value => sameSubject(value, subject))}>신청</button>
                 </td>
                 {Object.keys(subject).map((key: string, index) => (
                   <td key={index}>{subject[key as keyof ISubject]}</td>
@@ -191,6 +212,14 @@ function InterestPage() {
             </tbody>
           </table>
         )}
+
+        {lazyStatus == LazyStatus.Fetching || lazyStatus === LazyStatus.Changed ? (
+          <div className='status_text'>저장 중...</div>
+        ) : lazyStatus == LazyStatus.Accepted ? (
+          <div className='status_text'>관심 과목이 저장되었습니다</div>
+        ) : lazyStatus == LazyStatus.Rejected ? (
+          <div className='status_text'>관심 과목 저장에 실패했습니다</div>
+        ) : null }
       </div>
     </PageDefaultLayout>
   );
