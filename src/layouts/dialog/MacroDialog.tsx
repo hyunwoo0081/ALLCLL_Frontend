@@ -63,7 +63,7 @@ function MacroDialog({isOpen, closeDialog, nextStep, playId}: IMacroDialog) {
           <div>
             <div className='header_flex'>
               <h3>생성된 코드</h3>
-              <button className='image_button'>
+              <button className='image_button' onClick={refreshCaptcha}>
                 <img src='/Refresh.svg' alt=''/>
               </button>
             </div>
