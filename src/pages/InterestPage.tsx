@@ -231,17 +231,17 @@ function InterestPage() {
 
         {lazyStatus == LazyStatus.Fetching || lazyStatus === LazyStatus.Changed ? (
           <div className='status_text'>
-            <img src='' alt=''/>
+            <img src='/Refresh.svg' alt=''/>
             저장 중...
           </div>
         ) : lazyStatus == LazyStatus.Accepted ? (
           <div className='status_text'>
-            <img src='' alt=''/>
+            <img src='/RoundColor.svg' alt=''/>
             관심 과목이 저장되었습니다
           </div>
         ) : lazyStatus == LazyStatus.Rejected ? (
           <div className='status_text'>
-            <img src='' alt=''/>
+            <img src='/CloseColor.svg' alt=''/>
             관심 과목 저장에 실패했습니다
           </div>
         ) : null }

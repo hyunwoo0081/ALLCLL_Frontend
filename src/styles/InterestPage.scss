@@ -1,5 +1,8 @@
 .interest_page {
   .status_text {
+    display: flex;
+    align-items: center;
+    margin-top: 2px;
     img {
       width: 20px;
       height: 20px;
