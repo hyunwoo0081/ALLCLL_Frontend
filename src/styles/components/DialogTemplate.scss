@@ -8,6 +8,7 @@ div.dialog_background {
   background: rgba(0, 0, 0, 0.5);
 
   div.dialog {
+    max-width: 460px;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -64,6 +65,7 @@ div.dialog_background {
       background: #FAFAFA;
 
       button {
+        font-size: 14px;
         font-weight: 600;
         padding: 6px 12px;
         height: auto;

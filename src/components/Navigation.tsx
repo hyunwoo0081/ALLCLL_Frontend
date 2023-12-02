@@ -7,7 +7,7 @@ import '@styles/components/Navigation.scss';
 
 const NavRoutes = [
   {
-    name: '홈',
+    name: '대시보드',
     path: '/dashboard'
   },
   {
@@ -34,17 +34,18 @@ function Navigation() {
       <nav className='navigation'>
         <div className='navigation_flex'>
           <div className='logo' tabIndex={0} onClick={() => navigate(AuthControl.getDefaultPage())}>
-            <img src='/vite.svg' alt=''/>
+            {/*<img src='/CI.svg' alt=''/>*/}
             <h2>ALLCLL</h2>
           </div>
           {isLogin ? (
             <div className='auth_layout'>
-              <button className='link' onClick={() => setModalOpened(true)}>비밀번호 설정</button>
-              <button onClick={() => AuthControl.logout(navigate)}>Logout</button>
+              <button className='image_button' onClick={() => setModalOpened(true)}>
+                <img src='/Darhboard.svg' alt=''/>
+              </button>
             </div>
           ) : (
             <div className='auth_layout'>
-              <button className='cancel' onClick={() => navigate('/login')}>Login</button>
+              <button onClick={() => navigate('/login')}>Login</button>
             </div>
           )}
         </div>

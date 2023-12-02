@@ -56,7 +56,7 @@ function FinishDialog({isOpen, closeDialog, playId}: IMacroDialog) {
         </div>
       </div>
       <div className='dialog_footer'>
-        <button onClick={closeDialog}>획인</button>
+        <button onClick={closeDialog}>확인</button>
       </div>
     </DialogTemplate>
   );

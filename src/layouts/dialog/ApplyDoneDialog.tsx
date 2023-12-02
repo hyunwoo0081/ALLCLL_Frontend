@@ -17,12 +17,12 @@ function ApplyFailDialog({isOpen, closeDialog}: IMacroDialog) {
       </div>
       <div className='dialog_body apply_dialog_body'>
         <div>
-          <img src='/sample.png' alt=''/>
-          <span>이미 수강신청된 과목입니다!</span> <br/> <br/> <br/> <br/> <br/>
+          <img src='/RemoveRing.svg' alt=''/>
+          <span>이미 수강신청된 과목입니다!</span> <br/> <br/> <br/> <br/>
         </div>
       </div>
       <div className='dialog_footer'>
-        <button onClick={closeDialog}>획인</button>
+        <button onClick={closeDialog}>확인</button>
       </div>
     </DialogTemplate>
   );

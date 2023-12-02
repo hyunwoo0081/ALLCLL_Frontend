@@ -25,14 +25,14 @@ nav.navigation {
       align-items: center;
       cursor: pointer;
 
-      image {
-        width: 48px;
-        height: 48px;
+      img {
+        height: 36px;
       }
 
       h2 {
-        font-size: 24px;
-        font-weight: 600;
+        font-size: 28px;
+        font-weight: 700;
+        font-family: 'Athiti', sans-serif;
         color: black;
         margin: 0;
       }
@@ -46,8 +46,12 @@ nav.navigation {
       button {
         display: initial;
         height: auto;
-        padding: 6px 12px;
-        font-size: 16px;
+        padding: 0;
+
+        img {
+          width: 28px;
+          height: 28px;
+        }
       }
     }
   }
@@ -63,13 +67,12 @@ nav.navigation {
 
       li {
         box-sizing: content-box;
-        padding: 2px 2px 3px 2px;
+        padding: 4px 2px 14px 2px;
 
         &.selected {
           border-bottom: 2px solid $primary-color;
-          padding: 2px 2px 2px 2px;
+          padding: 4px 2px 13px 2px;
           margin-bottom: -1px;
-
         }
 
         a {
@@ -94,9 +97,10 @@ div.dialog_background.nav_dialog_background {
 
   div.dialog {
     top: 60px;
-    right: 56px;
+    right: 16px;
     left: initial;
     transform: initial;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 
     display: flex;
     flex-flow: column;

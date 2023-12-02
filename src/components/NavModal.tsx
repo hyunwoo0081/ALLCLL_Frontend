@@ -52,7 +52,7 @@ function NavModal({isOpen, setIsOpen}: { isOpen: boolean, setIsOpen: (isOpen: bo
       {errorBody: 'Email address not found', errorMessage: '가입되지 않은 이메일 입니다'},
       {errorBody: 'Invalid email format', errorMessage: '잘못된 메일 형식입니다'},
     ];
-    API.fetch2Json('/api/v2/auth/password/reset', 'POST', {email}, Errors, navigate)
+    API.fetch('/api/v2/auth/password/reset', 'POST', {email}, Errors, navigate)
       .then(() => {
         setMessageOpened(true);
         setTimeout(() => setMessageOpened(false), 3000);
@@ -75,6 +75,7 @@ function NavModal({isOpen, setIsOpen}: { isOpen: boolean, setIsOpen: (isOpen: bo
           </p>
         )}
         <button onClick={changePassword}>비밀번호 변경</button>
+        <button onClick={changePassword}>로그아웃</button>
       </div>
     </div>
   )

@@ -94,7 +94,6 @@ function RefreshPasswordPage() {
                onChange={e => setCheckPassword(e.target.value)}/>
 
         <button onClick={refreshPassword} disabled={fetching}>로그인</button>
-        <button className='link' onClick={() => navigate('/login/email', {replace: true})}>이메일 로그인</button>
       </div>
     </PageDefaultLayout>
   );

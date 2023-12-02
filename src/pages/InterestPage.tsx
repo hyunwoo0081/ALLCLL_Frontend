@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import PageDefaultLayout from '../layouts/PageDefaultLayout.tsx';
 import {DataFormats, ISubject} from '../constant/types.ts';
@@ -121,12 +121,19 @@ function InterestPage() {
     return a.courseId === b.courseId && a.classId === b.classId && a.offeringDepartment === b.offeringDepartment;
   }
 
+  function enterSearch(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === 'Enter') {
+      searchSubjects();
+    }
+  }
+
   return (
     <PageDefaultLayout className='interest_page'>
       <div className='search_layout'>
         <div className='inputs_layout'>
           {SearchTitles.map((title, index) => (
             <input key={index}
+                   onKeyDown={enterSearch}
                    placeholder={DataFormats.SubjectTitles[title]}
                    value={searchValues[title as keyof typeof searchValues]}
                    onChange={e => setSearchValues(prev => ({...prev, [title]: e.target.value}))}
@@ -144,7 +151,7 @@ function InterestPage() {
         <div className='container_header_layout'>
           <h2>과목 검색</h2>
           <button className='image_button' onClick={() => setSearchOpened(prev => !prev)}>
-            <img src='/Close.svg' alt=''/>
+            <img src={searchOpened ? '/ArrowDown.svg' : '/ArrowRight.svg'} alt=''/>
           </button>
         </div>
 
@@ -171,9 +178,13 @@ function InterestPage() {
                   <button onClick={() => addSubject(subject)}
                           disabled={subjects.some(value => sameSubject(value, subject))}>신청</button>
                 </td>
-                {Object.keys(subject).map((key: string, index) => (
-                  <td key={index}>{subject[key as keyof ISubject]}</td>
-                ))}
+                <td>{String(subject.courseId).padStart(6, '0')}</td>
+                <td>{String(subject.classId).padStart(3, '0')}</td>
+                <td>{subject.courseTitle}</td>
+                <td>{subject.credit}</td>
+                <td>{subject.offeringDepartment}</td>
+                <td>{subject.instructorName}</td>
+                <td>{subject.classTime}</td>
               </tr>
             ))}
             </tbody>

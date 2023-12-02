@@ -1,9 +1,9 @@
 import {useEffect, useState} from 'react';
 import DialogTemplate from '../DialogTemplate.tsx';
 import {ApplyType} from '../../constant/types.ts';
+import {IErrorTypes} from '../../constant/CheckFetchError.ts';
 import API from '../../constant/API.ts';
 import '@styles/dialog/MacroDialog.scss';
-import {IErrorTypes} from "../../constant/CheckFetchError.ts";
 
 interface IMacroDialog {
   isOpen: boolean;
@@ -64,7 +64,7 @@ function MacroDialog({isOpen, closeDialog, nextStep, playId}: IMacroDialog) {
             <div className='header_flex'>
               <h3>생성된 코드</h3>
               <button className='image_button'>
-                <img src='/Close.svg' alt=''/>
+                <img src='/Refresh.svg' alt=''/>
               </button>
             </div>
             {errorMessage ? (
@@ -78,14 +78,14 @@ function MacroDialog({isOpen, closeDialog, nextStep, playId}: IMacroDialog) {
           <div>
             <h3>코드 입력</h3>
             <input type='text'
-                   placeholder='코드를 입력하세요'
+                   placeholder='코드입력'
                    value={authCode}
                    onChange={e => setAuthCode(e.target.value)}/>
           </div>
         </div>
       </div>
       <div className='dialog_footer'>
-        <button onClick={submit}>코드인증</button>
+        <button onClick={submit}>코드입력</button>
         <button className='cancel' onClick={closeDialog}>취소</button>
       </div>
     </DialogTemplate>

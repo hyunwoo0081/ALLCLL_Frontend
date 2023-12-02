@@ -62,7 +62,7 @@ function SubjectApplyDialog({isOpen, closeDialog, nextStep, selectedSubject, set
       </div>
       <div className='dialog_body apply_dialog_body'>
         <div>
-          <img src='/sample.png' alt=''/>
+          <img src='/CheckRing.svg' alt=''/>
           <span>선택한 과목을 수강신청하시겠습니까?</span>
           <span>교과목명(Course Title): {selectedSubject ? selectedSubject.courseTitle : '<???>'}</span>
         </div>
