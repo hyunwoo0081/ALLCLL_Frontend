@@ -3,6 +3,7 @@ import DialogTemplate from '../DialogTemplate.tsx';
 import {ApplyType} from '../../constant/types.ts';
 import API from '../../constant/API.ts';
 import '@styles/dialog/MacroDialog.scss';
+import {IErrorTypes} from "../../constant/CheckFetchError.ts";
 
 interface IMacroDialog {
   isOpen: boolean;
@@ -18,6 +19,7 @@ function MacroDialog({isOpen, closeDialog, nextStep, playId}: IMacroDialog) {
 
   useEffect(() => {
     setAuthCode('');
+    setCaptcha('');
     
     if (!isOpen) return;
     
@@ -36,7 +38,11 @@ function MacroDialog({isOpen, closeDialog, nextStep, playId}: IMacroDialog) {
       return;
     }
 
-    API.fetch('/api/v2/mock/captcha/check', 'POST', {playId, authCode}, [], () => {})
+    const Errors: IErrorTypes[] = [
+      {errorBody: 'Mock not found', errorMessage: '시뮬레이션을 찾을 수 없습니다.', action: () => localStorage.removeItem('playId')},
+      {errorBody: 'Captcha authentication failed', errorMessage: '잘못된 코드입니다', action: () => alert('잘못된 코드입니다')},
+    ]
+    API.fetch('/api/v2/mock/captcha/check', 'POST', {playId, authCode}, Errors, () => {})
       .then((res) => {
         console.log(res);
         nextStep();
