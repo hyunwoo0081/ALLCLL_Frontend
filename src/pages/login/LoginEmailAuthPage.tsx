@@ -42,8 +42,7 @@ function LoginEmailAuthPage() {
       const second = Math.floor((leftTime % (60 * 1000)) / 1000);
 
       setLeftTimeString(
-        leftTime <= 0 ? '0:00' :
-          second < 10 ? `${minute}:0${second}` : `${minute}:${second}`);
+        leftTime <= 0 ? '0:00' : `${minute}:${String(second).padStart(2, '0')}`);
     }
     updateTimer();
 
@@ -116,8 +115,7 @@ function LoginEmailAuthPage() {
         {!sending && !ErrorBox && (
           <p className='message_box'>
             {email} 로 <br/>
-            인증번호를 발송했습니다. <br/>
-            인증번호를 입력해주세요.
+            인증번호를 발송했습니다
           </p>
         )}
         <div className='auth_input_layout'>

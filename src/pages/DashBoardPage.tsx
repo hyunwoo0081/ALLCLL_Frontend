@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import PageDefaultLayout from '../layouts/PageDefaultLayout.tsx';
 import {DataFormats, IRecentData} from '../constant/types.ts';
+import {getDateString, getTimerString} from '../constant/TimeString.ts';
 import API from '../constant/API.ts';
 
 function DashBoardPage() {
@@ -18,13 +19,6 @@ function DashBoardPage() {
 
     document.title = 'AllCll | 대시보드';
   }, [navigate]);
-
-  function getDateString(date: string) {
-    const [day, time] = date.split('T');
-    const dateString = day.split('-').join('/');
-
-    return `${dateString} ${time}`;
-  }
 
   return (
     <PageDefaultLayout className=''>
@@ -52,7 +46,7 @@ function DashBoardPage() {
                 <td className={record.numberOfRegisteredCourses >= record.numberOfCoursesToRegister ? 'center bold' : 'center'}>
                   {record.numberOfRegisteredCourses >= record.numberOfCoursesToRegister ? '올클' : `${record.numberOfRegisteredCourses}개`}
                 </td>
-                <td>{record.takenTime}</td>
+                <td>{getTimerString(record.takenTime)}</td>
                 <td>{record.coursesDetail}</td>
               </tr>
             ))}

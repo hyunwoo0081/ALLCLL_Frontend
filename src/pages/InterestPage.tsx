@@ -3,6 +3,7 @@ import {useNavigate} from 'react-router-dom';
 import PageDefaultLayout from '../layouts/PageDefaultLayout.tsx';
 import {DataFormats, ISubject} from '../constant/types.ts';
 import API from '../constant/API.ts';
+import '@styles/InterestPage.scss';
 import '@styles/components/TableStyle.scss';
 
 enum LazyStatus {
@@ -47,11 +48,11 @@ function InterestPage() {
     const debounceTimer = setTimeout(() => {
       const req = {
         numberOfCourses: subjects.length,
-        courses: [subjects.map(sub => ({
+        courses: subjects.map(sub => ({
           courseId: sub.courseId,
           classId: sub.classId,
           offeringDepartment: sub.offeringDepartment,
-        }))],
+        })),
       }
 
       setLazyStatus(LazyStatus.Fetching);
@@ -121,7 +122,7 @@ function InterestPage() {
   }
 
   return (
-    <PageDefaultLayout className=''>
+    <PageDefaultLayout className='interest_page'>
       <div className='search_layout'>
         <div className='inputs_layout'>
           {SearchTitles.map((title, index) => (
@@ -204,9 +205,13 @@ function InterestPage() {
                 <td>
                   <button onClick={() => removeSubject(subject)}>삭제</button>
                 </td>
-                {Object.values(subject).map((title, index) => (
-                  <td key={index}>{title}</td>
-                ))}
+                <td>{String(subject.courseId).padStart(6, '0')}</td>
+                <td>{String(subject.classId).padStart(3, '0')}</td>
+                <td>{subject.courseTitle}</td>
+                <td>{subject.credit}</td>
+                <td>{subject.offeringDepartment}</td>
+                <td>{subject.instructorName}</td>
+                <td>{subject.classTime}</td>
               </tr>
             ))}
             </tbody>
@@ -214,11 +219,20 @@ function InterestPage() {
         )}
 
         {lazyStatus == LazyStatus.Fetching || lazyStatus === LazyStatus.Changed ? (
-          <div className='status_text'>저장 중...</div>
+          <div className='status_text'>
+            <img src='' alt=''/>
+            저장 중...
+          </div>
         ) : lazyStatus == LazyStatus.Accepted ? (
-          <div className='status_text'>관심 과목이 저장되었습니다</div>
+          <div className='status_text'>
+            <img src='' alt=''/>
+            관심 과목이 저장되었습니다
+          </div>
         ) : lazyStatus == LazyStatus.Rejected ? (
-          <div className='status_text'>관심 과목 저장에 실패했습니다</div>
+          <div className='status_text'>
+            <img src='' alt=''/>
+            관심 과목 저장에 실패했습니다
+          </div>
         ) : null }
       </div>
     </PageDefaultLayout>

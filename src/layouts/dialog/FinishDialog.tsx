@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react';
 import DialogTemplate from '../DialogTemplate.tsx';
 import {useNavigate} from 'react-router-dom';
 import {IErrorTypes} from '../../constant/CheckFetchError.ts';
+import {getTimerString} from '../../constant/TimeString.ts';
 import API from '../../constant/API.ts';
 import '@styles/dialog/MacroDialog.scss';
 
@@ -47,7 +48,7 @@ function FinishDialog({isOpen, closeDialog, playId}: IMacroDialog) {
         </button>
       </div>
       <div className='dialog_body finish_dialog'>
-        <h2>{contents.takenTime}</h2>
+        <h2 className='timer'>{getTimerString(contents.takenTime)}</h2>
         <div>
           <p>수강신청을 완료했습니다.</p>
           <p>신청 완료 수 : {contents.numberOfRegisteredCourses}/{contents.numberOfCoursesToRegister}</p>

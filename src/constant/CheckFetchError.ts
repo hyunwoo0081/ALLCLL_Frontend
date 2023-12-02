@@ -12,6 +12,7 @@ async function CheckFetchError(response: Response, errorTypes: IErrorTypes[], na
     return response;
 
   if (response.status === 403) {
+    alert('권한이 없습니다\n다시 로그인 해주세요');
     AuthControl.logout(navigate, '/login');
     throw new Error('로그인이 필요합니다');
   }

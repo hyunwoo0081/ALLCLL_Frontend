@@ -167,9 +167,9 @@ function SimulationPage() {
         <div className='search_layout'>
           <div className='inputs_layout'>
             <select name='' id='' disabled>
-              <option value='학수번호 검색'>학수번호 검색</option>
+              <option value='관심과목 검색'>관심과목 검색</option>
             </select>
-            <input placeholder='학수번호를 입력하세요' type='text' disabled/>
+            <input placeholder='관심과목를 입력하세요' type='text' disabled/>
           </div>
           <button onClick={startSimulation} disabled={onSimulation || loading}>
             <img src='/Search.svg' alt=''/>
@@ -199,9 +199,13 @@ function SimulationPage() {
                 <td>
                   <button onClick={() => openDialog(subject)}>신청</button>
                 </td>
-                {Object.values(subject).map((title, index) => (
-                  <td key={index}>{title}</td>
-                ))}
+                <td>{String(subject.courseId).padStart(6, '0')}</td>
+                <td>{String(subject.classId).padStart(3, '0')}</td>
+                <td>{subject.courseTitle}</td>
+                <td>{subject.credit}</td>
+                <td>{subject.offeringDepartment}</td>
+                <td>{subject.instructorName}</td>
+                <td>{subject.classTime}</td>
               </tr>
             ))}
             </tbody>
