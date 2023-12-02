@@ -7,7 +7,7 @@ import CheckFetchError from '../../constant/CheckFetchError.ts';
 import CheckStringType from '../../constant/CheckStringType.ts';
 import '@styles/LoginPage.scss';
 
-export const AUTH_LIMIT_TIME = 3 * 60 * 1000;
+export const AUTH_LIMIT_TIME = 10 * 60 * 1000;
 
 function Login4EmailPage() {
   const navigate = useNavigate();
