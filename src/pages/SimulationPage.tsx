@@ -65,6 +65,7 @@ function SimulationPage() {
     setSimulationFinishTrigger(false);
     setSubjects([]);
     setAppliedSubjects([]);
+    setSubmitStatus([]);
     localStorage.removeItem('playId');
 
     setIsDialogOpen(true);
@@ -115,6 +116,7 @@ function SimulationPage() {
         setSimulationId(res.playId);
         setSubjects(res.interestedCourse.courses);
         setAppliedSubjects([]);
+        setSubmitStatus([]);
         setOnSimulation(true);
       })
       .catch((err) => {
@@ -144,6 +146,7 @@ function SimulationPage() {
         setSimulationId(Number(playId));
         setSubjects(res.interestedCourseToRegister.courses);
         setAppliedSubjects(res.registeredCourse.courses);
+        setSubmitStatus(res.interestedCourseToRegister.courses.map(() => StatusClass[0]));
         setOnSimulation(true);
       })
       .catch((err) => console.error(err))

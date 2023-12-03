@@ -1,15 +1,21 @@
 import {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import useLoginErrorBox from '../hooks/useLoginErrorBox.tsx';
 import {IErrorTypes} from '../constant/CheckFetchError.ts';
 import AuthControl from '../constant/AuthControl.ts';
 import API from '../constant/API.ts';
 
+enum ToastView {
+  CLOSED, TOAST_NORMAL, TOAST_ERROR
+}
+const ToastClass = ['closed', 'normal', 'error'];
+
 function NavModal({isOpen, setIsOpen}: { isOpen: boolean, setIsOpen: (isOpen: boolean) => void }) {
   const navigate = useNavigate();
   const [overflow, setOverflow] = useState<string>('auto');
-  const [messageOpened, setMessageOpened] = useState<boolean>(false);
-  const {setErrorMessage, ErrorBox} = useLoginErrorBox();
+  const [toastType, setToastType] = useState<ToastView>(ToastView.CLOSED);
+  const [toastMessage, setToastMessage] = useState<string>('');
+
+  const token = AuthControl.getInfoFromToken();
 
   useEffect(() => {
     function onEsc(e: KeyboardEvent) {
@@ -25,8 +31,7 @@ function NavModal({isOpen, setIsOpen}: { isOpen: boolean, setIsOpen: (isOpen: bo
 
   useEffect(() => {
     if (isOpen) {
-      setErrorMessage('');
-      setMessageOpened(false);
+      setToastType(ToastView.CLOSED);
       setOverflow(document.body.style.overflow ?? 'auto');
       document.body.style.overflow = 'hidden';
     } else {
@@ -34,16 +39,25 @@ function NavModal({isOpen, setIsOpen}: { isOpen: boolean, setIsOpen: (isOpen: bo
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    if (toastType === ToastView.CLOSED) return;
+
+    const timer = setTimeout(() => {
+      setToastType(ToastView.CLOSED);
+    }, 2500);
+
+    return () => {clearTimeout(timer);}
+  }, [toastType]);
+
   function closeDialog() {
     setIsOpen(false);
   }
 
   function changePassword() {
-    setErrorMessage('');
+    setToastType(ToastView.CLOSED);
 
-    const token = AuthControl.getInfoFromToken();
     if (!token) {
-      setErrorMessage('로그인이 유효하지 않습니다');
+      toastErrorMessage('로그인이 유효하지 않습니다');
       return;
     }
 
@@ -53,32 +67,43 @@ function NavModal({isOpen, setIsOpen}: { isOpen: boolean, setIsOpen: (isOpen: bo
       {errorBody: 'Invalid email format', errorMessage: '잘못된 메일 형식입니다'},
     ];
     API.fetch('/api/v2/auth/password/reset', 'POST', {email}, Errors, navigate)
-      .then(() => {
-        setMessageOpened(true);
-        setTimeout(() => setMessageOpened(false), 3000);
-      });
+      .then(toastSendMail);
   }
 
-  return !isOpen ? null : (
-    <div className='dialog_background nav_dialog_background login_page'
-         onClick={closeDialog}>
-      <div className='dialog'
-           onClick={e => e.stopPropagation()}>
-        <h2>정보 수정</h2>
+  function toastSendMail() {
+    setToastType(ToastView.TOAST_NORMAL);
+    setToastMessage('가입하신 이메일로 변경 링크를 발송했습니다');
+  }
 
-        {ErrorBox}
+  function toastErrorMessage(message: string) {
+    setToastType(ToastView.TOAST_ERROR);
+    setToastMessage(message);
+  }
 
-        {messageOpened && (
-          <p className='message_box'>
-            가입하신 이메일로 <br/>
-            변경 링크를 전송했습니다
-          </p>
-        )}
-        <button onClick={changePassword}>비밀번호 변경</button>
-        <button onClick={() => AuthControl.logout(navigate)}>로그아웃</button>
+  return (
+    <>
+      <div className='toast_box'>
+        <p className={ToastClass[toastType]}>
+          {toastMessage}
+        </p>
       </div>
-    </div>
-  )
+
+      {isOpen && (
+        <div className='dialog_background nav_dialog_background login_page'
+             onClick={closeDialog}>
+          <div className='dialog'
+               onClick={e => e.stopPropagation()}>
+            <ul>
+              <li><span>{token.sub}</span></li>
+              <li><button onClick={changePassword}>비밀번호 변경</button></li>
+              <li><button onClick={() => AuthControl.logout(navigate)}>로그아웃</button></li>
+            </ul>
+          </div>
+        </div>
+      )
+      }
+    </>
+  );
 }
 
 export default NavModal;

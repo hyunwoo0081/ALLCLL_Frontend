@@ -43,11 +43,11 @@ function DashBoardPage() {
               <tr key={index} className={record.numberOfRegisteredCourses >= record.numberOfCoursesToRegister ? 'highlight' : ''}>
                 <td className='bold center'>{record.id}</td>
                 <td className='center'>{getDateString(record.date)}</td>
-                <td className={record.numberOfRegisteredCourses >= record.numberOfCoursesToRegister ? 'center bold' : 'center'}>
-                  {record.numberOfRegisteredCourses >= record.numberOfCoursesToRegister ? '올클' : `${record.numberOfRegisteredCourses}개`}
+                <td className={record.numberOfRegisteredCourses >= record.numberOfCoursesToRegister ? 'center bold red' : 'center'}>
+                  {record.numberOfRegisteredCourses >= record.numberOfCoursesToRegister ? '올클' : `${record.numberOfRegisteredCourses}/${record.numberOfCoursesToRegister}개`}
                 </td>
-                <td>{getTimerString(record.takenTime)}</td>
-                <td>{record.coursesDetail}</td>
+                <td className='red'>{getTimerString(record.takenTime)}</td>
+                <td className='width_50_overflow'>{record.coursesDetail}</td>
               </tr>
             ))}
             </tbody>

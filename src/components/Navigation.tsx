@@ -54,6 +54,10 @@ function Navigation() {
             <ul>
               {NavRoutes.map((route, index) => (
                 <li key={index}
+                    onClick={() => {
+                      if (location.pathname !== route.path)
+                        navigate(route.path);
+                    }}
                     className={location.pathname === route.path ? 'selected' : ''}>
                   <Link to={route.path}
                         className={location.pathname === route.path ? 'selected' : ''}>

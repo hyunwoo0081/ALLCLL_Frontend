@@ -222,9 +222,8 @@ table {
   }
 
   .highlight {
-    color: $primary-color;
-    &.bold {
-      color: $primary-color-hover;
+    .red {
+      color: $primary-color;
     }
   }
   .center {
@@ -232,5 +231,11 @@ table {
   }
   .bold {
     font-weight: 600;
+  }
+  .width_50_overflow {
+    max-width: 30vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }

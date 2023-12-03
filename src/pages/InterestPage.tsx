@@ -62,8 +62,7 @@ function InterestPage() {
         })
         .catch(() => {
           setLazyStatus(prev => prev !== LazyStatus.Changed ? LazyStatus.Rejected : prev);
-        })
-        .finally(() => setSearching(false));
+        });
     }, 1500);
 
     return () => clearTimeout(debounceTimer);
@@ -72,20 +71,20 @@ function InterestPage() {
   function searchSubjects() {
     let isValid = true;
     SearchTitles.filter(title => !SearchDisabled.includes(title)).forEach(title => {
-      if (searchValues[title as keyof typeof searchValues].length < 2) {
+      if (searchValues[title as keyof typeof searchValues].split(' ').join('').length < 2) {
         isValid = false;
       }
     });
 
     if (!isValid) {
-      alert('교과목명과 교수명을 두 글자 이상 입력해주세요');
+      alert('교과목명과 교수명을 공백 제외 두 글자 이상 입력해주세요');
       return;
     }
 
     const searchParams: { [key: string]: string } = {};
     for (const key in searchValues) {
       if (searchValues[key as keyof typeof searchValues]) {
-        searchParams[key] = searchValues[key as keyof typeof searchValues];
+        searchParams[key] = searchValues[key as keyof typeof searchValues].split(' ').join('');
       }
     }
 
