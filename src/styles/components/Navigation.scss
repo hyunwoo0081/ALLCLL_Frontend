@@ -11,6 +11,7 @@ nav.navigation {
 
   background: $background-color;
   border-bottom: 1px solid var(--light-gray, #E6E6E6);
+  z-index: 90;
 
   div.navigation_flex {
     display: flex;
@@ -159,7 +160,7 @@ div.toast_box {
 
   max-width: 800px;
   margin: 0 auto;
-  z-index: 1020;
+  z-index: 120;
 
   p {
     display: flex;
