@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useRef, useState} from 'react';
 import {Link, useLocation, useNavigate} from 'react-router-dom';
 import useLogin from '../hooks/useLogin.ts';
 import NavModal from './NavModal.tsx';
@@ -23,10 +23,16 @@ const NavRoutes = [
 function Navigation() {
   const location = useLocation();
   const navigate = useNavigate();
+  const ref = useRef<HTMLButtonElement>(null)
   
   const [modalOpened, setModalOpened] = useState<boolean>(false);
   
   const {isLogin} = useLogin();
+
+  function openModal() {
+    setModalOpened(true);
+    ref.current?.blur();
+  }
 
   return (
     <>
@@ -39,7 +45,7 @@ function Navigation() {
           </div>
           {isLogin ? (
             <div className='auth_layout'>
-              <button className='image_button' onClick={() => setModalOpened(true)}>
+              <button className='image_button' onClick={openModal} ref={ref}>
                 <img src='/Darhboard.svg' alt=''/>
               </button>
             </div>
