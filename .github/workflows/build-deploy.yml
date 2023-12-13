@@ -43,8 +43,8 @@ jobs:
 
     - name: Change Build Directory
       run: |
-        mkdir -p ./pages/build
-        cp -r build ./pages
+        mkdir -p ./pages/dist
+        cp -r dist ./pages
         cp package.json ./pages/package.json
         cp package-lock.json ./pages/package-lock.json
 
