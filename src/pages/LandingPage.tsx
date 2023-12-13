@@ -35,7 +35,7 @@ function LandingPage() {
         <section>
           <div className='container'>
             <div>
-              <img src='/vite.svg' alt=''/>
+              <img src='/Logo.png' alt=''/>
             </div>
             <div>
               <h2>실제와 비슷한 환경</h2>
@@ -56,7 +56,7 @@ function LandingPage() {
               <button onClick={() => navigate('/login')}>로그인 하기</button>
             </div>
             <div>
-              <img src='/vite.svg' alt=''/>
+              <img src='/Logo.png' alt=''/>
 
             </div>
           </div>
