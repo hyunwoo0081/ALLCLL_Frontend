@@ -23,7 +23,7 @@ function Login4PasswordPage() {
   useEffect(() => {
     if (isLogin)
       navigate('/', {replace: true});
-    document.title = 'AllCll | 로그인';
+    document.title = 'ALLCLL | 로그인';
   }, [isLogin, navigate]);
 
   useEffect(() => {
@@ -82,7 +82,7 @@ function Login4PasswordPage() {
   return (
     <PageDefaultLayout className='login_page'>
       <div className='login_layout'>
-        <h1>AllCll 로그인</h1>
+        <h1>ALLCLL 로그인</h1>
 
         {ErrorBox}
 

@@ -22,7 +22,7 @@ function Login4EmailPage() {
   useEffect(() => {
     if (isLogin)
       navigate('', {replace: true});
-    document.title = 'AllCll | 이메일 로그인';
+    document.title = 'ALLCLL | 이메일 로그인';
   }, [isLogin, navigate]);
 
   useEffect(() => {
@@ -71,7 +71,7 @@ function Login4EmailPage() {
   return (
     <PageDefaultLayout className='login_page'>
       <div className='login_layout'>
-        <h1>AllCll 이메일 로그인</h1>
+        <h1>ALLCLL 이메일 로그인</h1>
 
         {ErrorBox}
 

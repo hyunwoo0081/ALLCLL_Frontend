@@ -7,7 +7,7 @@ function LandingPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = 'AllCll | 수강 신청 연습';
+    document.title = 'ALLCLL | 수강 신청 연습';
   }, []);
   
   return (

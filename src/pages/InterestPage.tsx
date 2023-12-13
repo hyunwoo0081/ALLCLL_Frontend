@@ -39,7 +39,7 @@ function InterestPage() {
       .catch(e => console.error(e))
       .finally(() => setFetching(false));
 
-    document.title = 'AllCll | 관심과목';
+    document.title = 'ALLCLL | 관심과목';
   }, [navigate]);
 
   useEffect(() => {

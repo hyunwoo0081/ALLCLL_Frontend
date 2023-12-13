@@ -15,7 +15,7 @@ function JwtLogin() {
   useEffect(() => {
     if (isLogin)
       navigate('/', {replace: true});
-    document.title = 'AllCll | 개발자 로그인';
+    document.title = 'ALLCLL | 개발자 로그인';
   }, [isLogin, navigate]);
 
   useEffect(() => {
@@ -39,7 +39,7 @@ function JwtLogin() {
   return (
     <PageDefaultLayout className='login_page'>
       <div className='login_layout'>
-        <h1>AllCll 개발자 로그인</h1>
+        <h1>ALLCLL 개발자 로그인</h1>
 
         <input type='text'
                placeholder='JWT 인증번호'

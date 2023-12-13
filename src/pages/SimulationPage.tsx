@@ -29,7 +29,7 @@ function SimulationPage() {
   const [appliedSubjects, setAppliedSubjects] = useState<ISubject[]>([]);
   const [submitStatus, setSubmitStatus] = useState<ApplyType[]>([]);
 
-  document.title = 'AllCll | 수강신청';
+  document.title = 'ALLCLL | 수강신청';
 
   // 이미 시뮬레이션 진행 중인지 확인
   useEffect(() => {

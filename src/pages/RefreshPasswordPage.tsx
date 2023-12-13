@@ -76,7 +76,7 @@ function RefreshPasswordPage() {
   return (
     <PageDefaultLayout className='login_page'>
       <div className='login_layout'>
-        <h1>AllCll 비밀번호 변경</h1>
+        <h1>ALLCLL 비밀번호 변경</h1>
 
         {ErrorBox}
 
