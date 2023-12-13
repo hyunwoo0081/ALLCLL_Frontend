@@ -83,6 +83,5 @@ jobs:
         script: |
             cd ${{ secrets.PWD }}
             git pull https://${{ secrets.GIT_TOKEN }}:x-oauth-basic@github.com/hyunwoo0081/SoogangFrontend.git gh-pages
-            npm install
-            sudo systemctl start nginx
+            sudo systemctl restart nginx
             # 필요한 cmd 명령어 사용
