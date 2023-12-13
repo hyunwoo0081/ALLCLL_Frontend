@@ -21,7 +21,7 @@ function LandingPage() {
                 수강 신청 연습
               </h1>
               <p>
-                실제 수강 신청 방식과 비슷하게 <br/>
+                실제 수강 신청 방식과 유사한 <br/>
                 수강 신청을 연습해보세요.
               </p>
               <button onClick={() => navigate('/login')}>로그인 하기</button>
