@@ -19,7 +19,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     env:
-      working-directory: ./frontend
+      working-directory: ./
 
     steps:
       - name: Checkout code
