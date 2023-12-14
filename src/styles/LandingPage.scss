@@ -24,6 +24,22 @@ div.landing_page {
       text-align: center;
       gap: 32px;
 
+      @media (max-width: 768px) {
+        box-sizing: border-box;
+        flex-direction: column;
+        width: 100%;
+        padding: 0 16px;
+
+        & > * {
+          align-items: center;
+          justify-content: center;
+        }
+
+        h1, h2, p {
+          text-align: center;
+        }
+      }
+
       max-width: 1200px;
       height: 720px;
 
@@ -56,8 +72,8 @@ div.landing_page {
     }
 
     img {
-      width: 280px;
-      height: 280px;
+      width: min(280px, 90vw);
+      height: min(280px, 90vw);
     }
   }
 

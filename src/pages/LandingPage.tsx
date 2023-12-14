@@ -32,35 +32,35 @@ function LandingPage() {
           </div>
         </section>
 
-        <section>
-          <div className='container'>
-            <div>
-              <img src='/Logo.png' alt=''/>
-            </div>
-            <div>
-              <h2>실제와 비슷한 환경</h2>
-              <p>
-                ALLCLL는 수강 신청을 연습하고 각종 기능을 테스트할 수 있는 환경을 제공합니다.
-              </p>
-            </div>
-          </div>
-        </section>
+        {/*<section>*/}
+        {/*  <div className='container'>*/}
+        {/*    <div>*/}
+        {/*      <img src='/Logo.png' alt=''/>*/}
+        {/*    </div>*/}
+        {/*    <div>*/}
+        {/*      <h2>실제와 비슷한 환경</h2>*/}
+        {/*      <p>*/}
+        {/*        ALLCLL는 수강 신청을 연습하고 각종 기능을 테스트할 수 있는 환경을 제공합니다.*/}
+        {/*      </p>*/}
+        {/*    </div>*/}
+        {/*  </div>*/}
+        {/*</section>*/}
 
-        <section>
-          <div className='container'>
-            <div>
-              <h2>다양한 과목</h2>
-              <p>
-                여러 과목을 탐험하고 원하는 수업을 찾아보세요. 실제 수강 신청과 비슷한 프로세스를 경험하면서 미리 준비해보세요!
-              </p>
-              <button onClick={() => navigate('/login')}>로그인 하기</button>
-            </div>
-            <div>
-              <img src='/Logo.png' alt=''/>
+        {/*<section>*/}
+        {/*  <div className='container'>*/}
+        {/*    <div>*/}
+        {/*      <h2>다양한 과목</h2>*/}
+        {/*      <p>*/}
+        {/*        여러 과목을 탐험하고 원하는 수업을 찾아보세요. 실제 수강 신청과 비슷한 프로세스를 경험하면서 미리 준비해보세요!*/}
+        {/*      </p>*/}
+        {/*      <button onClick={() => navigate('/login')}>로그인 하기</button>*/}
+        {/*    </div>*/}
+        {/*    <div>*/}
+        {/*      <img src='/Logo.png' alt=''/>*/}
 
-            </div>
-          </div>
-        </section>
+        {/*    </div>*/}
+        {/*  </div>*/}
+        {/*</section>*/}
 
         <footer>
           <div className='container'>
