@@ -12,39 +12,48 @@ import Page404 from '../pages/Page404.tsx';
 const RouteMap = [
     {
         path: '/',
-        element: (<LandingPage />)
+        element: (<LandingPage />),
+        auth: ['GUEST']
     },
     {
         path: '/dashboard',
-        element: (<DashBoardPage />)
+        element: (<DashBoardPage />),
+        auth: ['USER']
     },
     {
         path: '/interest',
-        element: (<InterestPage />)
+        element: (<InterestPage />),
+        auth: ['USER']
     },
     {
         path: '/simulation',
-        element: (<SimulationPage />)
+        element: (<SimulationPage />),
+        auth: ['USER']
     },
     {
         path: '/login',
-        element: (<LoginRouter />)
+        element: (<LoginRouter />),
+        auth: ['GUEST']
     },
     {
         path: '/login/email',
-        element: (<Login4EmailPage />)
+        element: (<Login4EmailPage />),
+        auth: ['GUEST']
     },
     {
         path: '/login/email/auth',
-        element: (<LoginEmailAuthPage />)
+        element: (<LoginEmailAuthPage />),
+        auth: ['GUEST']
     },
     {
         path: '/login/password',
-        element: (<Login4PasswordPage />)
+        element: (<Login4PasswordPage />),
+        auth: ['GUEST']
     },
     {
         path: '/refresh/password',
-        element: (<RefreshPasswordPage />)
+        element: (<RefreshPasswordPage />),
+        auth: ['GUEST']
     },
     // {
     //     path: '/login/dev',
@@ -52,7 +61,8 @@ const RouteMap = [
     // },
     {
         path: '*',
-        element: (<Page404 />)
+        element: (<Page404 />),
+        auth: ['USER']
     },
 ]
 
