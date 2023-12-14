@@ -31,6 +31,7 @@ div.landing_page {
 
       @media (max-width: 768px) {
         width: auto;
+        padding: 0 16px;
       }
 
       .center_contents {
@@ -39,11 +40,13 @@ div.landing_page {
         align-items: center;
         gap: 16px;
 
+        button {
+          width: 400px;
+        }
+
         @media (max-width: 768px) {
           flex-direction: column;
-          box-sizing: border-box;
           width: 100%;
-          padding: 0 16px;
 
           height: auto;
 
@@ -58,10 +61,10 @@ div.landing_page {
           img {
             margin: 0;
           }
-        }
 
-        button {
-          width: 400px;
+          button {
+            width: 100%;
+          }
         }
       }
 
