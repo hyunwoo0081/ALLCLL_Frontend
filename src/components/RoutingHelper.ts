@@ -3,6 +3,7 @@ import {useLocation, useNavigate} from 'react-router-dom';
 import useMobile from '../hooks/useMobile.ts';
 import useLogin from '../hooks/useLogin.ts';
 import RouteMap from "../constant/RouteMap.tsx";
+import authControl from "../constant/AuthControl.ts";
 
 function RoutingHelper() {
   const location = useLocation();
@@ -25,7 +26,7 @@ function RoutingHelper() {
       return;
     }
     if (route.auth.includes('USER') && !isLogin) {
-      navigate('/');
+      authControl.logout(navigate, '/');
       return;
     }
     
