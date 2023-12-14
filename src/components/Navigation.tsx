@@ -1,5 +1,6 @@
 import {useRef, useState} from 'react';
 import {Link, useLocation, useNavigate} from 'react-router-dom';
+import useMobile from '../hooks/useMobile.ts';
 import useLogin from '../hooks/useLogin.ts';
 import NavModal from './NavModal.tsx';
 import AuthControl from '../constant/AuthControl.ts';
@@ -28,6 +29,7 @@ function Navigation() {
   const [modalOpened, setModalOpened] = useState<boolean>(false);
   
   const {isLogin} = useLogin();
+  const {isMobile} = useMobile();
 
   function openModal() {
     setModalOpened(true);
@@ -43,7 +45,10 @@ function Navigation() {
             {/*<img src='/CI.svg' alt=''/>*/}
             <h2>ALLCLL</h2>
           </div>
-          {isLogin ? (
+          {isMobile ? (
+            <div className='auth_layout'>
+            </div>
+          ) : isLogin ? (
             <div className='auth_layout'>
               <button className='image_button' onClick={openModal} ref={ref}>
                 <img src='/Darhboard.svg' alt=''/>

@@ -1,10 +1,12 @@
 import {useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import PageDefaultLayout from '../layouts/PageDefaultLayout.tsx';
+import useMobile from '../hooks/useMobile.ts';
 import '@styles/LandingPage.scss';
 
 function LandingPage() {
   const navigate = useNavigate();
+  const {isMobile} = useMobile();
 
   useEffect(() => {
     document.title = 'ALLCLL | 수강 신청 연습';
@@ -24,7 +26,11 @@ function LandingPage() {
                 실제 수강 신청 방식과 유사한 <br/>
                 수강 신청을 연습해보세요.
               </p>
-              <button onClick={() => navigate('/login')}>로그인 하기</button>
+              {isMobile ? (
+                <button disabled>데스크탑에서 실행하세요</button>
+              ) : (
+                <button onClick={() => navigate('/login')}>로그인 하기</button>
+              )}
             </div>
             <div>
               <img src='/Logo.png' alt=''/>
