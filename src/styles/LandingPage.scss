@@ -29,22 +29,35 @@ div.landing_page {
       align-items: center;
       justify-content: center;
 
+      @media (max-width: 768px) {
+        width: auto;
+      }
+
       .center_contents {
         display: flex;
         justify-content: center;
         align-items: center;
         gap: 16px;
-      }
 
-      @media (max-width: 768px) {
-        box-sizing: border-box;
-        width: 100%;
-        padding: 0 16px;
+        @media (max-width: 768px) {
+          flex-direction: column;
+          box-sizing: border-box;
+          width: 100%;
+          padding: 0 16px;
 
-        height: auto;
+          height: auto;
 
-        h1, h2, p {
-          text-align: center;
+          h1, h2, p {
+            text-align: center;
+          }
+
+          h1 {
+            margin: 0 0 32px 0;
+          }
+
+          button {
+            width: 100%;
+          }
         }
       }
 
