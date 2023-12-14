@@ -55,9 +55,13 @@ div.landing_page {
             margin: 0 0 32px 0;
           }
 
-          button {
-            width: 100%;
+          img {
+            margin: 0;
           }
+        }
+
+        button {
+          width: 400px;
         }
       }
 
@@ -91,6 +95,7 @@ div.landing_page {
     img {
       width: min(280px, 90vw);
       height: min(280px, 90vw);
+      margin-right: 120px;
     }
   }
 
