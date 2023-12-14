@@ -17,23 +17,25 @@ function LandingPage() {
       <PageDefaultLayout className='landing_page no_responsive'>
         <section>
           <div className='container figma'>
-            <div>
-              <h1>
-                세종대학교 <br/>
-                수강 신청 연습
-              </h1>
-              <p>
-                실제 수강 신청 방식과 유사한 <br/>
-                수강 신청을 연습해보세요.
-              </p>
-              {isMobile ? (
-                <button disabled>데스크탑에서 실행하세요</button>
-              ) : (
-                <button onClick={() => navigate('/login')}>로그인 하기</button>
-              )}
-            </div>
-            <div>
-              <img src='/Logo.png' alt=''/>
+            <div className='center_contents'>
+              <div>
+                <h1>
+                  세종대학교 <br/>
+                  수강 신청 연습
+                </h1>
+                <p>
+                  실제 수강 신청 방식과 유사한 <br/>
+                  수강 신청을 연습해보세요.
+                </p>
+                {isMobile ? (
+                  <button disabled>데스크탑에서 실행하세요</button>
+                ) : (
+                  <button onClick={() => navigate('/login')}>로그인 하기</button>
+                )}
+              </div>
+              <div>
+                <img src='/Logo.png' alt=''/>
+              </div>
             </div>
           </div>
         </section>

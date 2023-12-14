@@ -25,20 +25,23 @@ div.landing_page {
       gap: 32px;
 
       max-width: 1200px;
-      height: calc(100vh - 66px);
+      height: calc(100vh - 80px);
+      align-items: center;
+      justify-content: center;
+
+      .center_contents {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+      }
 
       @media (max-width: 768px) {
         box-sizing: border-box;
-        flex-direction: column;
         width: 100%;
         padding: 0 16px;
 
         height: auto;
-
-        & > * {
-          align-items: center;
-          justify-content: center;
-        }
 
         h1, h2, p {
           text-align: center;
@@ -48,13 +51,12 @@ div.landing_page {
       & > * {
         flex: 1;
         display: flex;
-        flex-direction: column;
         justify-content: center;
       }
     }
 
     h1 {
-      margin: 64px 0 32px 0;
+      margin: 0 0 32px 0;
       font-size: 48px;
       text-align: left;
       line-height: 1.2;
