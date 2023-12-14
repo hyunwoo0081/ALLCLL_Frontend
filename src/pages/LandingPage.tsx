@@ -68,11 +68,11 @@ function LandingPage() {
         {/*  </div>*/}
         {/*</section>*/}
 
-        <footer>
-          <div className='container'>
-            <p>© 2023 ALLCLL. All rights reserved.</p>
-          </div>
-        </footer>
+        {/*<footer>*/}
+        {/*  <div className='container'>*/}
+        {/*    <p>© 2023 ALLCLL. All rights reserved.</p>*/}
+        {/*  </div>*/}
+        {/*</footer>*/}
       </PageDefaultLayout>
 
     </>

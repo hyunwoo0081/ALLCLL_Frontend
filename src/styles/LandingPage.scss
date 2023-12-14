@@ -24,11 +24,16 @@ div.landing_page {
       text-align: center;
       gap: 32px;
 
+      max-width: 1200px;
+      height: calc(100vh - 66px);
+
       @media (max-width: 768px) {
         box-sizing: border-box;
         flex-direction: column;
         width: 100%;
         padding: 0 16px;
+
+        height: auto;
 
         & > * {
           align-items: center;
@@ -39,9 +44,6 @@ div.landing_page {
           text-align: center;
         }
       }
-
-      max-width: 1200px;
-      height: 720px;
 
       & > * {
         flex: 1;
