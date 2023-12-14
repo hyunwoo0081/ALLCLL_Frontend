@@ -1,16 +1,14 @@
 import {useEffect} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
 import useMobile from '../hooks/useMobile.ts';
-import useLogin from '../hooks/useLogin.ts';
 import RouteMap from '../constant/RouteMap.tsx';
 import authControl from '../constant/AuthControl.ts';
 
 function RoutingHelper() {
   const location = useLocation();
   const navigate = useNavigate();
-  
+
   const {isMobile} = useMobile();
-  const {isLogin} = useLogin();
   
   useEffect(() => {
     if (isMobile) {
@@ -19,6 +17,9 @@ function RoutingHelper() {
       }
       return;
     }
+
+    const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1');
+    const isLogin = !!token;
 
     const route = RouteMap.find(v => v.path === location.pathname);
 
@@ -32,7 +33,7 @@ function RoutingHelper() {
       return;
     }
     
-  }, [location, isMobile, isLogin]);
+  }, [location, isMobile]);
 
   return null;
 }
