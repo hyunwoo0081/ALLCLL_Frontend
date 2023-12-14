@@ -1,7 +1,6 @@
 import {useEffect, useRef, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import PageDefaultLayout from '../../layouts/PageDefaultLayout.tsx';
-import useLogin from '../../hooks/useLogin.ts';
 import useLoginErrorBox from '../../hooks/useLoginErrorBox.tsx';
 import CheckFetchError from '../../constant/CheckFetchError.ts';
 import CheckStringType from '../../constant/CheckStringType.ts';
@@ -19,12 +18,9 @@ function Login4PasswordPage() {
   const EmailInputRef = useRef<HTMLInputElement>(null);
   const PasswordInputRef = useRef<HTMLInputElement>(null);
 
-  const {isLogin} = useLogin();
   useEffect(() => {
-    if (isLogin)
-      navigate('/', {replace: true});
     document.title = 'ALLCLL | 로그인';
-  }, [isLogin, navigate]);
+  }, [navigate]);
 
   useEffect(() => {
     EmailInputRef.current?.focus();

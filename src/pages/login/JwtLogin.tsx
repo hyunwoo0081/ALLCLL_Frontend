@@ -1,7 +1,6 @@
 import {useEffect, useRef, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import PageDefaultLayout from '../../layouts/PageDefaultLayout.tsx';
-import useLogin from '../../hooks/useLogin.ts';
 import AuthControl from '../../constant/AuthControl.ts';
 import '@styles/LoginPage.scss';
 
@@ -11,12 +10,9 @@ function JwtLogin() {
 
   const AuthCodeInputRef = useRef<HTMLInputElement>(null);
 
-  const {isLogin} = useLogin();
   useEffect(() => {
-    if (isLogin)
-      navigate('/', {replace: true});
     document.title = 'ALLCLL | 개발자 로그인';
-  }, [isLogin, navigate]);
+  }, [navigate]);
 
   useEffect(() => {
     AuthCodeInputRef.current?.focus();

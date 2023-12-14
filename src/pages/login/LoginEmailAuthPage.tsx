@@ -1,7 +1,6 @@
 import {useEffect, useRef, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import PageDefaultLayout from '../../layouts/PageDefaultLayout.tsx';
-import useLogin from '../../hooks/useLogin.ts';
 import CheckFetchError from '../../constant/CheckFetchError.ts';
 import useLoginErrorBox from '../../hooks/useLoginErrorBox.tsx';
 import {AUTH_LIMIT_TIME} from './Login4EmailPage.tsx';
@@ -21,12 +20,9 @@ function LoginEmailAuthPage() {
   const AuthCodeInputRef = useRef<HTMLInputElement>(null);
   const {setErrorMessage, ErrorBox} = useLoginErrorBox();
 
-  const {isLogin} = useLogin();
   useEffect(() => {
-    if (isLogin)
-      navigate('/', {replace: true});
     document.title = 'ALLCLL | 이메일 로그인';
-  }, [isLogin, navigate]);
+  }, [navigate]);
 
   useEffect(() => {
     AuthCodeInputRef.current?.focus();
