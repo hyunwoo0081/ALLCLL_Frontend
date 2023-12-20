@@ -32,6 +32,8 @@ jobs:
 
       - name: Install NPM packages
         run: npm ci
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         working-directory: ${{env.working-directory}}
 
       - name: Build project
