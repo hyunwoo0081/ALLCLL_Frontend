@@ -4,7 +4,8 @@ import react from '@vitejs/plugin-react'
 import path from 'path';
 
 // https://vitejs.dev/config/
-const TargetServer = 'http://localhost:8080';
+// const TargetServer = 'http://localhost:8080';
+const TargetServer = 'http://allcll.site';
 export default defineConfig({
   plugins: [react(), sentryVitePlugin({
     org: "allcll",
