@@ -1,6 +1,7 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import DialogTemplate from '../DialogTemplate.tsx';
 import {ApplyType} from '../../constant/types.ts';
+import CheckStringType from '../../constant/CheckStringType.ts';
 import API from '../../constant/API.ts';
 import '@styles/dialog/MacroDialog.scss';
 
@@ -26,6 +27,12 @@ function MacroDialog({isOpen, closeDialog, nextStep, playId, macroNumber, setMac
     refreshCaptcha();
   }, [isOpen]);
 
+  function captchaRestrict(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value;
+
+    setMacroNumber(value.replace(/[^0-9]/g, '').slice(0, 4));
+  }
+
   function refreshCaptcha() {
     API.fetch2Json('/api/v2/mock/captcha', 'GET', {playId}, [], () => {})
       .then((res) => setCaptcha(res.image))
@@ -33,14 +40,14 @@ function MacroDialog({isOpen, closeDialog, nextStep, playId, macroNumber, setMac
   }
   
   function submit() {
-    if (!macroNumber) {
+    if (!CheckStringType.captcha(macroNumber)) {
       alert('코드를 입력해주세요');
       return;
     }
 
     nextStep();
   }
-  
+
   return (
     <DialogTemplate isOpen={isOpen}>
       <div className='dialog_header'>
@@ -71,7 +78,7 @@ function MacroDialog({isOpen, closeDialog, nextStep, playId, macroNumber, setMac
             <input type='text'
                    placeholder='코드입력'
                    value={macroNumber}
-                   onChange={e => setMacroNumber(e.target.value)}/>
+                   onChange={captchaRestrict}/>
           </div>
         </div>
       </div>

@@ -10,6 +10,10 @@ const CheckStringType = {
   authCode(authCode: string) {
     const authCodeRegex = /^[A-Z0-9]{6}$/;
     return authCodeRegex.test(authCode);
+  },
+  captcha(captcha: string) {
+    const captchaRegex = /^[0-9]{4}$/;
+    return captchaRegex.test(captcha);
   }
 }
 
