@@ -22,7 +22,7 @@ export interface IRecentDataResponse {
 }
 
 export enum ApplyType {
-  Macro, Apply, SUCCESS, FAIL, DONE, FINISHED
+  MACRO, APPLY, SUCCESS, FAILED, DONE, MACRO_FAILED, FINISHED
 }
 
 export const DataFormats = {

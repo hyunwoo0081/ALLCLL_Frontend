@@ -8,11 +8,12 @@ interface IMacroDialog {
   isOpen: boolean;
   closeDialog: () => void;
   nextStep: (_?:ApplyType) => void;
+  answer: string;
   selectedSubject: ISubject|null;
   setFinishTrigger: (trigger: boolean) => void;
 }
 
-function SubjectApplyDialog({isOpen, closeDialog, nextStep, selectedSubject, setFinishTrigger}: IMacroDialog) {
+function SubjectApplyDialog({isOpen, closeDialog, nextStep, answer, selectedSubject, setFinishTrigger}: IMacroDialog) {
   const navigate = useNavigate();
   
   function submit() {
@@ -31,6 +32,7 @@ function SubjectApplyDialog({isOpen, closeDialog, nextStep, selectedSubject, set
 
     const request = {
       playId,
+      answer,
       courseId,
       classId,
       offeringDepartment
@@ -39,12 +41,13 @@ function SubjectApplyDialog({isOpen, closeDialog, nextStep, selectedSubject, set
     const Errors = [
       {errorBody: 'Mock not found', errorMessage: '수강신청이 존재하지 않습니다', action: closeDialog},
       {errorBody: 'Course not found', errorMessage: '존재하지 않는 과목입니다', action: closeDialog},
-      {errorBody: 'Registered already', errorMessage: '이미 신청된 과목입니다', action: () => nextStep(ApplyType.DONE)}
+      {errorBody: 'Registered already', errorMessage: '이미 신청된 과목입니다', action: () => nextStep(ApplyType.DONE)},
+      {errorBody: 'Captcha authentication failed', errorMessage: '캡챠 인증 실패', action: () => nextStep(ApplyType.MACRO_FAILED)}
     ];
     API.fetch2Json('/api/v2/mock/register', 'POST', request, Errors, navigate)
       .then((res) => {
         console.log(res);
-        nextStep(res.succeed ? ApplyType.SUCCESS : ApplyType.FAIL);
+        nextStep(res.succeed ? ApplyType.SUCCESS : ApplyType.FAILED);
         setFinishTrigger(res.finished);
       })
       .catch((err) => {

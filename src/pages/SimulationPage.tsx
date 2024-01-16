@@ -11,6 +11,7 @@ import {ApplyType, DataFormats, ISubject} from '../constant/types.ts';
 import {IErrorTypes} from '../constant/CheckFetchError.ts';
 import API from '../constant/API.ts';
 import '@styles/components/TableStyle.scss';
+import FailedMacroDialog from "../layouts/dialog/FailedMacroDialog.tsx";
 
 const StatusClass = ['', '', 'success', 'fail', 'done'];
 
@@ -18,7 +19,8 @@ function SimulationPage() {
   const navigate = useNavigate();
   
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-  const [applyType, setApplyType] = useState<ApplyType>(ApplyType.Macro);
+  const [applyType, setApplyType] = useState<ApplyType>(ApplyType.MACRO);
+  const [macroNumber, setMacroNumber] = useState<string>('');
   const [selectedSubject, setSelectedSubject] = useState<ISubject|null>(null);
 
   const [onSimulation, setOnSimulation] = useState<boolean>(false);
@@ -73,15 +75,16 @@ function SimulationPage() {
   }, [onSimulation, simulationFinishTrigger, isDialogOpen]);
 
   function openDialog(subject: ISubject) {
+    setMacroNumber('');
     setSelectedSubject(subject);
-    setApplyType(ApplyType.Macro);
+    setApplyType(ApplyType.MACRO);
     setIsDialogOpen(true);
   }
   function closeDialog() {
     setIsDialogOpen(false);
-    setApplyType(ApplyType.Macro);
+    setApplyType(ApplyType.MACRO);
 
-    if (applyType === ApplyType.SUCCESS || applyType === ApplyType.FAIL) {
+    if (applyType === ApplyType.SUCCESS || applyType === ApplyType.FAILED) {
       if (appliedSubjects.some((subject) => sameSubject(subject, selectedSubject!)))
         return;
 
@@ -159,11 +162,12 @@ function SimulationPage() {
 
   return (
     <>
-      <MacroDialog isOpen={isDialogOpen && applyType === ApplyType.Macro} closeDialog={closeDialog} nextStep={nextStep} playId={simulationId}/>
-      <SubjectApplyDialog isOpen={isDialogOpen && applyType === ApplyType.Apply} closeDialog={closeDialog} nextStep={nextStep} selectedSubject={selectedSubject} setFinishTrigger={setSimulationFinishTrigger}/>
+      <MacroDialog isOpen={isDialogOpen && applyType === ApplyType.MACRO} closeDialog={closeDialog} nextStep={nextStep} playId={simulationId} macroNumber={macroNumber} setMacroNumber={setMacroNumber}/>
+      <SubjectApplyDialog isOpen={isDialogOpen && applyType === ApplyType.APPLY} closeDialog={closeDialog} nextStep={nextStep} answer={macroNumber} selectedSubject={selectedSubject} setFinishTrigger={setSimulationFinishTrigger}/>
       <ApplySuccessDialog isOpen={isDialogOpen && applyType === ApplyType.SUCCESS} closeDialog={closeDialog} nextStep={nextStep}/>
-      <ApplyFailDialog isOpen={isDialogOpen && applyType === ApplyType.FAIL} closeDialog={closeDialog}/>
+      <ApplyFailDialog isOpen={isDialogOpen && applyType === ApplyType.FAILED} closeDialog={closeDialog}/>
       <ApplyDoneDialog isOpen={isDialogOpen && applyType === ApplyType.DONE} closeDialog={closeDialog}/>
+      <FailedMacroDialog isOpen={isDialogOpen && applyType === ApplyType.MACRO_FAILED} closeDialog={closeDialog}/>
       <FinishDialog isOpen={isDialogOpen && applyType === ApplyType.FINISHED} closeDialog={closeDialog} playId={simulationId}/>
 
       <PageDefaultLayout className=''>

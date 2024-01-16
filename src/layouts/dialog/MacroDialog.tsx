@@ -1,7 +1,6 @@
 import {useEffect, useState} from 'react';
 import DialogTemplate from '../DialogTemplate.tsx';
 import {ApplyType} from '../../constant/types.ts';
-import {IErrorTypes} from '../../constant/CheckFetchError.ts';
 import API from '../../constant/API.ts';
 import '@styles/dialog/MacroDialog.scss';
 
@@ -10,15 +9,16 @@ interface IMacroDialog {
   closeDialog: () => void;
   nextStep: (_?:ApplyType) => void;
   playId: number,
+  macroNumber: string,
+  setMacroNumber: (_:string) => void,
 }
 
-function MacroDialog({isOpen, closeDialog, nextStep, playId}: IMacroDialog) {
-  const [authCode, setAuthCode] = useState<string>('');
+function MacroDialog({isOpen, closeDialog, nextStep, playId, macroNumber, setMacroNumber}: IMacroDialog) {
   const [captcha, setCaptcha] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   useEffect(() => {
-    setAuthCode('');
+    setMacroNumber('');
     setCaptcha('');
     
     if (!isOpen) return;
@@ -33,21 +33,12 @@ function MacroDialog({isOpen, closeDialog, nextStep, playId}: IMacroDialog) {
   }
   
   function submit() {
-    if (!authCode) {
+    if (!macroNumber) {
       alert('코드를 입력해주세요');
       return;
     }
 
-    const Errors: IErrorTypes[] = [
-      {errorBody: 'Mock not found', errorMessage: '시뮬레이션을 찾을 수 없습니다.', action: () => localStorage.removeItem('playId')},
-      {errorBody: 'Captcha authentication failed', errorMessage: '잘못된 코드입니다', action: () => alert('잘못된 코드입니다')},
-    ]
-    API.fetch('/api/v2/mock/captcha/check', 'POST', {playId, authCode}, Errors, () => {})
-      .then((res) => {
-        console.log(res);
-        nextStep();
-      })
-      .catch((err) => console.error(err))
+    nextStep();
   }
   
   return (
@@ -79,8 +70,8 @@ function MacroDialog({isOpen, closeDialog, nextStep, playId}: IMacroDialog) {
             <h3>코드 입력</h3>
             <input type='text'
                    placeholder='코드입력'
-                   value={authCode}
-                   onChange={e => setAuthCode(e.target.value)}/>
+                   value={macroNumber}
+                   onChange={e => setMacroNumber(e.target.value)}/>
           </div>
         </div>
       </div>
