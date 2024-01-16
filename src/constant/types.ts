@@ -25,6 +25,10 @@ export enum ApplyType {
   MACRO, APPLY, SUCCESS, FAILED, DONE, MACRO_FAILED, FINISHED
 }
 
+export interface IApplyStatus extends ISubject {
+  applyType: ApplyType;
+}
+
 export const DataFormats = {
   SubjectTitles: {
     courseId: '학수번호',

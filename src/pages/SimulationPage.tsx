@@ -6,12 +6,12 @@ import SubjectApplyDialog from '../layouts/dialog/SubjectApplyDialog.tsx';
 import ApplySuccessDialog from '../layouts/dialog/ApplySuccessDialog.tsx';
 import ApplyFailDialog from '../layouts/dialog/ApplyFailDialog.tsx';
 import ApplyDoneDialog from '../layouts/dialog/ApplyDoneDialog.tsx';
+import FailedMacroDialog from '../layouts/dialog/FailedMacroDialog.tsx';
 import FinishDialog from '../layouts/dialog/FinishDialog.tsx';
-import {ApplyType, DataFormats, ISubject} from '../constant/types.ts';
+import {ApplyType, DataFormats, IApplyStatus, ISubject} from '../constant/types.ts';
 import {IErrorTypes} from '../constant/CheckFetchError.ts';
 import API from '../constant/API.ts';
 import '@styles/components/TableStyle.scss';
-import FailedMacroDialog from "../layouts/dialog/FailedMacroDialog.tsx";
 
 const StatusClass = ['', '', 'success', 'fail', 'done'];
 
@@ -29,7 +29,7 @@ function SimulationPage() {
   const [loading, setLoading] = useState<boolean>(false);
   const [subjects, setSubjects] = useState<ISubject[]>([]);
   const [appliedSubjects, setAppliedSubjects] = useState<ISubject[]>([]);
-  const [submitStatus, setSubmitStatus] = useState<ApplyType[]>([]);
+  const [submitStatus, setSubmitStatus] = useState<IApplyStatus[]>([]);
 
   document.title = 'ALLCLL | 수강신청';
 
@@ -53,6 +53,8 @@ function SimulationPage() {
       .then((res) => {
         setSimulationId(Number(playId));
         setSubjects(res.interestedCourseToRegister.courses);
+        setAppliedSubjects(res.registeredCourse.courses);
+        setSubmitStatus(res.registeredCourse.courses.map((sub: ISubject) => ({...sub, applyType: ApplyType.SUCCESS})));
         setOnSimulation(true);
       })
       .catch((err) => console.error(err))
@@ -88,12 +90,12 @@ function SimulationPage() {
       if (appliedSubjects.some((subject) => sameSubject(subject, selectedSubject!)))
         return;
 
-      setAppliedSubjects(prev => [...prev, selectedSubject!]);
-      setSubmitStatus(prev => [...prev, applyType])
+      // setAppliedSubjects(prev => [...prev, selectedSubject!]);
+      setSubmitStatus(prev => [...prev, {...selectedSubject!, applyType}])
     }
     else if (applyType === ApplyType.DONE) {
-      setSubmitStatus(prev => prev.map((status, index) =>
-        sameSubject(appliedSubjects[index], selectedSubject!) ? ApplyType.DONE : status)
+      setSubmitStatus(prev => prev.map((submissions, index) =>
+        sameSubject(appliedSubjects[index], selectedSubject!) ? {...selectedSubject!, applyType: ApplyType.DONE} : submissions)
       );
     }
   }
@@ -149,7 +151,6 @@ function SimulationPage() {
         setSimulationId(Number(playId));
         setSubjects(res.interestedCourseToRegister.courses);
         setAppliedSubjects(res.registeredCourse.courses);
-        setSubmitStatus(res.interestedCourseToRegister.courses.map(() => StatusClass[0]));
         setOnSimulation(true);
       })
       .catch((err) => console.error(err))
@@ -228,7 +229,7 @@ function SimulationPage() {
           <div className='container_box grid_layout'>
             {appliedSubjects.map((subject, index) => (
               <div key={index}
-                   className={StatusClass[submitStatus[index]]}>
+                   className={StatusClass[submitStatus.find(sub => subject.courseTitle === sub.courseTitle)?.applyType ?? ApplyType.APPLY]}>
                 {subject.courseTitle}
               </div>
             ))}
