@@ -1,4 +1,8 @@
 const CheckStringType = {
+  studentId(studentId: string) {
+    const studentIdRegex = /^[0-9]{8}$/;
+    return studentIdRegex.test(studentId);
+  },
   email(email: string) {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     return emailRegex.test(email);

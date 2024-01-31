@@ -94,4 +94,10 @@ div.login_page {
     border-radius: 6px;
     font-weight: 600;
   }
+
+  .terms_contents_layout {
+    max-width: 1200px;
+    max-height: 600px;
+    overflow-y: auto;
+  }
 }
