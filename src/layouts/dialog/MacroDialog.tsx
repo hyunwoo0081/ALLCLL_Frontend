@@ -19,10 +19,10 @@ function MacroDialog({isOpen, closeDialog, nextStep, playId, macroNumber, setMac
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   useEffect(() => {
+    if (!isOpen) return;
+
     setMacroNumber('');
     setCaptcha('');
-    
-    if (!isOpen) return;
     
     refreshCaptcha();
   }, [isOpen]);
