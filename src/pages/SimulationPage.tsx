@@ -94,8 +94,13 @@ function SimulationPage() {
       setSubmitStatus(prev => [...prev, {...selectedSubject!, applyType}])
     }
     else if (applyType === ApplyType.DONE) {
-      setSubmitStatus(prev => prev.map((submissions, index) =>
-        sameSubject(appliedSubjects[index], selectedSubject!) ? {...selectedSubject!, applyType: ApplyType.DONE} : submissions)
+      setSubmitStatus(prev =>
+        prev.map((submissions) => {
+          if (submissions.courseTitle === selectedSubject?.courseTitle && submissions.instructorName === selectedSubject?.instructorName)
+            return {...selectedSubject!, applyType: ApplyType.DONE};
+          else
+            return submissions;
+        })
       );
     }
   }

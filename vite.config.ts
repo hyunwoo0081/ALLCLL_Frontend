@@ -1,4 +1,4 @@
-import { sentryVitePlugin } from "@sentry/vite-plugin";
+import { sentryVitePlugin } from '@sentry/vite-plugin';
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path';
@@ -9,8 +9,8 @@ const TargetServer = 'http://localhost:8080';
 // const TargetServer = 'http://13.209.89.59:8080';
 export default defineConfig({
   plugins: [react(), sentryVitePlugin({
-    org: "allcll",
-    project: "javascript-react"
+    org: 'allcll',
+    project: 'javascript-react'
   })],
 
   base: '/',
