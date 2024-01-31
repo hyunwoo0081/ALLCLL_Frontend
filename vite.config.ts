@@ -6,7 +6,7 @@ import path from 'path';
 // https://vitejs.dev/config/
 // const TargetServer = 'http://localhost:8080';
 const TargetServer = 'http://allcll.site';
-// const TargetServer = 'http://54.180.85.104:8080';
+// const TargetServer = 'http://13.209.89.59:8080';
 export default defineConfig({
   plugins: [react(), sentryVitePlugin({
     org: "allcll",

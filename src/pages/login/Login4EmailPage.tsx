@@ -73,6 +73,7 @@ function Login4EmailPage() {
 
         <input type='text'
                placeholder='이메일'
+               autoComplete='email'
                ref={EmailInputRef}
                disabled={fetching}
                value={email}

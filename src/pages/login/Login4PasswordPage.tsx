@@ -84,12 +84,14 @@ function Login4PasswordPage() {
 
         <input type='text'
                placeholder='이메일'
+               autoComplete='email'
                ref={EmailInputRef}
                disabled={fetching}
                value={email}
                onChange={e => setEmail(e.target.value)}/>
         <input type='password'
                placeholder='비밀번호(8~16자 문자 숫자)'
+               autoComplete='current-password'
                ref={PasswordInputRef}
                disabled={fetching}
                value={password}
