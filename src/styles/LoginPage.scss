@@ -32,8 +32,20 @@ div.login_page {
     }
 
     h1 {
+      margin: 0;
+      text-align: center;
+    }
+
+    h2 {
       margin: 0 0 20px;
       text-align: center;
+      font-size: 16px;
+      font-weight: 400;
+      color: #8F8F8F;
+
+      b {
+        font-weight: 600;
+      }
     }
 
     p {

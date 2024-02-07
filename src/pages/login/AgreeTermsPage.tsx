@@ -126,6 +126,10 @@ function AgreeTermsPage() {
         <div className='register_login_layout login_page'>
           <div className='login_layout'>
             <h1>ALLCLL 회원가입</h1>
+            <h2>
+              대양휴머니티칼리지에 로그인하여 인증합니다 <br/>
+              <b>ALLCLL</b>은 로그인 정보를 서버에 저장하지 않습니다
+            </h2>
 
             {ErrorBox}
 
