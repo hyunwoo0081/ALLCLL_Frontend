@@ -1,10 +1,10 @@
 import {useEffect, useRef, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import PageDefaultLayout from '../../layouts/PageDefaultLayout.tsx';
-import useLoginErrorBox from '../../hooks/useLoginErrorBox.tsx';
-import CheckFetchError from '../../constant/CheckFetchError.ts';
-import CheckStringType from '../../constant/CheckStringType.ts';
-import AuthControl from '../../constant/AuthControl.ts';
+import PageDefaultLayout from '../../../layouts/PageDefaultLayout.tsx';
+import useLoginErrorBox from '../../../hooks/useLoginErrorBox.tsx';
+import CheckFetchError from '../../../constant/CheckFetchError.ts';
+import CheckStringType from '../../../constant/CheckStringType.ts';
+import AuthControl from '../../../constant/AuthControl.ts';
 import '@styles/LoginPage.scss';
 
 function Login4PasswordPage() {
