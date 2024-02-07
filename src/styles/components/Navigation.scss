@@ -135,9 +135,10 @@ div.dialog_background.nav_dialog_background {
           width: 100%;
           justify-content: flex-start;
 
-          &:hover, &:focus {
+          &:hover, &:focus, &:active {
             background: $light-gray;
             color: $black;
+            outline: none;
           }
         }
       }
