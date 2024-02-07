@@ -8,8 +8,10 @@ const CheckStringType = {
     return emailRegex.test(email);
   },
   password(password: string) {
-    const passwordRegex = /^(?=.*\d)[a-zA-Z\d]{8,16}$/;
-    return passwordRegex.test(password);
+    // const passwordRegex = /^(?=.*\d)[a-zA-Z\d]{8,16}$/;
+    // return passwordRegex.test(password);
+
+    return password.length > 0;
   },
   authCode(authCode: string) {
     const authCodeRegex = /^[A-Z0-9]{6}$/;

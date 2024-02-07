@@ -10,13 +10,22 @@ div.login_page {
   justify-content: center;
   height: max(calc(100vh - 240px), 400px);
 
+  &.register_login_layout {
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
+    margin: 0 auto;
+    height: auto;
+  }
+
   div.login_layout {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 32px;
+    //margin-bottom: 32px;
     min-width: 320px;
     gap: 12px;
+    margin: 32px auto;
 
     & > * {
       width: 100%;
@@ -94,10 +103,23 @@ div.login_page {
     border-radius: 6px;
     font-weight: 600;
   }
+}
 
-  .terms_contents_layout {
+div.terms_layout {
+
+  div.terms_contents_layout {
     max-width: 1200px;
-    max-height: 600px;
+    max-height: 360px;
+
+    padding: 16px;
+    border-radius: 6px;
+    border: 1px solid $light-gray;
+    background: white;
     overflow-y: auto;
+  }
+
+  label {
+    display: block;
+    margin: 8px 0;
   }
 }

@@ -1,15 +1,10 @@
 import LandingPage from '../pages/LandingPage.tsx';
-import Login4PasswordPage from '../pages/login/Login4PasswordPage.tsx';
-import Login4EmailPage from '../pages/login/Login4EmailPage.tsx';
-import LoginEmailAuthPage from '../pages/login/LoginEmailAuthPage.tsx';
-import RefreshPasswordPage from '../pages/RefreshPasswordPage.tsx';
-import LoginRouter from '../pages/login/LoginRouter.tsx';
+import Login4SejongPage from '../pages/login/Login4SejongPage.tsx';
+import AgreeTermsPage from '../pages/login/AgreeTermsPage.tsx';
 import DashBoardPage from '../pages/DashBoardPage.tsx';
 import SimulationPage from '../pages/SimulationPage.tsx';
 import InterestPage from '../pages/InterestPage.tsx';
 import Page404 from '../pages/Page404.tsx';
-import Login4SejongPage from "../pages/login/Login4SejongPage.tsx";
-import AgreeTermsPage from "../pages/login/AgreeTermsPage.tsx";
 
 const RouteMap = [
     {
@@ -34,36 +29,11 @@ const RouteMap = [
     },
     {
         path: '/login',
-        element: (<LoginRouter />),
-        auth: ['GUEST']
-    },
-    {
-        path: '/login/email',
-        element: (<Login4EmailPage />),
-        auth: ['GUEST']
-    },
-    {
-        path: '/login/email/auth',
-        element: (<LoginEmailAuthPage />),
-        auth: ['GUEST']
-    },
-    {
-        path: '/login/password',
-        element: (<Login4PasswordPage />),
-        auth: ['GUEST']
-    },
-    {
-        path: '/refresh/password',
-        element: (<RefreshPasswordPage />),
-        auth: ['GUEST']
-    },
-    {
-        path: '/login/sejong',
         element: (<Login4SejongPage />),
         auth: ['GUEST']
     },
     {
-        path: '/login/register',
+        path: '/register',
         element: (<AgreeTermsPage />),
         auth: ['GUEST']
     },

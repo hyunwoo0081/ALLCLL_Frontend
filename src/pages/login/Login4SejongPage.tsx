@@ -11,11 +11,11 @@ function Login4PasswordPage() {
   const navigate = useNavigate();
 
   const [fetching, setFetching] = useState<boolean>(false);
-  const [studentId, setStudentId] = useState<string>('');
+  const [userId, setUserId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const {setErrorMessage, ErrorBox} = useLoginErrorBox();
 
-  const EmailInputRef = useRef<HTMLInputElement>(null);
+  const UserIdInputRef = useRef<HTMLInputElement>(null);
   const PasswordInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ function Login4PasswordPage() {
   }, [navigate]);
 
   useEffect(() => {
-    EmailInputRef.current?.focus();
+    UserIdInputRef.current?.focus();
   }, []);
 
   useEffect(() => {
@@ -32,40 +32,40 @@ function Login4PasswordPage() {
         login();
     }
 
-    EmailInputRef.current?.addEventListener('keydown', onEnter);
+    UserIdInputRef.current?.addEventListener('keydown', onEnter);
     PasswordInputRef.current?.addEventListener('keydown', onEnter);
     return () => {
-      EmailInputRef.current?.removeEventListener('keydown', onEnter);
+      UserIdInputRef.current?.removeEventListener('keydown', onEnter);
       PasswordInputRef.current?.removeEventListener('keydown', onEnter);
     };
   }, [login]);
 
   function login() {
-    if (!CheckStringType.studentId(studentId)) {
+    if (!CheckStringType.studentId(userId)) {
       setErrorMessage('학번 형식이 올바르지 않습니다');
       PasswordInputRef.current?.blur();
-      EmailInputRef.current?.focus();
+      UserIdInputRef.current?.focus();
       return;
     }
     if (!CheckStringType.password(password)) {
-      setErrorMessage('비밀번호가 적절하지 않습니다\n8~16자 문자 숫자로 입력해주세요');
-      EmailInputRef.current?.blur();
+      setErrorMessage('비밀번호가 적절하지 않습니다');
+      UserIdInputRef.current?.blur();
       PasswordInputRef.current?.focus();
       return;
     }
 
     setFetching(true);
-    fetch('/api/v2/auth/login/password', {
+    fetch('/api/v2/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({email: studentId, password})
+      body: JSON.stringify({userId, password})
     }).then(async res => {
 
       const errors = [
-        {errorBody: 'Authentication failed', errorMessage: '이메일 또는 비밀번호가 일치하지 않음', action: () => EmailInputRef.current?.focus()},
-        {errorBody: 'Invalid email format', errorMessage: '이메일 형식이 잘못되었습니다', action: () => EmailInputRef.current?.focus()},
+        {errorBody: '학생 인증에 실패했습니다. ', errorMessage: '학번 또는 비밀번호가 일치하지 않습니다', action: () => UserIdInputRef.current?.focus()},
+        {errorBody: '먼저 가입해 주세요! ', errorMessage: '회원가입이 되지 않은 사용자입니다', action: () => navigate('/register', {replace: true})},
       ];
       await CheckFetchError(res, errors, navigate);
 
@@ -85,10 +85,10 @@ function Login4PasswordPage() {
         <input type='text'
                placeholder='학번'
                autoComplete='username'
-               ref={EmailInputRef}
+               ref={UserIdInputRef}
                disabled={fetching}
-               value={studentId}
-               onChange={e => setStudentId(e.target.value)}/>
+               value={userId}
+               onChange={e => setUserId(e.target.value)}/>
         <input type='password'
                placeholder='비밀번호'
                autoComplete='current-password'
@@ -98,7 +98,7 @@ function Login4PasswordPage() {
                onChange={e => setPassword(e.target.value)}/>
 
         <button onClick={login} disabled={fetching}>로그인</button>
-        <button className='link' onClick={() => navigate('/login/register', {replace: true})}>처음 오셨나요? 회원가입 하기</button>
+        <button className='link' onClick={() => navigate('/register', {replace: true})}>처음 오셨나요? 회원가입 하기</button>
       </div>
     </PageDefaultLayout>
   );
