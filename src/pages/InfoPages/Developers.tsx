@@ -1,4 +1,5 @@
 import PageDefaultLayout from '../../layouts/PageDefaultLayout.tsx';
+import {ReactNode, useEffect, useState} from 'react';
 
 function Developers() {
   document.title = 'ALLCLL | 개발자 정보';
@@ -6,27 +7,80 @@ function Developers() {
   return (
     <PageDefaultLayout className=''>
       <h1>개발자 정보</h1>
-      <div className='container_box user_box'>
-        <h3>3Juhwan</h3>
-        <p>
-          Backend Developer
-        </p>
-        <ul>
-          <li><a href='https://github.com/3Juhwan' target='_blank'>GITHUB</a></li>
-        </ul>
+
+      <div className='card_layout'>
+        <DevCard GithubNickname='3Juhwan'
+                 contents={
+                   <>
+                     Backend Developer <br/>
+                     컴퓨터공학과 20 김주환
+                   </>
+                 }
+                 links={[
+                   {title: 'github', url: 'https://github.com/3Juhwan'},
+                 ]}/>
+
+        <DevCard GithubNickname='hyunwoo0081'
+                 contents={
+                   <>
+                     Frontend Developer <br/>
+                     컴퓨터공학과 19 채현우
+                   </>
+                 }
+                 links={[
+                   {title: 'github', url: 'https://github.com/hyunwoo0081'},
+                   // {title: 'velog', url: 'https://github.com/hyunwoo0081'},
+                 ]}/>
       </div>
 
-      <div className='container_box user_box'>
-        <h3>hyunwoo0081</h3>
-        <p>
-        Frontend Developer
-        </p>
-        <ul>
-          <li><a href='https://github.com/hyunwoo0081' target='_blank'>GITHUB</a></li>
-        </ul>
-      </div>
 
     </PageDefaultLayout>
+  );
+}
+
+interface ILink {
+  title: string,
+  url: string
+}
+
+interface IDevloperCard {
+  GithubNickname: string,
+  contents: ReactNode,
+  links: ILink[]
+}
+
+const LINK_COLOR = '333333';
+
+function DevCard({GithubNickname, contents, links}: IDevloperCard) {
+  const [profileImage, setProfileImage] = useState<string>('');
+  useEffect(() => {
+    fetch(`https://api.github.com/users/${GithubNickname}`)
+      .then(response => response.json())
+      .then(data => setProfileImage(data.avatar_url));
+  }, [GithubNickname]);
+
+  return (
+    <div className='container_box user_box'>
+      <div>
+        <img className='avatar' src={profileImage} alt=''/>
+      </div>
+      <div>
+        <h3>{GithubNickname}</h3>
+        <p>
+          {contents}
+        </p>
+        <ul className='links'>
+          {links.map((link, index) => (
+            <li key={index}>
+              <a href={link.url} target='_blank'>
+                <img src={`https://cdn.simpleicons.org/${link.title}/${LINK_COLOR}`}
+                     alt={link.title}/>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
   );
 }
 
