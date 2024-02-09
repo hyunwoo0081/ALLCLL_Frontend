@@ -45,8 +45,7 @@ function AnnouncementSetting() {
 
   function saveAnnouncement() {
     // 공지사항 저장
-    API.fetch2Json('/api/v2/notification/new', 'POST', {content: htmlString}, [], navigate)
-      .then(res => console.log(res))
+    API.fetch('/api/v2/notification/new', 'POST', {content: htmlString}, [], navigate)
       .catch(e => {
         console.error(e);
         alert('공지사항을 저장하지 못했습니다.')
