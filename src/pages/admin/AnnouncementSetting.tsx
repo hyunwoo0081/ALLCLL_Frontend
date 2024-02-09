@@ -1,20 +1,26 @@
 import {useEffect, useState} from 'react';
+import {useNavigate} from "react-router-dom";
 import AdminNavigation from '../../components/AdminNavigation.tsx';
 import { Editor } from 'react-draft-wysiwyg';
 import { EditorState, ContentState, convertToRaw, convertFromHTML} from 'draft-js';
 import draftjsToHtml from 'draftjs-to-html';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import API from "../../constant/API.ts";
 
 function AnnouncementSetting() {
+  const navigate = useNavigate();
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [htmlString, setHtmlString] = useState('');
 
   useEffect(() => {
     // 공지사항 불러오기
-    // Todo: 서버에서 공지사항 불러오기
-    const DefaultAnnouncement = '<p>asd<strong>asdasdq</strong>wee<strong><em>ee</em></strong></p>';
-    updateAnnouncement(DefaultAnnouncement);
-  }, []);
+    API.fetch2Json('/api/v2/notification/last', 'GET', {}, [], navigate)
+      .then(res => updateAnnouncement(res.content))
+      .catch(e => {
+        console.error(e);
+        updateAnnouncement('');
+      });
+  }, [navigate]);
 
   const updateTextDescription = async (state: EditorState) => {
     await setEditorState(state);
@@ -39,8 +45,12 @@ function AnnouncementSetting() {
 
   function saveAnnouncement() {
     // 공지사항 저장
-    // Todo: 공지사항 API 연결
-    console.log(htmlString);
+    API.fetch2Json('/api/v2/notification/new', 'POST', {content: htmlString}, [], navigate)
+      .then(res => console.log(res))
+      .catch(e => {
+        console.error(e);
+        alert('공지사항을 저장하지 못했습니다.')
+      });
   }
   
   return (
