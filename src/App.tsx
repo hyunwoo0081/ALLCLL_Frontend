@@ -1,5 +1,5 @@
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
-import RoutingHelper from './components/RoutingHelper.ts';
+import RoutingHelper from './components/RoutingHelper.tsx';
 import RouteMap from './constant/RouteMap.tsx';
 
 function App() {

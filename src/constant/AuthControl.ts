@@ -10,6 +10,8 @@ const AuthControl = {
     document.cookie = `token=${token}; expires=${new Date(exp * 1000)}; path=/`;
   },
   login(navigate: NavigateFunction, token: string) {
+    localStorage.setItem('announcementOpen', 'true');
+
     this.saveToken(token);
 
     const path = window.location.pathname;
