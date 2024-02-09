@@ -232,7 +232,7 @@ function Terms() {
       </ul>
       <p>이메일: sejongallcll@gmail.com</p>
       <ul>
-        <li>개인정보보호책임자 성명: 김주</li>
+        <li>개인정보보호책임자 성명: 김주환</li>
       </ul>
       <p>소속/직위: 대표</p>
       <p>이메일: sejongallcll@gmail.com</p>
@@ -240,7 +240,7 @@ function Terms() {
       <ul>
         <li>개인정보침해신고센터</li>
         <li>전화 : (국번없이) 118</li>
-        <li>URL : <a href="https://privacy.kisa.or.kr/">htt환s://privacy.kisa.or.kr</a></li>
+        <li>URL : <a href="https://privacy.kisa.or.kr/">https://privacy.kisa.or.kr</a></li>
         <li>개인정보분쟁조정위원회</li>
         <li>전화 : 1833-6972</li>
         <li>URL : <a href="https://www.kopico.go.kr/">https://www.kopico.go.kr</a></li>

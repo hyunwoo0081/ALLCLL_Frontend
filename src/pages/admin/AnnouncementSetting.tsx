@@ -1,11 +1,11 @@
 import {useEffect, useState} from 'react';
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from 'react-router-dom';
 import AdminNavigation from '../../components/AdminNavigation.tsx';
 import { Editor } from 'react-draft-wysiwyg';
 import { EditorState, ContentState, convertToRaw, convertFromHTML} from 'draft-js';
 import draftjsToHtml from 'draftjs-to-html';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import API from "../../constant/API.ts";
+import API from '../../constant/API.ts';
 
 function AnnouncementSetting() {
   const navigate = useNavigate();

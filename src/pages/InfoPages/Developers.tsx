@@ -12,7 +12,7 @@ function Developers() {
           Backend Developer
         </p>
         <ul>
-          <li><a href="https://github.com/3Juhwan">GITHUB</a></li>
+          <li><a href='https://github.com/3Juhwan' target='_blank'>GITHUB</a></li>
         </ul>
       </div>
 
@@ -22,7 +22,7 @@ function Developers() {
         Frontend Developer
         </p>
         <ul>
-          <li><a href="https://github.com/hyunwoo0081">GITHUB</a></li>
+          <li><a href='https://github.com/hyunwoo0081' target='_blank'>GITHUB</a></li>
         </ul>
       </div>
 
