@@ -33,6 +33,7 @@ div.responsive {
   flex-direction: column;
   padding: 36px;
   max-width: 1200px;
+  min-height: calc(100vh - 360px);
   margin: 0 auto;
   gap: 18px;
 
@@ -41,6 +42,15 @@ div.responsive {
     padding: 16px;
     border-radius: 12px;
     border: 1px solid #E6E6E6;
+
+    &.user_box {
+      ul {
+        display: flex;
+        gap: 12px;
+        list-style: none;
+        padding: 0;
+      }
+    }
   }
 
   div.title_container_box {
