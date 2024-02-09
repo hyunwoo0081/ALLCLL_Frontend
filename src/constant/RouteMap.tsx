@@ -70,12 +70,12 @@ const RouteMap = [
     {
         path: '/admin',
         element: (<AnnouncementSetting />),
-        auth: ['ADMIN', 'USER']
+        auth: ['ADMIN']
     },
     {
         path: '/admin/arena',
         element: (<ArenaSetting />),
-        auth: ['ADMIN', 'USER']
+        auth: ['ADMIN']
     },
     {
         path: '*',
