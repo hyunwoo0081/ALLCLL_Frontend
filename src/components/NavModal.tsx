@@ -13,9 +13,9 @@ function NavModal({isOpen, setIsOpen}: { isOpen: boolean, setIsOpen: (isOpen: bo
   const navigate = useNavigate();
   const [overflow, setOverflow] = useState<string>('auto');
   const [toastType, setToastType] = useState<ToastView>(ToastView.CLOSED);
-  // const [toastMessage, setToastMessage] = useState<string>('');
 
   const token = AuthControl.getInfoFromToken();
+  const role = AuthControl.getRole();
 
   useEffect(() => {
     function onEsc(e: KeyboardEvent) {
@@ -53,41 +53,8 @@ function NavModal({isOpen, setIsOpen}: { isOpen: boolean, setIsOpen: (isOpen: bo
     setIsOpen(false);
   }
 
-  // function changePassword() {
-  //   setToastType(ToastView.CLOSED);
-  //
-  //   if (!token) {
-  //     toastErrorMessage('로그인이 유효하지 않습니다');
-  //     return;
-  //   }
-  //
-  //   const email = token?.sub;
-  //   const Errors: IErrorTypes[] = [
-  //     {errorBody: 'Email address not found', errorMessage: '가입되지 않은 이메일 입니다'},
-  //     {errorBody: 'Invalid email format', errorMessage: '잘못된 메일 형식입니다'},
-  //   ];
-  //   API.fetch('/api/v2/auth/password/reset', 'POST', {email}, Errors, navigate)
-  //     .then(toastSendMail);
-  // }
-
-  // function toastSendMail() {
-  //   setToastType(ToastView.TOAST_NORMAL);
-  //   setToastMessage('가입하신 이메일로 변경 링크를 발송했습니다');
-  // }
-  //
-  // function toastErrorMessage(message: string) {
-  //   setToastType(ToastView.TOAST_ERROR);
-  //   setToastMessage(message);
-  // }
-
   return (
     <>
-      {/*<div className='toast_box'>*/}
-      {/*  <p className={ToastClass[toastType]}>*/}
-      {/*    {toastMessage}*/}
-      {/*  </p>*/}
-      {/*</div>*/}
-
       {isOpen && (
         <div className='dialog_background nav_dialog_background login_page'
              onClick={closeDialog}>
@@ -95,7 +62,12 @@ function NavModal({isOpen, setIsOpen}: { isOpen: boolean, setIsOpen: (isOpen: bo
                onClick={e => e.stopPropagation()}>
             <ul>
               <li><span>{token.sub}</span></li>
-              {/*<li><button onClick={changePassword}>비밀번호 변경</button></li>*/}
+              {role === 'ADMIN' &&
+                <li><button onClick={() => window.open('/admin', '_blank')}>
+                  관리자 페이지
+                </button></li>
+              }
+
               <li><button onClick={() => window.open('https://forms.gle/iKZeL6hZvCQzgGGc6', '_blank')}>오류 및 제안</button></li>
               <li><button onClick={() => AuthControl.logout(navigate)}>로그아웃</button></li>
             </ul>

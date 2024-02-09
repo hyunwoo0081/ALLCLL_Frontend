@@ -44,6 +44,12 @@ const AuthControl = {
     if (!token) return null;
 
     return getJWTJson(token);
+  },
+  getRole() {
+    const info = this.getInfoFromToken();
+    if (!info?.role) return null;
+
+    return info.role?.slice(1, -1);
   }
 };
 
