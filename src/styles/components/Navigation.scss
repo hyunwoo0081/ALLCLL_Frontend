@@ -92,6 +92,26 @@ nav.navigation {
   }
 }
 
+nav.admin {
+  display: flex;
+  div.navigation_flex {
+    gap: 8px;
+    cursor: pointer;
+  }
+
+  div.navigation_shortcuts {
+    display: flex;
+    padding: 0 20px;
+
+    ul > li {
+      padding: 4px 2px;
+      &.selected {
+        padding: 18px 2px;
+      }
+    }
+  }
+}
+
 div.dialog_background.nav_dialog_background {
   background: transparent;
 
@@ -178,8 +198,7 @@ div.toast_box {
     margin: 0;
     opacity: 1;
 
-    transition: opacity 200ms ease-in-out;
-    transition: transform 200ms ease-in-out;
+    transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;
 
 
     color: rgb(13, 60, 97);

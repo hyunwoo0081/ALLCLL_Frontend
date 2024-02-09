@@ -2,6 +2,7 @@ import {useEffect} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
 import useMobile from '../hooks/useMobile.ts';
 import RouteMap from '../constant/RouteMap.tsx';
+import AuthControl from '../constant/AuthControl.ts';
 // import authControl from '../constant/AuthControl.ts';
 
 function RoutingHelper() {
@@ -24,15 +25,27 @@ function RoutingHelper() {
 
     const route = RouteMap.find(v => v.path === location.pathname);
 
+    // check user role
+    let role = isLogin ? 'USER' : 'GUEST';
+    if (isLogin) {
+      const tokenInfo = AuthControl.getInfoFromToken();
+      role = tokenInfo.role ?? 'USER';
+    }
+
+    // check auth
     if (!route) return;
-    if (route.auth.length === 1 && route.auth[0] === 'GUEST' && isLogin) {
-      navigate('/dashboard');
+    if (!route.auth.includes(role)) {
+      navigate(role == 'GUEST' ? '/' : '/dashboard', {replace: true});
       return;
     }
-    else if (!route.auth.includes('GUEST') && !isLogin) {
-      navigate('/');
-      return;
-    }
+    // if (route.auth.length === 1 && route.auth[0] === 'GUEST' && isLogin) {
+    //   navigate('/dashboard');
+    //   return;
+    // }
+    // else if (!route.auth.includes('GUEST') && !isLogin) {
+    //   navigate('/');
+    //   return;
+    // }
     
   }, [location, isMobile]);
 
