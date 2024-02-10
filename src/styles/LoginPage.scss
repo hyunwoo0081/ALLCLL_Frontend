@@ -23,7 +23,7 @@ div.login_page {
     flex-direction: column;
     align-items: center;
     //margin-bottom: 32px;
-    min-width: 320px;
+    min-width: min(320px, calc(100% - 32px));
     gap: 12px;
     margin: 32px auto;
 
@@ -34,6 +34,7 @@ div.login_page {
     h1 {
       margin: 0;
       text-align: center;
+      word-break: keep-all;
     }
 
     h2 {

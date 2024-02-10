@@ -1,5 +1,6 @@
 import PageDefaultLayout from '../../layouts/PageDefaultLayout.tsx';
 import {ReactNode, useEffect, useState} from 'react';
+import '@styles/components/DevCard.scss';
 
 function Developers() {
   document.title = 'ALLCLL | 개발자 정보';
