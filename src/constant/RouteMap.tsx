@@ -11,6 +11,7 @@ import InterestPage from '../pages/InterestPage.tsx';
 import AnnouncementSetting from '../pages/admin/AnnouncementSetting.tsx';
 import ArenaSetting from '../pages/admin/ArenaSetting.tsx';
 import Page404 from '../pages/Page404.tsx';
+import MyPage from "../pages/MyPage.tsx";
 
 const RouteMap = [
     {
@@ -65,6 +66,11 @@ const RouteMap = [
     {
         path: '/simulation',
         element: (<SimulationPage />),
+        auth: ['USER', 'ADMIN']
+    },
+    {
+        path: '/mypage',
+        element: (<MyPage />),
         auth: ['USER', 'ADMIN']
     },
     {

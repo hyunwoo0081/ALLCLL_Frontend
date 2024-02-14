@@ -68,6 +68,10 @@ div.responsive {
     font-weight: 700;
     margin: 12px;
   }
+
+  p {
+    margin: 12px;
+  }
 }
 
 .width_100 {
@@ -77,6 +81,11 @@ div.responsive {
 h1 {
   font-size: 32px;
   font-weight: 700;
+}
+
+p, span {
+  &.canceled { color: #666666; }
+  &.danger { color: $primary-color; }
 }
 
 input[type="text"], input[type="password"] {
