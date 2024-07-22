@@ -59,7 +59,7 @@ function SubjectApplyDialog({isOpen, closeDialog, nextStep, answer, selectedSubj
     <DialogTemplate isOpen={isOpen}>
       <div className='dialog_header'>
         <h2></h2>
-        <button onClick={closeDialog}>
+        <button onClick={closeDialog} tabIndex={-1}>
           <img src='/Close.svg' alt=''/>
         </button>
       </div>

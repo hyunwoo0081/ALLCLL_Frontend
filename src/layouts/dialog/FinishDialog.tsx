@@ -36,14 +36,15 @@ function FinishDialog({isOpen, closeDialog, playId}: IMacroDialog) {
       {errorBody: 'Mock did not terminate successfully', errorMessage: '종료되지 않은 시뮬레이션입니다', action: closeDialog},
     ]
     API.fetch2Json(`/api/v2/mock/result`, 'GET', {playId}, Errors, navigate)
-      .then((res) => setContents(res));
+      .then((res) => setContents(res))
+      .catch((err) => console.error(err));
   }, [isOpen]);
 
   return (
     <DialogTemplate isOpen={isOpen}>
       <div className='dialog_header'>
         <h2>수강신청 결과</h2>
-        <button onClick={closeDialog}>
+        <button onClick={closeDialog} tabIndex={-1}>
           <img src='/Close.svg' alt=''/>
         </button>
       </div>
