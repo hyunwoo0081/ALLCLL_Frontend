@@ -150,7 +150,8 @@ function InterestPage() {
         <div className='container_header_layout'>
           <h2>과목 검색</h2>
           <button className='image_button' onClick={() => setSearchOpened(prev => !prev)}>
-            <img src={searchOpened ? '/ArrowDown.svg' : '/ArrowRight.svg'} alt=''/>
+            <img className={searchOpened ? 'rotate_90' : ''}
+                  src='/ArrowRight.svg' alt=''/>
           </button>
         </div>
 

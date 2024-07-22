@@ -128,11 +128,11 @@ button {
     height: 20px;
   }
 
-  &:hover {
+  &:hover, &:focus {
     background: $primary-color-hover;
   }
   &:focus {
-    outline: $primary-color-hover solid 1px;
+    outline: $primary-color-hover solid 2px;
   }
   &:disabled {
     background: $light-gray;
@@ -251,4 +251,8 @@ table {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+}
+
+.rotate_90 {
+  transform: rotate(90deg);
 }
