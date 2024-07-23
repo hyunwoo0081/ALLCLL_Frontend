@@ -1,3 +1,5 @@
+import {ISimulation} from '../hooks/simulationReducer.ts';
+
 export interface ISubject {
   courseId: number;
   classId: number;
@@ -21,12 +23,12 @@ export interface IRecentDataResponse {
   results: IRecentData[];
 }
 
-export enum ApplyType {
-  MACRO, APPLY, SUCCESS, FAILED, DONE, MACRO_FAILED, FINISHED
+export enum ApplyDialogType {
+  CLOSE, MACRO, APPLY, SUCCESS, FAILED, DONE, MACRO_FAILED, ERROR, FINISHED
 }
 
 export interface IApplyStatus extends ISubject {
-  applyType: ApplyType;
+  applyType: ApplyDialogType;
 }
 
 export const DataFormats = {
@@ -47,4 +49,20 @@ export const DataFormats = {
     numberOfRegisteredCourses: '신청한 과목 수',
     coursesDetail: '과목 상세 정보',
   },
+}
+
+export interface ISimulationDialog {
+  useSimulation: ISimulation & {
+    loading: boolean;
+    subjects: ISubject[];
+    appliedSubjects: ISubject[];
+    submitStatus: IApplyStatus[];
+    startSimulation: () => void;
+    refreshTable: () => void;
+    startStep: (selectedSubject: ISubject) => void;
+    nextStep: (nextStepType: ApplyDialogType, isSimulationFinished?: boolean) => void;
+    stopStep: (refreshSubjects?: boolean) => void;
+    stepError: (errorMessage: string, forceFinish?: boolean) => void;
+    updateMacroNumber: (macroNumber: string) => void;
+  };
 }
