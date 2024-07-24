@@ -1,10 +1,15 @@
-import React, {useLayoutEffect, useRef, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {Link, useLocation, useNavigate} from 'react-router-dom';
 import useMobile from '../hooks/useMobile.ts';
 import useLogin from '../hooks/useLogin.ts';
 import NavModal from './NavModal.tsx';
 import AuthControl from '../constant/AuthControl.ts';
 import '@styles/components/Navigation.scss';
+
+interface IUnderlineStyle {
+  width: number;
+  transform: number;
+}
 
 const NavRoutes = [
   {
@@ -21,22 +26,33 @@ const NavRoutes = [
   }
 ];
 
+// Fixme: 네비게이션 underlineStyle 객체 업데이트 될 때마다 바뀌는 버그 수정
 function Navigation() {
   const location = useLocation();
   const navigate = useNavigate();
-  const ref = useRef<HTMLButtonElement>(null);
 
-  const [underlineStyle, setUnderlineStyle] = useState<React.CSSProperties>(
-    getUnderlineStyleDefault()
-  );
-  const [modalOpened, setModalOpened] = useState<boolean>(false);
-  
   const {isLogin} = useLogin();
   const {isMobile} = useMobile();
 
-  // Todo: 네비게이션 underlineStyle 객체 업데이트 될 때마다 바뀌는 버그 수정
-  //  리렌더링 방지 할 것
-  // console.log('Navigation rendered', underlineStyle);
+  const navListRef = useRef<HTMLUListElement>(null)
+  const ref = useRef<HTMLButtonElement>(null);
+
+  const [selected, setSelected] = useState<number>(
+    NavRoutes.findIndex(route => route.path === location.pathname)
+  );
+  const [underlineStyle, setUnderlineStyle] = useState<IUnderlineStyle>(
+    getUnderlineStyleDefault()
+  );
+  const memoUnderlineStyle = useMemo<React.CSSProperties>(() => {
+    // console.log('Underline style updated', selected, underlineStyle.width, underlineStyle.transform);
+
+    return {
+      width: underlineStyle.width + 'px',
+      transform: `translate(${underlineStyle.transform}px, -2px)`
+    };
+  }, [underlineStyle.width, underlineStyle.transform]);
+  const [modalOpened, setModalOpened] = useState<boolean>(false);
+
 
   function openModal() {
     setModalOpened(true);
@@ -48,26 +64,38 @@ function Navigation() {
     const transformX = target.offsetLeft - 64 + 20;
 
     return {
-      width: width + 'px',
-      transform: `translate(${transformX}px, -2px)`
+      width: width,
+      transform: transformX
     };
   }
 
   function getUnderlineStyleDefault() {
-    const target = document.querySelector('.selected') as HTMLAnchorElement;
+    // console.log('Underline style default');
+    const $ul = navListRef.current ? navListRef.current :
+      document.querySelector('.navigation_shortcuts ul') as HTMLUListElement;
+
+    if (!$ul || selected < 0)
+      return {width: 0, transform: 0};
+
+    const target = $ul.children[selected].children[0] as HTMLAnchorElement;
 
     if (target)
       return getUnderlineStyle(target);
-    return {};
+    return {width: 0, transform: 0};
   }
 
   function setUnderlineTarget(target?: HTMLAnchorElement) {
     const style = target ? getUnderlineStyle(target) : getUnderlineStyleDefault();
 
-    setUnderlineStyle(style);
+    if (style)
+      setUnderlineStyle(style);
   }
 
-  useLayoutEffect(() => {
+  useEffect(() => {
+    setSelected(NavRoutes.findIndex(route => route.path === location.pathname));
+  }, [location.pathname]);
+
+  useEffect(() => {
     setUnderlineTarget();
   }, []);
 
@@ -98,11 +126,11 @@ function Navigation() {
         </div>
         { isLogin && (
           <div className='navigation_shortcuts'>
-            <ul onMouseLeave={() => setUnderlineTarget()}>
+            <ul ref={navListRef} onMouseLeave={() => setUnderlineTarget()}>
               {NavRoutes.map((route, index) => (
                 <li key={index}>
                   <Link to={route.path}
-                        className={location.pathname === route.path ? 'selected' : ''}
+                        className={selected == index ? 'selected' : ''}
 
                         onMouseOver={e => setUnderlineTarget(e.target as HTMLAnchorElement)}
                         onFocus={e => setUnderlineTarget(e.target as HTMLAnchorElement)}
@@ -113,7 +141,7 @@ function Navigation() {
               ))}
             </ul>
             <div className='nav_underline'
-                  style={underlineStyle}
+                  style={memoUnderlineStyle}
                   aria-disabled/>
           </div>
         )}
