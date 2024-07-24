@@ -99,8 +99,8 @@ function useSimulation() {
   /** 현재 진행중인 다이얼로그를 닫습니다.
    * @param refreshSubjects 과목 테이블을 새로고침할지 여부 */
   function stopStep(refreshSubjects?: boolean) {
-    // Todo: 이거 어떤거 하는건지 알려주세요
-    if (state.dialogType === ApplyDialogType.SUCCESS || state.dialogType === ApplyDialogType.FAILED) {
+    // Todo: 이거 어떤거 하는건지 알려주세요 - 아마도 완료된 과목 여부 추가해주는 코드 같습니다.
+    if ([ApplyDialogType.SUCCESS, ApplyDialogType.FAILED].includes(state.dialogType)) {
       if (appliedSubjects.some((subject) => sameSubject(subject, state.selectedSubject!)))
         return;
 
@@ -118,9 +118,7 @@ function useSimulation() {
       );
     }
 
-
-    // Fixme: error로 강제종료 되었을 때, Finish Dialog가 떴다가 없어지는 문제 해결
-    if (state.onSimulation || state.dialogType === ApplyDialogType.FINISHED) {
+    if (state.onSimulation || [ApplyDialogType.FINISHED, ApplyDialogType.ERROR].includes(state.dialogType)) {
       dispatch({type: 'CLOSE_DIALOG'});
     }
     else {
@@ -173,6 +171,7 @@ function useSimulation() {
   }
 
   function resetSimulation() {
+    setLoading(false);
     setSubjects([]);
     setAppliedSubjects([]);
     setSubmitStatus([]);
