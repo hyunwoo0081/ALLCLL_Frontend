@@ -8,6 +8,10 @@ const NavRoutes = [
     name: '아레나 설정',
     path: '/admin/arena'
   },
+  {
+    name: '과목 추가',
+    path: '/admin/subject'
+  }
 ];
 
 function AdminNavigation() {

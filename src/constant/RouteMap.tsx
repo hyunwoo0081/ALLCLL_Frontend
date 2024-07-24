@@ -10,6 +10,7 @@ import SimulationPage from '../pages/SimulationPage.tsx';
 import InterestPage from '../pages/InterestPage.tsx';
 import AnnouncementSetting from '../pages/admin/AnnouncementSetting.tsx';
 import ArenaSetting from '../pages/admin/ArenaSetting.tsx';
+import AddSubjectData from '../pages/admin/AddSubjectData.tsx';
 import Page404 from '../pages/Page404.tsx';
 
 const RouteMap = [
@@ -75,6 +76,11 @@ const RouteMap = [
     {
         path: '/admin/arena',
         element: (<ArenaSetting />),
+        auth: ['ADMIN']
+    },
+    {
+        path: '/admin/subject',
+        element: (<AddSubjectData />),
         auth: ['ADMIN']
     },
     {

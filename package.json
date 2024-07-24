@@ -20,7 +20,8 @@
     "react-draft-wysiwyg": "^1.15.0",
     "react-router-dom": "^6.20.0",
     "sass": "^1.69.5",
-    "scss": "^0.2.4"
+    "scss": "^0.2.4",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
   },
   "devDependencies": {
     "@types/draftjs-to-html": "^0.8.4",
