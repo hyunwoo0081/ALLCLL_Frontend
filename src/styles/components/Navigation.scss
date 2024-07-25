@@ -94,6 +94,7 @@ nav.navigation {
     div.nav_underline {
       display: block;
       position: absolute;
+      bottom: 0;
       height: 2px;
       background: $primary-color;
       width: 0;

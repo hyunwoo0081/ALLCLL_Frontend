@@ -48,7 +48,7 @@ function Navigation() {
 
     return {
       width: underlineStyle.width + 'px',
-      transform: `translate(${underlineStyle.transform}px, -2px)`
+      transform: `translate(${underlineStyle.transform}px, 1px)`
     };
   }, [underlineStyle.width, underlineStyle.transform]);
   const [modalOpened, setModalOpened] = useState<boolean>(false);
