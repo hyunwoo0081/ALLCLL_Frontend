@@ -120,7 +120,8 @@ function Navigation() {
             </div>
           ) : (
             <div className='auth_layout'>
-              <button onClick={() => navigate('/login')}>Login</button>
+              <Link to='/login'>Login</Link>
+              {/*<button onClick={() => navigate('/login')}>Login</button>*/}
             </div>
           )}
         </div>
