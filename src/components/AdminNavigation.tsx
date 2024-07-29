@@ -10,12 +10,16 @@ const NavRoutes = [
     path: '/admin'
   },
   {
-    name: '아레나 설정',
-    path: '/admin/arena'
+    name: '수강 설정',
+    path: '/admin/mock'
   },
   {
     name: '과목 추가',
     path: '/admin/subject'
+  },
+  {
+    name: '아레나 설정',
+    path: '/admin/arena'
   }
 ];
 

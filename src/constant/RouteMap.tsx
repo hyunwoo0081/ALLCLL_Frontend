@@ -10,8 +10,9 @@ import InterestPage from '../pages/InterestPage.tsx';
 import SimulationPage from '../pages/SimulationPage.tsx';
 import MyPage from '../pages/MyPage.tsx';
 import AnnouncementSetting from '../pages/admin/AnnouncementSetting.tsx';
-import ArenaSetting from '../pages/admin/ArenaSetting.tsx';
+import MockSetting from '../pages/admin/MockSetting.tsx';
 import AddSubjectData from '../pages/admin/AddSubjectData.tsx';
+import ArenaSetting from '../pages/admin/ArenaSetting.tsx';
 import Page404 from '../pages/Page404.tsx';
 
 const RouteMap = [
@@ -87,6 +88,11 @@ const RouteMap = [
     {
         path: '/admin/subject',
         element: (<AddSubjectData />),
+        auth: ['ADMIN']
+    },
+    {
+        path: '/admin/mock',
+        element: (<MockSetting />),
         auth: ['ADMIN']
     },
     {
