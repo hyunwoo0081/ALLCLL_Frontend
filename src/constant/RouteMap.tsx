@@ -6,8 +6,9 @@ import NoticePage from '../pages/InfoPages/NoticePage.tsx';
 import FAQ from '../pages/InfoPages/FAQ.tsx';
 import TermsPage from '../pages/InfoPages/TermsPage.tsx';
 import DashBoardPage from '../pages/DashBoardPage.tsx';
-import SimulationPage from '../pages/SimulationPage.tsx';
 import InterestPage from '../pages/InterestPage.tsx';
+import SimulationPage from '../pages/SimulationPage.tsx';
+import MyPage from '../pages/MyPage.tsx';
 import AnnouncementSetting from '../pages/admin/AnnouncementSetting.tsx';
 import ArenaSetting from '../pages/admin/ArenaSetting.tsx';
 import AddSubjectData from '../pages/admin/AddSubjectData.tsx';
@@ -66,6 +67,11 @@ const RouteMap = [
     {
         path: '/simulation',
         element: (<SimulationPage />),
+        auth: ['USER', 'ADMIN']
+    },
+    {
+        path: '/mypage',
+        element: (<MyPage />),
         auth: ['USER', 'ADMIN']
     },
     {

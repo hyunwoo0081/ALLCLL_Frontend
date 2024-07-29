@@ -63,13 +63,24 @@ function NavModal({isOpen, setIsOpen}: { isOpen: boolean, setIsOpen: (isOpen: bo
             <ul>
               <li><span>{token.sub}</span></li>
               {role === 'ADMIN' &&
-                <li><button onClick={() => window.open('/admin', '_blank')}>
-                  관리자 페이지
-                </button></li>
+                <li>
+                  <button onClick={() => window.open('/admin', '_blank')}>
+                    관리자 페이지
+                  </button>
+                </li>
               }
 
-              <li><button onClick={() => window.open('https://forms.gle/iKZeL6hZvCQzgGGc6', '_blank')}>오류 및 제안</button></li>
-              <li><button onClick={() => AuthControl.logout(navigate)}>로그아웃</button></li>
+              <li>
+                <button onClick={() => navigate('/mypage')}>
+                  마이 페이지
+                </button>
+              </li>
+              <li>
+                <button onClick={() => window.open('https://forms.gle/iKZeL6hZvCQzgGGc6', '_blank')}>오류 및 제안</button>
+              </li>
+              <li>
+                <button onClick={() => AuthControl.logout(navigate)}>로그아웃</button>
+              </li>
             </ul>
           </div>
         </div>
