@@ -46,7 +46,7 @@ function AdminNavigation() {
         </div>
 
         <div className='navigation_shortcuts'>
-          <ul ref={navListRef}>
+          <ul ref={navListRef}onMouseLeave={() => setUnderlineTarget()}>
             {NavRoutes.map((route, index) => (
               <li key={index}>
                 <Link to={route.path}
