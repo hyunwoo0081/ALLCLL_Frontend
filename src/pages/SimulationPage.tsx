@@ -18,7 +18,7 @@ function SimulationPage() {
   const simulation = useSimulation();
   const {onSimulation,
     loading, subjects, appliedSubjects, submitStatus,
-    startSimulation, refreshTable, startStep} = simulation;
+    startSimulation, restartSimulation, refreshTable, startStep} = simulation;
 
   document.title = 'ALLCLL | 수강신청';
 
@@ -42,10 +42,17 @@ function SimulationPage() {
             </select>
             <input placeholder='관심과목를 입력하세요' type='text' disabled/>
           </div>
-          <button onClick={startSimulation} disabled={onSimulation || loading}>
-            <img src='/Search.svg' alt=''/>
-            시작
-          </button>
+          {onSimulation ? (
+            <button onClick={restartSimulation} disabled={!onSimulation}>
+              <img src='/Search.svg' alt=''/>
+              재시작
+            </button>
+          ) : (
+            <button onClick={startSimulation} disabled={onSimulation || loading}>
+              <img src='/Search.svg' alt=''/>
+              시작
+            </button>
+          )}
         </div>
 
         {!onSimulation ? (

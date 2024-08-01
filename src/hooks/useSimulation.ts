@@ -136,9 +136,9 @@ function useSimulation() {
    * @param message 오류 메시지
    * @param forceFinish 시뮬레이션을 강제로 종료할지 여부 */
   function stepError(message: string, forceFinish?: boolean) {
-    const finish = !forceFinish ?? !state.onSimulation;
+    const finish = forceFinish ?? !state.onSimulation;
 
-    dispatch({type: 'OPEN_ERROR_MESSAGE', params: {errorMessage: message, onSimulation: finish}});
+    dispatch({type: 'OPEN_ERROR_MESSAGE', params: {errorMessage: message, onSimulation: !finish}});
 
     if (finish)
       resetSimulation();
@@ -168,6 +168,12 @@ function useSimulation() {
         console.error(err);
       })
       .finally(() => setLoading(false));
+  }
+
+  function restartSimulation() {
+    if (!confirm('시뮬레이션을 재시작하시겠습니까?')) return;
+
+    startSimulation();
   }
 
   function resetSimulation() {
@@ -208,7 +214,7 @@ function useSimulation() {
 
   return {
     ...state, loading, subjects, appliedSubjects, submitStatus,
-    startSimulation, refreshTable, startStep, nextStep, stopStep, stepError, updateMacroNumber
+    startSimulation, restartSimulation, refreshTable, startStep, nextStep, stopStep, stepError, updateMacroNumber
   }
 }
 
