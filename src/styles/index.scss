@@ -82,6 +82,7 @@ h1 {
 input[type="text"], input[type="password"] {
   padding: 6px 12px;
   color: $black;
+  font-family: inherit;
   font-size: 18px;
   font-weight: 500;
   background: white;
@@ -116,7 +117,7 @@ button {
   padding: 6px 12px;
   font-size: 16px;
   font-weight: 600;
-  font-family: 'Inter', sans-serif;
+  font-family: inherit;
   color: white;
   background: $primary-color;
   border-radius: 6px;
