@@ -99,6 +99,10 @@ function InterestPage() {
       .finally(() => setSearching(false));
   }
 
+  function AddRandomSubject() {
+    // Todo: 랜덤 선택 API 적용
+  }
+
   function addSubject(subject: ISubject) {
     setSearchedSubjects(prev => prev.filter(s => !sameSubjectExact(s, subject)));
     setSubjects(prev => [...prev, subject]);
@@ -194,7 +198,10 @@ function InterestPage() {
 
 
       <div className='title_container_box'>
-        <h2>선택된 과목</h2>
+        <div className='container_header_layout'>
+          <h2>선택된 과목</h2>
+          <button className='small' onClick={AddRandomSubject}>랜덤 선택</button>
+        </div>
 
         {fetching ? (
           <div className='container_box'>로딩 중...</div>
@@ -244,7 +251,7 @@ function InterestPage() {
             <img src='/CloseColor.svg' alt=''/>
             관심 과목 저장에 실패했습니다
           </div>
-        ) : null }
+        ) : null}
       </div>
     </PageDefaultLayout>
   );

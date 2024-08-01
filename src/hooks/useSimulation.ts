@@ -151,8 +151,20 @@ function useSimulation() {
   }
 
   function startSimulation() {
+    // Todo: Error Status 과목이 없어서 시작을 못할 때 추가
+    //  랜덤 선택 후 시작하는 걸로 변경
+
+    const Errors: IErrorTypes[] = [
+      {errorBody: '관심 과목을 등록해 주세요',
+        errorMessage: '관심과목이 존재하지 않습니다.',
+        action: () => {
+          // Todo: 관심과목이 없을 때 랜덤으로 선택하는 API 추가 후, 다시 startSimulation() 호출
+        }
+      },
+    ]
+
     setLoading(true);
-    API.fetch2Json('/api/v2/mock/start', 'GET', {}, [], navigate)
+    API.fetch2Json('/api/v2/mock/start', 'GET', {}, Errors, navigate)
       .then((res) => {
         // console.log(res);
 
