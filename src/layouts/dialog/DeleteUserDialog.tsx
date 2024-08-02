@@ -1,6 +1,7 @@
 import React from 'react';
-import DialogTemplate from '../DialogTemplate.tsx';
 import {useNavigate} from 'react-router-dom';
+import DialogTemplate from '../DialogTemplate.tsx';
+import {IErrorTypes} from '../../constant/CheckFetchError.ts';
 import API from '../../constant/API.ts';
 import AuthControl from '../../constant/AuthControl.ts';
 import '@styles/dialog/MacroDialog.scss';
