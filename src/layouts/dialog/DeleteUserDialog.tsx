@@ -20,7 +20,7 @@ function DeleteUserDialog({isOpen, setIsOpen}: IDeleteUser) {
 
     const request = {};
 
-    const Errors = [
+    const Errors: IErrorTypes[] = [
       // {errorBody: 'Mock not found', errorMessage: '수강신청이 존재하지 않습니다', action: closeDialog},
     ];
 
