@@ -14,7 +14,6 @@ import MockSetting from '../pages/admin/MockSetting.tsx';
 import AddSubjectData from '../pages/admin/AddSubjectData.tsx';
 import ArenaSetting from '../pages/admin/ArenaSetting.tsx';
 import Page404 from '../pages/Page404.tsx';
-import MyPage from "../pages/MyPage.tsx";
 
 const RouteMap = [
     {
