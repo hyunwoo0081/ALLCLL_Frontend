@@ -65,7 +65,7 @@ function Login4PasswordPage() {
 
       const errors = [
         {errorBody: '학생 인증에 실패했습니다. ', errorMessage: '학번 또는 비밀번호가 일치하지 않습니다', action: () => UserIdInputRef.current?.focus()},
-        {errorBody: '먼저 가입해 주세요! ', errorMessage: '회원가입이 되지 않은 사용자입니다', action: () => navigate('/register', {replace: true})},
+        {errorBody: '가입하지 않은 사용자거나 탈퇴한 사용자입니다.', errorMessage: '회원가입이 되지 않은 사용자입니다', action: () => navigate('/register', {replace: true})},
       ];
       await CheckFetchError(res, errors, navigate);
 

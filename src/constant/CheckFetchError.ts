@@ -1,5 +1,6 @@
 import {NavigateFunction} from 'react-router-dom';
 import AuthControl from './AuthControl.ts';
+import CheckStringType from './CheckStringType.ts';
 
 export interface IErrorTypes {
   errorBody: string;
@@ -18,7 +19,8 @@ async function CheckFetchError(response: Response, errorTypes: IErrorTypes[], na
     throw new Error('로그인이 필요합니다');
   }
 
-  const message = await response.text();
+  const req = await response.text();
+  const message = CheckStringType.isJSON(req) ? JSON.parse(req).message : req;
   errorTypes.forEach((errorType) => {
     if (errorType.errorBody === message) {
       if (errorType.action)

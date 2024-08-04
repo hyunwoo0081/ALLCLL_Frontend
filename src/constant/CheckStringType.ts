@@ -20,6 +20,14 @@ const CheckStringType = {
   captcha(captcha: string) {
     const captchaRegex = /^[0-9]{4}$/;
     return captchaRegex.test(captcha);
+  },
+  isJSON(json: string) {
+    try {
+      JSON.parse(json);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }
 
