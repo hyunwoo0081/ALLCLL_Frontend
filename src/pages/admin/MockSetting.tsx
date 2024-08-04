@@ -1,10 +1,10 @@
 import {useEffect, useState} from 'react';
-// import {useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import AdminNavigation from '../../components/AdminNavigation.tsx';
-// import API from '../../constant/API.ts';
+import API from '../../constant/API.ts';
 
 function MockSetting() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   
   const [semesters, setSemesters] = useState<string[]|null>(null);
   const [settedSemester, setSettedSemester] = useState<string>('');
@@ -12,19 +12,19 @@ function MockSetting() {
   
   useEffect(() => {
     // 학기 목록 불러오기
-    // API.fetch2Json('/api/v2/utils/semesters', 'GET', {}, [], navigate)
-    //   .then(data => {
-    //     setSemesters(data.semesters);
-    //     setSelectedSemester(data.semesters[0] ?? '');
-    //   })
-    //   .catch(() => {
-    //     setSemesters(null);
-    //   });
+    API.fetch2Json('/api/v2/semesters', 'GET', {}, [], navigate)
+      .then(data => {
+        setSemesters(data.semesters);
+        setSelectedSemester(data.semesters[0] ?? '');
+      })
+      .catch(() => {
+        setSemesters(null);
 
-    // 임시 데이터
-    setSemesters(['2024년도 1학기', '2024년도 여름학기', '2024년도 2학기']);
-    setSelectedSemester('2024년도 1학기');
-    setSettedSemester('2024년도 1학기');
+        // 임시 데이터
+        setSemesters(['2024년도 1학기', '2024년도 여름학기', '2024년도 2학기']);
+        setSelectedSemester('2024년도 1학기');
+        setSettedSemester('2024년도 1학기');
+      });
   }, []);
 
   function setSemester() {
@@ -32,7 +32,7 @@ function MockSetting() {
 
     if (!confirm('설정하시겠습니까?')) return;
 
-    // API.fetch2Json('/api/v2/utils/semesters', 'POST', {semester: selectedSemester}, [], navigate)
+    // API.fetch2Json('/api/v2/semester', 'POST', {semester: selectedSemester}, [], navigate)
     //   .then(data => {
     //     setSettedSemester(data.semester);
     //   });

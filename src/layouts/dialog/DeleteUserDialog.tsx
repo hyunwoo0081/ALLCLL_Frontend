@@ -25,7 +25,7 @@ function DeleteUserDialog({isOpen, setIsOpen}: IDeleteUser) {
       // {errorBody: 'Mock not found', errorMessage: '수강신청이 존재하지 않습니다', action: closeDialog},
     ];
 
-    API.fetch('/api/v2/auth/user', 'DELETE', request, Errors, navigate)
+    API.fetch('/api/v2/user', 'DELETE', request, Errors, navigate)
       .then((res) => {
         if (res.ok) {
           alert('회원 탈퇴가 완료되었습니다');
