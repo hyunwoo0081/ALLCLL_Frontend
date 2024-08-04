@@ -57,6 +57,7 @@ nav.navigation {
   }
 
   div.navigation_shortcuts {
+    display: inline-block;
     padding: 0 20px 0 64px;
     ul {
       display: flex;
@@ -67,16 +68,16 @@ nav.navigation {
 
       li {
         box-sizing: content-box;
-        padding: 4px 2px 14px 2px;
+        padding: 4px 0 14px 0;
 
         &.selected {
-          border-bottom: 2px solid $primary-color;
-          padding: 4px 2px 13px 2px;
+          //border-bottom: 2px solid $primary-color;
+          padding: 4px 0 13px 0;
           margin-bottom: -1px;
         }
 
         a {
-          padding: 0 18px;
+          padding: 4px 20px 14px 20px;
           color: var(--gray, #666666);
           text-decoration: none;
           font-size: 18px;
@@ -88,6 +89,17 @@ nav.navigation {
           }
         }
       }
+    }
+
+    div.nav_underline {
+      display: block;
+      position: absolute;
+      bottom: 0;
+      height: 2px;
+      background: $primary-color;
+      width: 0;
+      transform: translateY(-2px);
+      transition: width 0.3s, transform 0.3s;
     }
   }
 }

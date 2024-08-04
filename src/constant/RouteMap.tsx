@@ -6,9 +6,12 @@ import NoticePage from '../pages/InfoPages/NoticePage.tsx';
 import FAQ from '../pages/InfoPages/FAQ.tsx';
 import TermsPage from '../pages/InfoPages/TermsPage.tsx';
 import DashBoardPage from '../pages/DashBoardPage.tsx';
-import SimulationPage from '../pages/SimulationPage.tsx';
 import InterestPage from '../pages/InterestPage.tsx';
+import SimulationPage from '../pages/SimulationPage.tsx';
+import MyPage from '../pages/MyPage.tsx';
 import AnnouncementSetting from '../pages/admin/AnnouncementSetting.tsx';
+import MockSetting from '../pages/admin/MockSetting.tsx';
+import AddSubjectData from '../pages/admin/AddSubjectData.tsx';
 import ArenaSetting from '../pages/admin/ArenaSetting.tsx';
 import Page404 from '../pages/Page404.tsx';
 import MyPage from "../pages/MyPage.tsx";
@@ -81,6 +84,16 @@ const RouteMap = [
     {
         path: '/admin/arena',
         element: (<ArenaSetting />),
+        auth: ['ADMIN']
+    },
+    {
+        path: '/admin/subject',
+        element: (<AddSubjectData />),
+        auth: ['ADMIN']
+    },
+    {
+        path: '/admin/mock',
+        element: (<MockSetting />),
         auth: ['ADMIN']
     },
     {

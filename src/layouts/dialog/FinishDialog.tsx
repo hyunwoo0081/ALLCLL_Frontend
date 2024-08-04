@@ -1,18 +1,14 @@
 import {useEffect, useState} from 'react';
-import DialogTemplate from '../DialogTemplate.tsx';
 import {useNavigate} from 'react-router-dom';
+import DialogTemplate from '../DialogTemplate.tsx';
 import {IErrorTypes} from '../../constant/CheckFetchError.ts';
 import {getTimerString} from '../../constant/TimeString.ts';
+import {ApplyDialogType, ISimulationDialog} from '../../constant/types.ts';
 import API from '../../constant/API.ts';
 import '@styles/dialog/MacroDialog.scss';
 
-interface IMacroDialog {
-  isOpen: boolean;
-  closeDialog: () => void;
-  playId: number;
-}
 
-function FinishDialog({isOpen, closeDialog, playId}: IMacroDialog) {
+function FinishDialog({useSimulation}: ISimulationDialog) {
   const navigate = useNavigate();
   const [contents, setContents] = useState({
     takenTime: '00:00:00.00',
@@ -20,9 +16,11 @@ function FinishDialog({isOpen, closeDialog, playId}: IMacroDialog) {
     numberOfRegisteredCourses: 0,
     registeredCoursesDetails: '',
   });
+
+  const {dialogType, simulationId: playId, stopStep, stepError} = useSimulation;
   
   useEffect(() => {
-    if (!isOpen) {
+    if (dialogType !== ApplyDialogType.FINISHED) {
       setContents({
         takenTime: '00:00:00.00',
         numberOfCoursesToRegister: 0,
@@ -35,15 +33,23 @@ function FinishDialog({isOpen, closeDialog, playId}: IMacroDialog) {
     const Errors: IErrorTypes[] = [
       {errorBody: 'Mock did not terminate successfully', errorMessage: '종료되지 않은 시뮬레이션입니다', action: closeDialog},
     ]
-    API.fetch2Json(`/api/v2/mock/result`, 'GET', {playId}, Errors, navigate)
-      .then((res) => setContents(res));
-  }, [isOpen]);
+    API.fetch2Json('/api/v2/mock/result', 'GET', {playId}, Errors, navigate)
+      .then((res) => setContents(res))
+      .catch((err) => {
+        stepError(err.message);
+        console.error(err)
+      });
+  }, [dialogType]);
+
+  function closeDialog() {
+    stopStep();
+  }
 
   return (
-    <DialogTemplate isOpen={isOpen}>
+    <DialogTemplate isOpen={dialogType === ApplyDialogType.FINISHED}>
       <div className='dialog_header'>
         <h2>수강신청 결과</h2>
-        <button onClick={closeDialog}>
+        <button onClick={closeDialog} tabIndex={-1}>
           <img src='/Close.svg' alt=''/>
         </button>
       </div>

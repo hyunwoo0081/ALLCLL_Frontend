@@ -91,6 +91,7 @@ p, span {
 input[type="text"], input[type="password"] {
   padding: 6px 12px;
   color: $black;
+  font-family: inherit;
   font-size: 18px;
   font-weight: 500;
   background: white;
@@ -123,8 +124,9 @@ button {
   
   height: 50px;
   padding: 6px 12px;
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: inherit;
   color: white;
   background: $primary-color;
   border-radius: 6px;
@@ -136,11 +138,11 @@ button {
     height: 20px;
   }
 
-  &:hover {
+  &:hover, &:focus {
     background: $primary-color-hover;
   }
   &:focus {
-    outline: $primary-color-hover solid 1px;
+    outline: $primary-color-hover solid 2px;
   }
   &:disabled {
     background: $light-gray;
@@ -211,6 +213,19 @@ button.image_button {
   }
 }
 
+a {
+  color: var(--gray, #666666);
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 500;
+
+  &:hover {
+    color: $primary-color-hover;
+    text-decoration: underline;
+  }
+
+}
+
 select {
   padding: 6px 12px;
   color: $black;
@@ -242,6 +257,26 @@ table {
     min-width: 60px;
   }
 
+  th {
+    padding: 8px 4px;
+    min-width: 60px;
+    font-weight: 600;
+  }
+
+  &.font_small {
+    td {
+      font-size: 12px;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    th {
+      font-size: 14px;
+      white-space: nowrap;
+      text-align: center;
+    }
+  }
+
   .highlight {
     .red {
       color: $primary-color;
@@ -259,4 +294,16 @@ table {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+}
+
+.blind {
+  display: none;
+}
+
+div.x_scroll_layout {
+  overflow-x: auto;
+}
+
+.rotate_90 {
+  transform: rotate(90deg);
 }

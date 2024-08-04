@@ -240,16 +240,16 @@ function Terms() {
       <ul>
         <li>개인정보침해신고센터</li>
         <li>전화 : (국번없이) 118</li>
-        <li>URL : <a href="https://privacy.kisa.or.kr/">https://privacy.kisa.or.kr</a></li>
+        <li>URL : <a href='https://privacy.kisa.or.kr/'>https://privacy.kisa.or.kr</a></li>
         <li>개인정보분쟁조정위원회</li>
         <li>전화 : 1833-6972</li>
-        <li>URL : <a href="https://www.kopico.go.kr/">https://www.kopico.go.kr</a></li>
+        <li>URL : <a href='https://www.kopico.go.kr/'>https://www.kopico.go.kr</a></li>
         <li>경찰청 사이버안전국</li>
         <li>전화 : (국번없이) 182</li>
-        <li>URL : <a href="https://cyberbureau.police.go.kr/">https://cyberbureau.police.go.kr</a></li>
+        <li>URL : <a href='https://cyberbureau.police.go.kr/'>https://cyberbureau.police.go.kr</a></li>
         <li>대검찰청 사이버수사과</li>
         <li>전화 : (국번없이) 1301</li>
-        <li>URL : <a href="http://www.spo.go.kr/">http://www.spo.go.kr</a></li>
+        <li>URL : <a href='http://www.spo.go.kr/'>http://www.spo.go.kr</a></li>
       </ul>
       <h2>제 13 조 개인정보처리방침의 개정과 그 공지</h2>
       <p>본 방침은 2024년 02월 07일 부터 시행됩니다. 현 개인정보취급방침 내용 추가, 삭제 및 수정이 있을 시에는 개정 최소 7일전부터 홈페이지의 공지사항을 통해 고지할 것입니다. 다만,

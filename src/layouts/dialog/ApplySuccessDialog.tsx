@@ -1,23 +1,26 @@
 import DialogTemplate from '../DialogTemplate.tsx';
-import {ApplyType} from '../../constant/types.ts';
+import {ApplyDialogType, ISimulationDialog} from '../../constant/types.ts';
 import '@styles/dialog/MacroDialog.scss';
 
-interface IMacroDialog {
-  isOpen: boolean;
-  closeDialog: () => void;
-  nextStep: (_?:ApplyType) => void;
-}
+function ApplySuccessDialog({useSimulation}: ISimulationDialog) {
+  const {dialogType, onSimulation, nextStep, stopStep} = useSimulation;
 
-function ApplySuccessDialog({isOpen, closeDialog, nextStep}: IMacroDialog) {
+  function closeDialog() {
+    nextStep(ApplyDialogType.CLOSE);
+  }
+
   function submit() {
-    nextStep();
+    if (onSimulation)
+      stopStep(true);
+    else
+      nextStep(ApplyDialogType.FINISHED);
   }
 
   return (
-    <DialogTemplate isOpen={isOpen}>
+    <DialogTemplate isOpen={dialogType === ApplyDialogType.SUCCESS}>
       <div className='dialog_header'>
         <h2></h2>
-        <button onClick={closeDialog}>
+        <button onClick={closeDialog} tabIndex={-1}>
           <img src='/Close.svg' alt=''/>
         </button>
       </div>

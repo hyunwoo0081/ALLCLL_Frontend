@@ -1,0 +1,30 @@
+ul.sheet_name_layout {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 0 0;
+
+  button {
+    height: 36px;
+    color: var(--black, black);
+    background: none;
+    border: none;
+    border-radius: 0;
+    font-weight: 500;
+
+    &:focus, &:hover {
+      background: #E6E6E6;
+    }
+
+    &.selected {
+      border-top: var(--primary-color, #C3002F) solid 2px;
+      font-weight: 600;
+    }
+  }
+}
+
+div.flex_layout {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
