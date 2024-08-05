@@ -45,8 +45,11 @@ function RoutingHelper() {
     if (route && !route.auth.includes(role)) {
       navigate(role == 'GUEST' ? '/' : '/dashboard', {replace: true});
     }
+  }, [location, isMobile, navigate]);
 
-    // check announcement
+
+  // check announcement
+  useEffect(() => {
     const announcementOpen = localStorage.getItem('announcementOpen') == 'true';
     const announcementLatest = localStorage.getItem('announcementLatest');
 
@@ -65,8 +68,7 @@ function RoutingHelper() {
           localStorage.setItem('announcementOpen', 'false');
         });
     }
-
-  }, [location, isMobile, navigate]);
+  }, [navigate]);
 
   function handleAnnouncementClose(dontShowAgain: boolean) {
     if (dontShowAgain)
