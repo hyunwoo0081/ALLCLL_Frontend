@@ -61,7 +61,7 @@ function NavModal({isOpen, setIsOpen}: { isOpen: boolean, setIsOpen: (isOpen: bo
           <div className='dialog'
                onClick={e => e.stopPropagation()}>
             <ul>
-              <li><span>{token.sub}</span></li>
+              <li><span>{token?.sub}</span></li>
               {role === 'ADMIN' &&
                 <li>
                   <button onClick={() => window.open('/admin', '_blank')}>
