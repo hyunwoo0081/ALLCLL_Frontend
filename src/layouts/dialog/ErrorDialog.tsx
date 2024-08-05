@@ -29,7 +29,6 @@ function ErrorDialog({useSimulation}: ISimulationDialog) {
           {errorMessage.split('\n').map((line, index) => (
             <Fragment key={index}>
               <span>{line}</span>
-              <br/>
             </Fragment>
           ))}
         </div>
