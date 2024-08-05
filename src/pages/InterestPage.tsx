@@ -33,8 +33,11 @@ function InterestPage() {
   const [lazyStatus, setLazyStatus] = useState<LazyStatus>(LazyStatus.Accepted);
 
   useEffect(() => {
+    const errors = [
+      {errorBody: '관심 과목이 존재하지 않습니다. 관심 과목을 등록해 주세요.', errorMessage: '관심 과목이 존재하지 않습니다', action: () => setSubjects([])},
+    ]
     setFetching(true);
-    API.fetch2Json('/api/v2/interestedCourse', 'GET', {}, [], navigate)
+    API.fetch2Json('/api/v2/interestedCourse', 'GET', {}, errors, navigate)
       .then(res => setSubjects(res.courses))
       .catch(e => console.error(e))
       .finally(() => setFetching(false));
