@@ -47,9 +47,10 @@ const AuthControl = {
   },
   getRole() {
     const info = this.getInfoFromToken();
-    if (!info?.role) return null;
+    if (!info?.role)
+      return 'GUEST';
 
-    return info.role?.slice(1, -1);
+    return info.role ?? 'GUEST';
   }
 };
 

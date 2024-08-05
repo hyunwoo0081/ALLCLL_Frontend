@@ -1,14 +1,12 @@
 import {useEffect, useState} from 'react';
+import AuthControl from '../constant/AuthControl.ts';
 
 function useLogin() {
-  const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1');
-  const [isLogin, setIsLogin] = useState(!!token);
+  const [isLogin, setIsLogin] = useState(AuthControl.isLogin());
 
   useEffect(() => {
-    const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1');
-    setIsLogin(!!token);
+    setIsLogin(AuthControl.isLogin());
   }, [document.cookie]);
-  
   
   return {isLogin};
 }
