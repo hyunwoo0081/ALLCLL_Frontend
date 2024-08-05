@@ -20,7 +20,9 @@ async function CheckFetchError(response: Response, errorTypes: IErrorTypes[], na
   }
 
   const req = await response.text();
-  const message = CheckStringType.isJSON(req) ? JSON.parse(req).message : req;
+  const message = CheckStringType.isJSON(req) ?
+    JSON.parse(req).message :
+    req.replace(/(<([^>]+)>)/gi, "");
   errorTypes.forEach((errorType) => {
     if (errorType.errorBody === message) {
       if (errorType.action)
