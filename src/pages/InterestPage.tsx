@@ -5,6 +5,7 @@ import {DataFormats, ISubject} from '../constant/types.ts';
 import API from '../constant/API.ts';
 import '@styles/InterestPage.scss';
 import '@styles/components/TableStyle.scss';
+import Controller from "../constant/Controller.ts";
 
 enum LazyStatus {
   Changed, Fetching, Accepted, Rejected
@@ -103,7 +104,16 @@ function InterestPage() {
   }
 
   function AddRandomSubject() {
-    // Todo: 랜덤 선택 API 적용
+    setLazyStatus(LazyStatus.Fetching);
+    Controller.setRandomSubject()
+      .then((res) => {
+        setSubjects(res);
+        setLazyStatus(LazyStatus.Accepted);
+      })
+      .catch(e => {
+        console.error(e);
+        setLazyStatus(LazyStatus.Rejected);
+      });
   }
 
   function addSubject(subject: ISubject) {
