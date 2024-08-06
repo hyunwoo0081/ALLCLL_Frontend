@@ -17,36 +17,30 @@ function RoutingHelper() {
   const {isMobile} = useMobile();
 
   // Todo: 모바일 대응 - 검색창, table 등
+  // useEffect(() => {
+  //   if (isMobile) {
+  //     if (location.pathname !== '/') {
+  //       authControl.logout(navigate, '/');
+  //     }
+  //     return;
+  //   }
+  // }, []);
+
+  // 페이지 별 권한 체크
   useEffect(() => {
-    // if (isMobile) {
-    //   if (location.pathname !== '/') {
-    //     authControl.logout(navigate, '/');
-    //   }
-    //   return;
-    // }
-
-    const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1');
-    const isLogin = !!token;
-
-    const route = RouteMap.find(v => v.path === location.pathname);
-
     // check user role
-    let role = isLogin ? 'USER' : 'GUEST';
-    if (isLogin) {
-      const tokenInfo = AuthControl.getInfoFromToken();
-      if (tokenInfo) {
-        // 문자열 앞 뒤 한글자 씩 제거
-        const newRole = tokenInfo.role?.slice(1, -1);
-        role = newRole ?? 'USER';
-      }
-    }
+    const role = AuthControl.getRole();
+    const route = RouteMap.find(v => v.path === location.pathname);
 
     // check auth
     if (route && !route.auth.includes(role)) {
       navigate(role == 'GUEST' ? '/' : '/dashboard', {replace: true});
     }
+  }, [location, isMobile, navigate]);
 
-    // check announcement
+
+  // check announcement
+  useEffect(() => {
     const announcementOpen = localStorage.getItem('announcementOpen') == 'true';
     const announcementLatest = localStorage.getItem('announcementLatest');
 
@@ -65,8 +59,7 @@ function RoutingHelper() {
           localStorage.setItem('announcementOpen', 'false');
         });
     }
-
-  }, [location, isMobile, navigate]);
+  }, [navigate]);
 
   function handleAnnouncementClose(dontShowAgain: boolean) {
     if (dontShowAgain)

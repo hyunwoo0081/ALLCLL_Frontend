@@ -1,26 +1,24 @@
 import {useEffect, useState} from 'react';
-import {useNavigate} from 'react-router-dom';
 import AdminNavigation from '../../components/AdminNavigation.tsx';
-import API from '../../constant/API.ts';
+import Controller from '../../constant/Controller.ts';
 
 function MockSetting() {
-  const navigate = useNavigate();
-  
   const [semesters, setSemesters] = useState<string[]|null>(null);
   const [settedSemester, setSettedSemester] = useState<string>('');
   const [selectedSemester, setSelectedSemester] = useState<string>('');
-  
+
+  // 학기 목록 불러오기
   useEffect(() => {
-    // 학기 목록 불러오기
-    API.fetch2Json('/api/v2/semesters', 'GET', {}, [], navigate)
+    Controller.getSemesters()
       .then(data => {
         setSemesters(data.semesters);
         setSelectedSemester(data.semesters[0] ?? '');
       })
       .catch(() => {
-        setSemesters(null);
+        alert('학기 목록을 불러오는 데 실패했습니다');
+        // setSemesters(null);
 
-        // 임시 데이터
+        // Fixme: 임시 데이터 제거
         setSemesters(['2024년도 1학기', '2024년도 여름학기', '2024년도 2학기']);
         setSelectedSemester('2024년도 1학기');
         setSettedSemester('2024년도 1학기');
@@ -32,12 +30,11 @@ function MockSetting() {
 
     if (!confirm('설정하시겠습니까?')) return;
 
-    // API.fetch2Json('/api/v2/semester', 'POST', {semester: selectedSemester}, [], navigate)
-    //   .then(data => {
-    //     setSettedSemester(data.semester);
-    //   });
-    // 임시 데이터
-    setSettedSemester(selectedSemester);
+    Controller.setMockSemester(selectedSemester)
+      .then(() => {
+        setSettedSemester(selectedSemester);
+      })
+      .catch(() => alert('설정에 실패했습니다.'));
   }
 
   return (

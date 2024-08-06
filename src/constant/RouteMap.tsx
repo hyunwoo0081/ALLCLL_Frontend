@@ -98,7 +98,7 @@ const RouteMap = [
     {
         path: '*',
         element: (<Page404 />),
-        auth: ['GUEST', 'USER']
+        auth: ['GUEST', 'USER', 'ADMIN']
     },
 ]
 

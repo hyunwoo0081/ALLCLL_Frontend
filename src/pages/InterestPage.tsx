@@ -5,6 +5,7 @@ import {DataFormats, ISubject} from '../constant/types.ts';
 import API from '../constant/API.ts';
 import '@styles/InterestPage.scss';
 import '@styles/components/TableStyle.scss';
+import Controller from "../constant/Controller.ts";
 
 enum LazyStatus {
   Changed, Fetching, Accepted, Rejected
@@ -33,8 +34,11 @@ function InterestPage() {
   const [lazyStatus, setLazyStatus] = useState<LazyStatus>(LazyStatus.Accepted);
 
   useEffect(() => {
+    const errors = [
+      {errorBody: '관심 과목이 존재하지 않습니다. 관심 과목을 등록해 주세요.', errorMessage: '관심 과목이 존재하지 않습니다', action: () => setSubjects([])},
+    ]
     setFetching(true);
-    API.fetch2Json('/api/v2/interestedCourse', 'GET', {}, [], navigate)
+    API.fetch2Json('/api/v2/interestedCourse', 'GET', {}, errors, navigate)
       .then(res => setSubjects(res.courses))
       .catch(e => console.error(e))
       .finally(() => setFetching(false));
@@ -100,7 +104,16 @@ function InterestPage() {
   }
 
   function AddRandomSubject() {
-    // Todo: 랜덤 선택 API 적용
+    setLazyStatus(LazyStatus.Fetching);
+    Controller.setRandomSubject()
+      .then((res) => {
+        setSubjects(res);
+        setLazyStatus(LazyStatus.Accepted);
+      })
+      .catch(e => {
+        console.error(e);
+        setLazyStatus(LazyStatus.Rejected);
+      });
   }
 
   function addSubject(subject: ISubject) {

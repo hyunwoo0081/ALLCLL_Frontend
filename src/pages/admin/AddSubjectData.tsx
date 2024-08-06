@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import * as XLSX from 'xlsx';
 import AdminNavigation from '../../components/AdminNavigation.tsx';
+import Controller from '../../constant/Controller.ts';
 import '@styles/AddSubjectPage.scss';
 
 interface IHeaderTitles {
@@ -14,7 +15,7 @@ const DefaultHeader = {
   classCredit: '학점',
   theoryCredit: '이론',
   practiceCredit: '실습',
-  offeringDepartment: "주관학과",
+  offeringDepartment: '주관학과',
   instructorName: '메인\n교수명',
   classTime: '요일 및 강의시간'
 }
@@ -30,6 +31,23 @@ function AddSubjectData() {
 
   const [headerTitles, setHeaderTitles] = useState<IHeaderTitles>(DefaultHeader);
 
+  const [semesters, setSemesters] = useState<string[]>([]);
+  const [selectedSemester, setSelectedSemester] = useState<string>('');
+
+  // 학기 목록 불러오기
+  useEffect(() => {
+    Controller.getSemesters()
+      .then((data) => {
+        setSemesters(data.semester);
+        setSelectedSemester(data.semester?.length ? data.semester[0] : '');
+      })
+      .catch((e) => {
+        alert('학기 목록을 불러오는데 실패했습니다');
+        console.error(e);
+      });
+  }, []);
+
+  // 엑셀 파일 읽기
   useEffect(() => {
     if (file) {
       const reader = new FileReader();
@@ -83,7 +101,14 @@ function AddSubjectData() {
     if (!confirm('학기를 추가하시겠습니까?'))
       return;
 
-    // Todo: 학기 추가 API 추가
+    Controller.addSemester(semester)
+      .then(() => {
+        alert('학기가 추가되었습니다');
+      })
+      .catch((e) => {
+        alert('학기 추가에 실패했습니다');
+        console.error(e);
+      });
   }
 
   function addSubject() {
@@ -93,22 +118,28 @@ function AddSubjectData() {
     // data로 변경
     const data = sheet.map(row => {
       return {
-        courseId: Number(row[header.indexOf(headerTitles.courseId)]),
-        classId: Number(row[header.indexOf(headerTitles.classId)]),
-        courseTitle: row[header.indexOf(headerTitles.courseTitle)],
+        courseId: Number(row[header.indexOf(headerTitles.courseId)]) ?? 0,
+        classId: Number(row[header.indexOf(headerTitles.classId)]) ?? 0,
+        courseTitle: row[header.indexOf(headerTitles.courseTitle)] ?? '',
         credit: [
           row[header.indexOf(headerTitles.classCredit)],
           row[header.indexOf(headerTitles.theoryCredit)],
           row[header.indexOf(headerTitles.practiceCredit)],
         ].join('/'),
-        offeringDepartment: row[header.indexOf(headerTitles.offeringDepartment)],
-        instructorName: row[header.indexOf(headerTitles.instructorName)],
-        classTime: row[header.indexOf(headerTitles.classTime)]
+        offeringDepartment: row[header.indexOf(headerTitles.offeringDepartment)] ?? '',
+        instructorName: row[header.indexOf(headerTitles.instructorName)] ?? '',
+        classTime: row[header.indexOf(headerTitles.classTime)] ?? ''
       }
     });
 
-    // Todo: 과목 추가 API 추가
-    console.log(data);
+    Controller.addCourseAtSemester(semester, data)
+      .then(() => {
+        alert('과목이 추가되었습니다');
+      })
+      .catch((e) => {
+        alert('과목 추가에 실패했습니다');
+        console.error(e);
+      });
   }
 
   return (
@@ -206,10 +237,12 @@ function AddSubjectData() {
 
                 <h4>과목 학기 선택</h4>
 
-                <select name='' id=''>
-                  <option value=''>2024년도 1학기</option>
-                  <option value=''>2024년도 여름학기</option>
-                  <option value=''>2024년도 2학기</option>
+                <select name='' id=''
+                        value={selectedSemester}
+                        onChange={e => setSelectedSemester(e.target.value)}>
+                  { semesters.map((semester, index) => (
+                    <option key={index} value={semester}>{semester}</option>
+                  ))}
                 </select>
 
                 <br/>
