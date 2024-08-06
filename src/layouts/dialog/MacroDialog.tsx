@@ -34,7 +34,7 @@ function MacroDialog({useSimulation}: ISimulationDialog) {
     ]
 
     API.fetch2Json('/api/v2/mock/captcha', 'GET',
-      {playId}, Errors, () => {})
+      {playId}, Errors)
       .then((res) => setCaptcha(res.image))
       .catch((err) => {
         stepError(err.message, true);

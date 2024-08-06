@@ -3,8 +3,8 @@ import {useLocation, useNavigate} from 'react-router-dom';
 import useMobile from '../hooks/useMobile.ts';
 import NoticeDialog from '../layouts/dialog/NoticeDialog.tsx';
 import RouteMap from '../constant/RouteMap.tsx';
+import Controller from '../constant/Controller.ts';
 import AuthControl from '../constant/AuthControl.ts';
-import API from '../constant/API.ts';
 
 function RoutingHelper() {
   const location = useLocation();
@@ -45,7 +45,7 @@ function RoutingHelper() {
     const announcementLatest = localStorage.getItem('announcementLatest');
 
     if (announcementOpen) {
-      API.fetch2Json('/api/v2/notification/last', 'GET', {}, [], navigate)
+      Controller.getLastNotification(navigate)
         .then((data) => {
           // console.log('announcement', data?.createAt, announcementLatest);
           if (data?.content && data?.createAt !== announcementLatest) {
@@ -54,7 +54,6 @@ function RoutingHelper() {
             setAnnouncementOpen(true);
           }
         })
-        .catch((e) => console.error(e))
         .finally(() => {
           localStorage.setItem('announcementOpen', 'false');
         });

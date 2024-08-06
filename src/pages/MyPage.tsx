@@ -4,7 +4,7 @@ import PageDefaultLayout from '../layouts/PageDefaultLayout.tsx';
 // import useLoginErrorBox from '../hooks/useLoginErrorBox.tsx';
 // import CheckFetchError from '../constant/CheckFetchError.ts';
 // import CheckStringType from '../constant/CheckStringType.ts';
-import DeleteUserDialog from "../layouts/dialog/DeleteUserDialog.tsx";
+import DeleteUserDialog from '../layouts/dialog/DeleteUserDialog.tsx';
 
 function MyPage() {
   // const navigate = useNavigate();

@@ -55,7 +55,7 @@ function Login4EmailPage() {
         {errorBody: 'Email address not found', errorMessage: '이메일이 존재하지 않습니다', action: () => EmailInputRef.current?.focus()},
         {errorBody: 'Invalid email format', errorMessage: '이메일 형식이 올바르지 않습니다', action: () => EmailInputRef.current?.focus()},
       ];
-      await CheckFetchError(res, errors, navigate);
+      await CheckFetchError(res, errors);
 
       const deadline = new Date(new Date().getTime() + AUTH_LIMIT_TIME).getTime();
       navigate(`/login/email/auth?email=${email}&deadline=${deadline}`, {replace: true});

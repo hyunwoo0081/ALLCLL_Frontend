@@ -1,5 +1,5 @@
-import {NavigateFunction} from 'react-router-dom';
 import CheckFetchError, {IErrorTypes} from './CheckFetchError.ts';
+import FetchException from './FetchException.ts';
 import AuthControl from './AuthControl.ts';
 
 interface IBody {
@@ -7,7 +7,7 @@ interface IBody {
 }
 
 const API = {
-  async fetch(url: string, method: string = 'GET', body: IBody = {}, errors: IErrorTypes[], navigate: NavigateFunction) {
+  async fetch(url: string, method: string = 'GET', body: IBody = {}, errors: Array<IErrorTypes|FetchException>) {
     let reqData :object = {
       method: method,
       headers: AuthControl.getHeader(),
@@ -28,18 +28,18 @@ const API = {
     const response = await fetch(url, reqData);
 
     if (!response.ok) {
-      await CheckFetchError(response, errors, navigate);
+      await CheckFetchError(response, errors);
     }
 
     return response;
   },
-  async fetch2Json(url: string, method: string = 'GET', body: IBody = {}, errors: IErrorTypes[], navigate: NavigateFunction) {
-    const response = await this.fetch(url, method, body, errors, navigate);
+  async fetch2Json(url: string, method: string = 'GET', body: IBody = {}, errors: Array<IErrorTypes|FetchException>) {
+    const response = await this.fetch(url, method, body, errors);
     
     return await response.json();
   },
-  async fetch2Text(url: string, method: string = 'GET', body: IBody = {}, errors: IErrorTypes[], navigate: NavigateFunction) {
-    const response = await this.fetch(url, method, body, errors, navigate);
+  async fetch2Text(url: string, method: string = 'GET', body: IBody = {}, errors: Array<IErrorTypes|FetchException>) {
+    const response = await this.fetch(url, method, body, errors);
 
     return await response.text();
   },

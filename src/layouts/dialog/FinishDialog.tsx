@@ -1,5 +1,4 @@
 import {useEffect, useState} from 'react';
-import {useNavigate} from 'react-router-dom';
 import DialogTemplate from '../DialogTemplate.tsx';
 import {IErrorTypes} from '../../constant/CheckFetchError.ts';
 import {getTimerString} from '../../constant/TimeString.ts';
@@ -9,7 +8,6 @@ import '@styles/dialog/MacroDialog.scss';
 
 
 function FinishDialog({useSimulation}: ISimulationDialog) {
-  const navigate = useNavigate();
   const [contents, setContents] = useState({
     takenTime: '00:00:00.00',
     numberOfCoursesToRegister: 0,
@@ -33,7 +31,7 @@ function FinishDialog({useSimulation}: ISimulationDialog) {
     const Errors: IErrorTypes[] = [
       {errorBody: 'Mock did not terminate successfully', errorMessage: '종료되지 않은 시뮬레이션입니다', action: closeDialog},
     ]
-    API.fetch2Json('/api/v2/mock/result', 'GET', {playId}, Errors, navigate)
+    API.fetch2Json('/api/v2/mock/result', 'GET', {playId}, Errors)
       .then((res) => setContents(res))
       .catch((err) => {
         stepError(err.message);

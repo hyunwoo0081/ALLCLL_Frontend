@@ -1,6 +1,6 @@
-import {NavigateFunction} from 'react-router-dom';
-import AuthControl from './AuthControl.ts';
+import FetchException from './FetchException.ts';
 import CheckStringType from './CheckStringType.ts';
+import FetchError from './FetchError.ts';
 
 export interface IErrorTypes {
   errorBody: string;
@@ -8,31 +8,29 @@ export interface IErrorTypes {
   action?: () => void;
 }
 
-async function CheckFetchError(response: Response, errorTypes: IErrorTypes[], navigate: NavigateFunction) {
+async function CheckFetchError(response: Response, errorTypes: Array<IErrorTypes|FetchException>) {
   if (response.ok)
     return response;
 
-  // Fixme: 403 error handling - 권한이 없다고 로그아웃은 괜찮은가
-  if (response.status === 403) {
-    alert('권한이 없습니다\n다시 로그인 해주세요');
-    AuthControl.logout(navigate, '/login');
-    throw new Error('로그인이 필요합니다');
-  }
-
   const req = await response.text();
-  const message = CheckStringType.isJSON(req) ?
-    JSON.parse(req).message :
-    req.replace(/(<([^>]+)>)/gi, "");
+  const resJson = CheckStringType.isJSON(req) ?
+    JSON.parse(req) :
+    {message: req.replace(/(<([^>]+)>)/gi, '')};
+
   errorTypes.forEach((errorType) => {
-    if (errorType.errorBody === message) {
+    if ('errorBody' in errorType && errorType.errorBody === resJson.message ||
+        errorType instanceof FetchException && errorType.same(response.status, resJson.errorCode)) {
       if (errorType.action)
         errorType.action();
 
-      throw new Error(errorType.errorMessage);
+      if (errorType instanceof FetchException)
+        throw new FetchError(resJson.message, errorType.priority);
+      else
+        throw new FetchError(errorType.errorMessage, 'HIGH');
     }
   });
 
-  throw new Error(message ? message : '알 수 없는 오류가 발생했습니다.');
+  throw new FetchError(resJson ? resJson.message : '알 수 없는 오류가 발생했습니다.', 'HIGH');
 }
 
 export default CheckFetchError;

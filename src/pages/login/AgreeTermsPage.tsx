@@ -1,11 +1,11 @@
-import {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import Navigation from '../../components/Navigation.tsx';
 import useLoginErrorBox from '../../hooks/useLoginErrorBox.tsx';
 import Terms from '../../layouts/Terms.tsx';
-import CheckFetchError from '../../constant/CheckFetchError.ts';
 import CheckStringType from '../../constant/CheckStringType.ts';
 import AuthControl from '../../constant/AuthControl.ts';
+import Controller from '../../constant/Controller.ts';
 import '@styles/LoginPage.scss';
 
 function AgreeTermsPage() {
@@ -28,19 +28,10 @@ function AgreeTermsPage() {
     UserIdInputRef.current?.focus();
   }, []);
 
-  useEffect(() => {
-    function onEnter(e: KeyboardEvent) {
-      if (e.key === 'Enter')
-        register();
-    }
-
-    UserIdInputRef.current?.addEventListener('keydown', onEnter);
-    PasswordInputRef.current?.addEventListener('keydown', onEnter);
-    return () => {
-      UserIdInputRef.current?.removeEventListener('keydown', onEnter);
-      PasswordInputRef.current?.removeEventListener('keydown', onEnter);
-    };
-  }, [register]);
+  function onEnter(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === 'Enter')
+      register();
+  }
 
   function register() {
     if (!agreed || fetching)
@@ -60,48 +51,11 @@ function AgreeTermsPage() {
     }
 
     setFetching(true);
-    fetch('/api/v2/auth/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({userId, password})
-    }).then(async res => {
-
-      const errors = [
-        {errorBody: '학생 인증에 실패했습니다. ', errorMessage: '학번 또는 비밀번호가 일치하지 않습니다', action: () => UserIdInputRef.current?.focus()},
-      ];
-      await CheckFetchError(res, errors, navigate);
-
-      // 로그인 처리
-      await login();
-    })
-      .catch(async e => {
-        if (e.message === '이미 가입한 사용자입니다. 로그인해 주세요! ')
-          await login();
-        else
-          setErrorMessage(e.message);
-      })
+    Controller.signUp(userId, password, UserIdInputRef.current)
+      .then(() => Controller.login(userId, password, navigate, UserIdInputRef.current))
+      .then(token => AuthControl.login(navigate, token))
+      .catch(e => setErrorMessage(e.message))
       .finally(() => setFetching(false));
-  }
-
-  async function login() {
-    return fetch('/api/v2/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({userId, password})
-    }).then(async res => {
-
-      const errors = [
-        {errorBody: '학생 인증에 실패했습니다. ', errorMessage: '학번 또는 비밀번호가 일치하지 않습니다', action: () => UserIdInputRef.current?.focus()},
-        {errorBody: '먼저 가입해 주세요! ', errorMessage: '회원가입이 되지 않은 사용자입니다', action: () => navigate('/register', {replace: true})},
-      ];
-      await CheckFetchError(res, errors, navigate);
-
-      AuthControl.login(navigate, await res.text());
-    });
   }
 
   return (
@@ -139,14 +93,16 @@ function AgreeTermsPage() {
                    ref={UserIdInputRef}
                    disabled={fetching}
                    value={userId}
-                   onChange={e => setUserId(e.target.value)}/>
+                   onChange={e => setUserId(e.target.value)}
+                   onKeyDown={onEnter}/>
             <input type='password'
                    placeholder='비밀번호'
                    autoComplete='current-password'
                    ref={PasswordInputRef}
                    disabled={fetching}
                    value={password}
-                   onChange={e => setPassword(e.target.value)}/>
+                   onChange={e => setPassword(e.target.value)}
+                   onKeyDown={onEnter}/>
 
             <button onClick={register} disabled={fetching || !agreed}>
               {agreed ? '회원가입' : '약관에 동의해주세요'}

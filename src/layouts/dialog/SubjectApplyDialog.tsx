@@ -1,12 +1,9 @@
 import DialogTemplate from '../DialogTemplate.tsx';
-import {useNavigate} from 'react-router-dom';
 import {ApplyDialogType, ISimulationDialog} from '../../constant/types.ts';
 import API from '../../constant/API.ts';
 import '@styles/dialog/MacroDialog.scss';
 
 function SubjectApplyDialog({useSimulation}: ISimulationDialog) {
-  const navigate = useNavigate();
-
   const {dialogType, selectedSubject, macroNumber, nextStep, stopStep, stepError} = useSimulation;
   
   function submit() {
@@ -37,7 +34,7 @@ function SubjectApplyDialog({useSimulation}: ISimulationDialog) {
       {errorBody: 'Registered already', errorMessage: '이미 신청된 과목입니다', action: () => nextStep(ApplyDialogType.DONE)},
       {errorBody: 'Captcha authentication failed', errorMessage: '캡챠 인증 실패', action: () => nextStep(ApplyDialogType.MACRO_FAILED)},
     ];
-    API.fetch2Json('/api/v2/mock/register', 'POST', request, Errors, navigate)
+    API.fetch2Json('/api/v2/mock/register', 'POST', request, Errors)
       .then((res) => {
         console.log(res);
         if (res.succeed)

@@ -5,21 +5,18 @@ import { Editor } from 'react-draft-wysiwyg';
 import { EditorState, ContentState, convertToRaw, convertFromHTML} from 'draft-js';
 import draftjsToHtml from 'draftjs-to-html';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import API from '../../constant/API.ts';
+import Controller from '../../constant/Controller.ts';
 
 function AnnouncementSetting() {
   const navigate = useNavigate();
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [htmlString, setHtmlString] = useState('');
 
+  // 공지사항 불러오기
   useEffect(() => {
-    // 공지사항 불러오기
-    API.fetch2Json('/api/v2/notification/last', 'GET', {}, [], navigate)
+    Controller.getLastNotification(navigate)
       .then(res => updateAnnouncement(res.content))
-      .catch(e => {
-        console.error(e);
-        updateAnnouncement('');
-      });
+      .catch(() => updateAnnouncement(''));
   }, [navigate]);
 
   const updateTextDescription = async (state: EditorState) => {
@@ -45,13 +42,10 @@ function AnnouncementSetting() {
 
   function saveAnnouncement() {
     // 공지사항 저장
-    API.fetch('/api/v2/notification/new', 'POST', {content: htmlString}, [], navigate)
-      .catch(e => {
-        console.error(e);
-        alert('공지사항을 저장하지 못했습니다.')
-      });
+    Controller.addNewNotification(htmlString, navigate)
+      .catch(() => alert('공지사항을 저장하지 못했습니다.'));
   }
-  
+
   return (
     <>
       <AdminNavigation/>

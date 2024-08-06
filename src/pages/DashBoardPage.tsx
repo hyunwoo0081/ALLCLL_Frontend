@@ -3,7 +3,7 @@ import {useNavigate} from 'react-router-dom';
 import PageDefaultLayout from '../layouts/PageDefaultLayout.tsx';
 import {DataFormats, IRecentData} from '../constant/types.ts';
 import {getDateString, getTimerString} from '../constant/TimeString.ts';
-import API from '../constant/API.ts';
+import Controller from '../constant/Controller.ts';
 
 function DashBoardPage() {
   const navigate = useNavigate();
@@ -12,9 +12,8 @@ function DashBoardPage() {
 
   useEffect(() => {
     setFetching(true);
-    API.fetch2Json('/api/v2/result/recent', 'GET', {}, [], navigate)
+    Controller.getMockResults(navigate)
       .then(res => setRecentRecords(res.results))
-      .catch(e => console.error(e))
       .finally(() => setFetching(false));
 
     document.title = 'ALLCLL | 대시보드';

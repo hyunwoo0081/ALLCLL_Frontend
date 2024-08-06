@@ -71,7 +71,7 @@ function LoginEmailAuthPage() {
         {errorBody: 'Invalid email format', errorMessage: '이메일 형식이 올바르지 않습니다'},
         {errorBody: 'Authentication failed', errorMessage: '인증 번호가 일치하지 않음', action: () => AuthCodeInputRef.current?.focus()},
       ];
-      await CheckFetchError(res, errors, navigate);
+      await CheckFetchError(res, errors);
 
       AuthControl.login(navigate, await res.text());
     })
@@ -92,7 +92,7 @@ function LoginEmailAuthPage() {
         {errorBody: 'Email address not found', errorMessage: '가입 시도한 적 없는 메일 주소입니다'},
         {errorBody: 'Invalid email format', errorMessage: '이메일 형식이 올바르지 않습니다'},
       ];
-      await CheckFetchError(res, errors, navigate);
+      await CheckFetchError(res, errors);
 
       const deadline = new Date(new Date().getTime() + AUTH_LIMIT_TIME).getTime();
       navigate(`/login/email/auth?email=${email}&deadline=${deadline}`, {replace: true});

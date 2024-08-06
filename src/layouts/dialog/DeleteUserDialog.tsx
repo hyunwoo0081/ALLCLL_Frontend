@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {useNavigate} from 'react-router-dom';
 import DialogTemplate from '../DialogTemplate.tsx';
-import {IErrorTypes} from '../../constant/CheckFetchError.ts';
-import API from '../../constant/API.ts';
 import AuthControl from '../../constant/AuthControl.ts';
+import Controller from '../../constant/Controller.ts';
+import CheckStringType from '../../constant/CheckStringType.ts';
 import '@styles/dialog/MacroDialog.scss';
 
 interface IDeleteUser {
@@ -13,37 +13,34 @@ interface IDeleteUser {
 function DeleteUserDialog({isOpen, setIsOpen}: IDeleteUser) {
   const navigate = useNavigate();
   
+  const ref = useRef<HTMLInputElement>(null);
+  const [password, setPassword] = React.useState<string>('');
+  
   function deleteUser() {
-    // if ('string' == 'string') {
-    //   stepError('선택 된 과목을 찾을 수 없습니다\n다시 시도해주세요.');
-    //   return;
-    // }
+    if (!CheckStringType.password(password)) {
+      alert('비밀번호를 확인해주세요');
+      ref.current?.focus();
+      return;
+    }
 
-    const request = {};
-
-    const Errors: IErrorTypes[] = [
-      // {errorBody: 'Mock not found', errorMessage: '수강신청이 존재하지 않습니다', action: closeDialog},
-    ];
-
-    API.fetch('/api/v2/user', 'DELETE', request, Errors, navigate)
-      .then((res) => {
-        if (res.ok) {
-          alert('회원 탈퇴가 완료되었습니다');
-          AuthControl.logout(navigate);
-        }
-        else {
+    Controller.unregister(password, navigate, () => {
+      alert('비밀번호를 확인해주세요');
+      ref.current?.focus();
+    })
+      .then(() => {
+        closeDialog();
+        alert('회원 탈퇴가 완료되었습니다');
+        AuthControl.logout(navigate);
+      })
+      .catch(e => {
+        if (e.priority === 'HIGH')
           alert('회원 탈퇴에 실패했습니다');
-        }
-      })
-      .catch((err) => {
-        alert('회원 탈퇴에 실패했습니다');
-        console.error(err);
-      })
-      .finally(() => closeDialog());
+      });
   }
   
   function closeDialog() {
     setIsOpen(false);
+    setPassword('');
   }
 
   return (
@@ -61,8 +58,15 @@ function DeleteUserDialog({isOpen, setIsOpen}: IDeleteUser) {
             <br/><br/>
 
             회원 탈퇴 시 회원정보가 삭제되며, <br/>
-            회원 정보 복구가 불가능합니다
+            회원 정보 복구가 불가능합니다 <br/> <br/>
+            이를 숙지하셨다면 비밀번호를 입력해주세요
           </span>
+          
+          <input type='password'
+                 placeholder='비밀번호'
+                 ref={ref}
+                 value={password}
+                 onChange={e => setPassword(e.target.value)}/>
         </div>
       </div>
       <div className='dialog_footer'>

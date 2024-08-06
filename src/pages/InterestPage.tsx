@@ -1,18 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import PageDefaultLayout from '../layouts/PageDefaultLayout.tsx';
-import {DataFormats, ISubject} from '../constant/types.ts';
-import API from '../constant/API.ts';
+import {DataFormats} from '../constant/types.ts';
+import {Subject} from '../constant/fetchTypes.ts';
+import Controller from '../constant/Controller.ts';
 import '@styles/InterestPage.scss';
 import '@styles/components/TableStyle.scss';
-import Controller from "../constant/Controller.ts";
 
 enum LazyStatus {
   Changed, Fetching, Accepted, Rejected
 }
 
-const SearchTitles: Array<keyof ISubject> = ['courseTitle', 'instructorName', 'offeringDepartment', 'classTime'];
-const SearchDisabled: Array<keyof ISubject> = ['offeringDepartment', 'classTime'];
+const SearchTitles: Array<keyof Subject> = ['courseTitle', 'instructorName', 'offeringDepartment', 'classTime'];
+const SearchDisabled: Array<keyof Subject> = ['offeringDepartment', 'classTime'];
 const InitSearchValue = {
   courseTitle: '',
   instructorName: '',
@@ -26,21 +26,21 @@ function InterestPage() {
   const [fetching, setFetching] = useState<boolean>(false);
   const [searching, setSearching] = useState<boolean>(false);
   const [searchOpened, setSearchOpened] = useState<boolean>(false);
-  const [searchedSubjects, setSearchedSubjects] = useState<ISubject[]>([]);
-  const [subjects, setSubjects] = useState<ISubject[]>([]);
+  const [searchedSubjects, setSearchedSubjects] = useState<Subject[]>([]);
+  const [subjects, setSubjects] = useState<Subject[]>([]);
 
   const [currSearchValues, setCurrSearchValues] = useState(InitSearchValue);
   const [searchValues, setSearchValues] = useState(InitSearchValue);
   const [lazyStatus, setLazyStatus] = useState<LazyStatus>(LazyStatus.Accepted);
 
   useEffect(() => {
-    const errors = [
-      {errorBody: '관심 과목이 존재하지 않습니다. 관심 과목을 등록해 주세요.', errorMessage: '관심 과목이 존재하지 않습니다', action: () => setSubjects([])},
-    ]
     setFetching(true);
-    API.fetch2Json('/api/v2/interestedCourse', 'GET', {}, errors, navigate)
+    Controller.getInterestedSubjects(navigate)
       .then(res => setSubjects(res.courses))
-      .catch(e => console.error(e))
+      .catch(e => {
+        if (e.priority === 'LOW')
+          setSubjects([]);
+      })
       .finally(() => setFetching(false));
 
     document.title = 'ALLCLL | 관심과목';
@@ -50,17 +50,15 @@ function InterestPage() {
     if (lazyStatus !== LazyStatus.Changed) return;
 
     const debounceTimer = setTimeout(() => {
-      const req = {
-        numberOfCourses: subjects.length,
-        courses: subjects.map(sub => ({
+      const courses =
+        subjects.map(sub => ({
           courseId: sub.courseId,
           classId: sub.classId,
           offeringDepartment: sub.offeringDepartment,
-        })),
-      }
+        }));
 
       setLazyStatus(LazyStatus.Fetching);
-      API.fetch('/api/v2/interestedCourse', 'POST', req, [], navigate)
+      Controller.addInterestedSubject(courses, navigate)
         .then(() => {
             setLazyStatus(prev => prev !== LazyStatus.Changed ? LazyStatus.Accepted : prev);
         })
@@ -72,6 +70,7 @@ function InterestPage() {
     return () => clearTimeout(debounceTimer);
   }, [subjects.length, lazyStatus]);
 
+  // Fixme: search param validation 하는 부분을 간단하게 바꾸기
   function searchSubjects() {
     let isValid = true;
     SearchTitles.filter(title => !SearchDisabled.includes(title)).forEach(title => {
@@ -94,35 +93,31 @@ function InterestPage() {
 
     setSearching(true);
     setCurrSearchValues(prev => ({...prev, ...searchParams}));
-    API.fetch2Json('/api/v2/course', 'GET', searchParams, [], navigate)
+    Controller.searchSubjects(searchParams.courseTitle, searchParams.instructorName, navigate)
       .then(res => {
-        setSearchedSubjects(res.courses.filter((subject: ISubject) => !subjects.some(value => sameSubjectExact(value, subject))));
+        setSearchedSubjects(res.courses.filter((subject: Subject) => !subjects.some(value => sameSubjectExact(value, subject))));
         setSearchOpened(true);
       })
-      .catch(e => console.error(e))
       .finally(() => setSearching(false));
   }
 
   function AddRandomSubject() {
     setLazyStatus(LazyStatus.Fetching);
-    Controller.setRandomSubject()
+    Controller.addRandomInterestedSubject(navigate)
       .then((res) => {
-        setSubjects(res);
+        setSubjects(res.courses);
         setLazyStatus(LazyStatus.Accepted);
       })
-      .catch(e => {
-        console.error(e);
-        setLazyStatus(LazyStatus.Rejected);
-      });
+      .catch(() => setLazyStatus(LazyStatus.Rejected));
   }
 
-  function addSubject(subject: ISubject) {
+  function addSubject(subject: Subject) {
     setSearchedSubjects(prev => prev.filter(s => !sameSubjectExact(s, subject)));
     setSubjects(prev => [...prev, subject]);
     setLazyStatus(LazyStatus.Changed);
   }
 
-  function removeSubject(subject: ISubject) {
+  function removeSubject(subject: Subject) {
     setSubjects(prev => prev.filter(s => !sameSubject(s, subject)));
     if (currSearchValues.courseTitle.length >= 2 && currSearchValues.instructorName.length >= 2
       && subject.courseTitle.startsWith(currSearchValues.courseTitle) && subject.instructorName.startsWith(currSearchValues.instructorName))
@@ -130,10 +125,10 @@ function InterestPage() {
     setLazyStatus(LazyStatus.Changed);
   }
 
-  function sameSubject(a: ISubject, b: ISubject) {
+  function sameSubject(a: Subject, b: Subject) {
     return a.courseId === b.courseId;
   }
-  function sameSubjectExact(a: ISubject, b: ISubject) {
+  function sameSubjectExact(a: Subject, b: Subject) {
     return a.courseId === b.courseId && a.classId === b.classId && a.offeringDepartment === b.offeringDepartment;
   }
 

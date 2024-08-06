@@ -1,10 +1,10 @@
-import {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import PageDefaultLayout from '../../layouts/PageDefaultLayout.tsx';
 import useLoginErrorBox from '../../hooks/useLoginErrorBox.tsx';
-import CheckFetchError from '../../constant/CheckFetchError.ts';
 import CheckStringType from '../../constant/CheckStringType.ts';
 import AuthControl from '../../constant/AuthControl.ts';
+import Controller from '../../constant/Controller.ts';
 import '@styles/LoginPage.scss';
 
 function Login4PasswordPage() {
@@ -26,19 +26,10 @@ function Login4PasswordPage() {
     UserIdInputRef.current?.focus();
   }, []);
 
-  useEffect(() => {
-    function onEnter(e: KeyboardEvent) {
-      if (e.key === 'Enter')
-        login();
-    }
-
-    UserIdInputRef.current?.addEventListener('keydown', onEnter);
-    PasswordInputRef.current?.addEventListener('keydown', onEnter);
-    return () => {
-      UserIdInputRef.current?.removeEventListener('keydown', onEnter);
-      PasswordInputRef.current?.removeEventListener('keydown', onEnter);
-    };
-  }, [login]);
+  function onEnter(e: React.KeyboardEvent) {
+    if (e.key === 'Enter')
+      login();
+  }
 
   function login() {
     if (!CheckStringType.studentId(userId)) {
@@ -55,22 +46,8 @@ function Login4PasswordPage() {
     }
 
     setFetching(true);
-    fetch('/api/v2/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({userId, password})
-    }).then(async res => {
-
-      const errors = [
-        {errorBody: '학생 인증에 실패했습니다. ', errorMessage: '학번 또는 비밀번호가 일치하지 않습니다', action: () => UserIdInputRef.current?.focus()},
-        {errorBody: '가입하지 않은 사용자거나 탈퇴한 사용자입니다.', errorMessage: '회원가입이 되지 않은 사용자입니다', action: () => navigate('/register', {replace: true})},
-      ];
-      await CheckFetchError(res, errors, navigate);
-
-      AuthControl.login(navigate, await res.text());
-    })
+    Controller.login(userId, password, navigate, UserIdInputRef.current)
+      .then(token => AuthControl.login(navigate, token))
       .catch(e => setErrorMessage(e.message))
       .finally(() => setFetching(false));
   }
@@ -92,14 +69,16 @@ function Login4PasswordPage() {
                ref={UserIdInputRef}
                disabled={fetching}
                value={userId}
-               onChange={e => setUserId(e.target.value)}/>
+               onChange={e => setUserId(e.target.value)}
+               onKeyDown={onEnter}/>
         <input type='password'
                placeholder='비밀번호'
                autoComplete='current-password'
                ref={PasswordInputRef}
                disabled={fetching}
                value={password}
-               onChange={e => setPassword(e.target.value)}/>
+               onChange={e => setPassword(e.target.value)}
+               onKeyDown={onEnter}/>
 
         <button onClick={login} disabled={fetching}>로그인</button>
         <button className='link' onClick={() => navigate('/register', {replace: true})}>처음 오셨나요? 회원가입 하기</button>

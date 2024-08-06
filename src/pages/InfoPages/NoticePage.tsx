@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import PageDefaultLayout from '../../layouts/PageDefaultLayout.tsx';
-import API from '../../constant/API.ts';
+import Controller from '../../constant/Controller.ts';
 
 function NoticePage() {
   const navigate = useNavigate();
@@ -10,12 +10,9 @@ function NoticePage() {
   document.title = 'ALLCLL | 공지사항';
 
   useEffect(() => {
-    API.fetch2Json('/api/v2/notification/last', 'GET', {}, [], navigate)
+    Controller.getLastNotification(navigate)
       .then(res => setLatestNotice(res.content))
-      .catch(e => {
-        console.error(e);
-        setLatestNotice(`<p>공지사항을 불러오지 못했습니다.</p>`);
-      });
+      .catch(() => setLatestNotice(`<p>공지사항을 불러오지 못했습니다.</p>`));
   }, [navigate]);
 
   return (

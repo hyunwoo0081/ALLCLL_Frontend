@@ -33,7 +33,7 @@ function useSimulation() {
     ]
 
     setLoading(true);
-    API.fetch2Json('/api/v2/mock/status', 'GET', {playId}, Errors, navigate)
+    API.fetch2Json('/api/v2/mock/status', 'GET', {playId}, Errors)
       .then((res) => {
         if (res.interestedCourseToRegister.numberOfCourses === 0) {
           dispatch({type: 'FINISH_SIMULATION_FORCE'});
@@ -156,7 +156,7 @@ function useSimulation() {
         errorMessage: '관심 과목이 존재하지 않습니다. 관심 과목을 등록해 주세요.',
         action: () => {
           if (confirm('관심 과목이 존재하지 않습니다. 랜덤으로 선택하시겠습니까?')) {
-            Controller.setRandomSubject()
+            Controller.addRandomInterestedSubject(navigate)
               .then(() => startSimulation())
               .catch((err) => stepError("랜덤으로 관심담기에서 오류가 발생했습니다\n" + err.message, true));
           }
@@ -168,7 +168,7 @@ function useSimulation() {
     ]
 
     setLoading(true);
-    API.fetch2Json('/api/v2/mock/start', 'GET', {}, Errors, navigate)
+    API.fetch2Json('/api/v2/mock/start', 'GET', {}, Errors)
       .then((res) => {
         // console.log(res);
 
@@ -209,7 +209,7 @@ function useSimulation() {
     ]
 
     setLoading(true);
-    API.fetch2Json('/api/v2/mock/status', 'GET', {playId}, Errors, navigate)
+    API.fetch2Json('/api/v2/mock/status', 'GET', {playId}, Errors)
       .then((res) => {
         if (res.interestedCourseToRegister.numberOfCourses === 0) {
           stepError('시뮬레이션을 찾을 수 없습니다.', true);

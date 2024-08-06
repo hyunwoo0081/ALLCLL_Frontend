@@ -1,4 +1,5 @@
 import {IErrorTypes} from './CheckFetchError.ts';
+import FetchException from './FetchException.ts';
 import API from './API.ts';
 
 type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
@@ -7,7 +8,7 @@ export default class ApiBuilder {
   url: string;
   method: Method;
   body: object;
-  errors: IErrorTypes[];
+  errors: Array<IErrorTypes|FetchException>;
   
   constructor(url: string, method: Method, body: object) {
     this.url = url;
@@ -19,12 +20,16 @@ export default class ApiBuilder {
   addErrorType(errorBody: string, errorMessage: string, action?: () => void) {
     this.errors.push({errorBody, errorMessage, action});
   }
+
+  addException(exception: FetchException) {
+    this.errors.push(exception);
+  }
   
   fetch2Json() {
-    return API.fetch2Json(this.url, this.method, this.body, this.errors, () => {});
+    return API.fetch2Json(this.url, this.method, this.body, this.errors);
   }
   
   fetch2Text() {
-    return API.fetch2Text(this.url, this.method, this.body, this.errors, () => {});
+    return API.fetch2Text(this.url, this.method, this.body, this.errors);
   }
 }

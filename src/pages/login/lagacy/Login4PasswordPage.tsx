@@ -67,7 +67,7 @@ function Login4PasswordPage() {
         {errorBody: 'Authentication failed', errorMessage: '이메일 또는 비밀번호가 일치하지 않음', action: () => EmailInputRef.current?.focus()},
         {errorBody: 'Invalid email format', errorMessage: '이메일 형식이 잘못되었습니다', action: () => EmailInputRef.current?.focus()},
       ];
-      await CheckFetchError(res, errors, navigate);
+      await CheckFetchError(res, errors);
 
       AuthControl.login(navigate, await res.text());
     })
