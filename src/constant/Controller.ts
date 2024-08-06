@@ -1,7 +1,6 @@
 import {NavigateFunction} from 'react-router-dom';
 import FetchException from './FetchException.ts';
-import {MockResults, Notification, SearchedSubjects, SubjectKeys} from './fetchTypes.ts';
-import {ISubject} from './types.ts';
+import {MockResults, Notification, SearchedSubjects, Subject, SubjectKeys} from './fetchTypes.ts';
 import AuthControl from './AuthControl.ts';
 import API from './API.ts';
 
@@ -127,6 +126,7 @@ export default {
   getInterestedSubjects(navigate: NavigateFunction): Promise<SearchedSubjects> {
     const errors = [
       new FetchException(401, 'AUTHENTICATION_FAILED', 'LOW', () => AuthControl.logout(navigate, '/login')),
+      new FetchException(401, 'INTERESTED_COURSE_NOT_EXIST', 'LOW'),
     ];
 
     return API.fetch2Json('/api/v2/interestedCourse', 'GET', {}, errors);
@@ -177,27 +177,40 @@ export default {
   ////// 관리자 관련 API //////
 
   /** 데이터 베이스에 있는 모든 학기를 리스트로 가져옵니다
+   * @deprecated
    * @returns {Promise} 200 OK - {semester: string[]} */
-  getSemesters() {
-    return API.fetch2Json('/api/v2/semester', 'GET', {}, []);
+  getSemesters(navigate: NavigateFunction): Promise<{semesters: string[]}> {
+    const errors = [
+      new FetchException(401, 'AUTHENTICATION_FAILED', 'LOW', () => AuthControl.logout(navigate, '/login')),
+      new FetchException(403, 'AUTHENTICATION_FAILED', 'LOW', () => navigate(AuthControl.getDefaultPage())),
+    ];
+
+    return API.fetch2Json('/api/v2/semesters', 'GET', {}, errors);
   },
   /** 데이터 베이스에 학기를 추가합니다
+   * @deprecated
    * @param semester 추가할 학기
    * @returns {Promise<''>} 204 No Content */
   addSemester(semester: string): Promise<''> {
     return API.fetch2Json('/api/v2/semester', 'POST', {semester}, []);
   },
   /** 수강 신청 학기를 설정합니다
+   * @deprecated
    * @param semester 설정할 학기
    * @returns {Promise<''>} 204 No Content */
   setMockSemester(semester: string): Promise<''> {
     return API.fetch2Json('/api/v2/mock/semester', 'POST', {semester}, []);
   },
   /** 헤당 학기에 해당과목들을 추가합니다.
-   * @param semester 추가할 학기
    * @param courses 추가할 과목 리스트
-   * @returns {Promise<''>} 204 No Content */
-  addCourseAtSemester(semester: string, courses: ISubject[]): Promise<''> {
-    return API.fetch2Json('/api/v2/course', 'PUT', {semester, courses}, []);
+   * @param navigate 페이지 이동 함수
+   * @returns {Promise<Response>} 204 No Content */
+  addCourseAtSemester(courses: Subject[], navigate: NavigateFunction): Promise<Response> {
+    const errors = [
+      new FetchException(401, 'AUTHENTICATION_FAILED', 'LOW', () => AuthControl.logout(navigate, '/login')),
+      new FetchException(403, 'AUTHENTICATION_FAILED', 'LOW', () => navigate(AuthControl.getDefaultPage())),
+    ];
+
+    return API.fetch('/api/v2/utils/courses', 'POST', {courses}, errors);
   }
 }

@@ -1,7 +1,9 @@
 import {useEffect, useState} from 'react';
-import * as XLSX from 'xlsx';
+import {useNavigate} from 'react-router-dom';
 import AdminNavigation from '../../components/AdminNavigation.tsx';
+import {Subject} from '../../constant/fetchTypes.ts';
 import Controller from '../../constant/Controller.ts';
+import * as XLSX from 'xlsx';
 import '@styles/AddSubjectPage.scss';
 
 interface IHeaderTitles {
@@ -21,7 +23,9 @@ const DefaultHeader = {
 }
 
 function AddSubjectData() {
-  const [semester, setSemester] = useState<string>('');
+  const navigate = useNavigate();
+  
+  // const [semester, setSemester] = useState<string>('');
   const [file, setFile] = useState<File | null>(null);
 
   const [titles, setTitles] = useState<string[]>([]);
@@ -31,21 +35,20 @@ function AddSubjectData() {
 
   const [headerTitles, setHeaderTitles] = useState<IHeaderTitles>(DefaultHeader);
 
-  const [semesters, setSemesters] = useState<string[]>([]);
-  const [selectedSemester, setSelectedSemester] = useState<string>('');
+  // const [semesters, setSemesters] = useState<string[]>([]);
+  // const [selectedSemester, setSelectedSemester] = useState<string>('');
 
-  // 학기 목록 불러오기
-  useEffect(() => {
-    Controller.getSemesters()
-      .then((data) => {
-        setSemesters(data.semester);
-        setSelectedSemester(data.semester?.length ? data.semester[0] : '');
-      })
-      .catch((e) => {
-        alert('학기 목록을 불러오는데 실패했습니다');
-        console.error(e);
-      });
-  }, []);
+  // // 학기 목록 불러오기
+  // useEffect(() => {
+  //   Controller.getSemesters(navigate)
+  //     .then((data) => {
+  //       setSemesters(data.semesters);
+  //       setSelectedSemester(data.semesters?.length ? data.semesters[0] : '');
+  //     })
+  //     .catch(() => {
+  //       alert('학기 목록을 불러오는데 실패했습니다');
+  //     });
+  // }, []);
 
   // 엑셀 파일 읽기
   useEffect(() => {
@@ -92,24 +95,24 @@ function AddSubjectData() {
     }
   }, [file]);
 
-  function addSemester() {
-    if (!semester) {
-      alert('학기를 입력해주세요.');
-      return;
-    }
-
-    if (!confirm('학기를 추가하시겠습니까?'))
-      return;
-
-    Controller.addSemester(semester)
-      .then(() => {
-        alert('학기가 추가되었습니다');
-      })
-      .catch((e) => {
-        alert('학기 추가에 실패했습니다');
-        console.error(e);
-      });
-  }
+  // function addSemester() {
+  //   if (!semester) {
+  //     alert('학기를 입력해주세요.');
+  //     return;
+  //   }
+  //
+  //   if (!confirm('학기를 추가하시겠습니까?'))
+  //     return;
+  //
+  //   Controller.addSemester(semester)
+  //     .then(() => {
+  //       alert('학기가 추가되었습니다');
+  //     })
+  //     .catch((e) => {
+  //       alert('학기 추가에 실패했습니다');
+  //       console.error(e);
+  //     });
+  // }
 
   function addSubject() {
     if (!confirm('과목을 추가하시겠습니까?'))
@@ -130,16 +133,11 @@ function AddSubjectData() {
         instructorName: row[header.indexOf(headerTitles.instructorName)] ?? '',
         classTime: row[header.indexOf(headerTitles.classTime)] ?? ''
       }
-    });
+    }) as unknown as Subject[];
 
-    Controller.addCourseAtSemester(semester, data)
-      .then(() => {
-        alert('과목이 추가되었습니다');
-      })
-      .catch((e) => {
-        alert('과목 추가에 실패했습니다');
-        console.error(e);
-      });
+    Controller.addCourseAtSemester(data, navigate)
+      .then(() => alert('과목이 추가되었습니다'))
+      .catch(() => alert('과목 추가에 실패했습니다'));
   }
 
   return (
@@ -150,11 +148,11 @@ function AddSubjectData() {
         <div className='admin_main'>
           <h1>데이터 추가</h1>
 
-          <h2>과목 학기 추가</h2>
-          <div className='flex_layout'>
-            <input type='text' value={semester} onChange={e => setSemester(e.target.value)}/>
-            <button onClick={addSemester}>추가</button>
-          </div>
+          {/*<h2>과목 학기 추가</h2>*/}
+          {/*<div className='flex_layout'>*/}
+          {/*  <input type='text' value={semester} onChange={e => setSemester(e.target.value)}/>*/}
+          {/*  <button onClick={addSemester}>추가</button>*/}
+          {/*</div>*/}
 
           <h2>과목 추가</h2>
           <div className='container_box'>
@@ -235,15 +233,15 @@ function AddSubjectData() {
                 </ul>
 
 
-                <h4>과목 학기 선택</h4>
-
-                <select name='' id=''
-                        value={selectedSemester}
-                        onChange={e => setSelectedSemester(e.target.value)}>
-                  { semesters.map((semester, index) => (
-                    <option key={index} value={semester}>{semester}</option>
-                  ))}
-                </select>
+                {/*<h4>과목 학기 선택</h4>*/}
+                
+                {/*<select name='' id=''*/}
+                {/*        value={selectedSemester}*/}
+                {/*        onChange={e => setSelectedSemester(e.target.value)}>*/}
+                {/*  { semesters.map((semester, index) => (*/}
+                {/*    <option key={index} value={semester}>{semester}</option>*/}
+                {/*  ))}*/}
+                {/*</select>*/}
 
                 <br/>
                 <br/>

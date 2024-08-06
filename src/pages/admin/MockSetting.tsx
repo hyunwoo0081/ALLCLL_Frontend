@@ -1,15 +1,18 @@
 import {useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 import AdminNavigation from '../../components/AdminNavigation.tsx';
 import Controller from '../../constant/Controller.ts';
 
 function MockSetting() {
+  const navigate = useNavigate();
+
   const [semesters, setSemesters] = useState<string[]|null>(null);
   const [settedSemester, setSettedSemester] = useState<string>('');
   const [selectedSemester, setSelectedSemester] = useState<string>('');
 
   // 학기 목록 불러오기
   useEffect(() => {
-    Controller.getSemesters()
+    Controller.getSemesters(navigate)
       .then(data => {
         setSemesters(data.semesters);
         setSelectedSemester(data.semesters[0] ?? '');
