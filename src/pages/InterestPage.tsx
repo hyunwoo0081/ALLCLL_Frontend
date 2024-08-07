@@ -102,6 +102,9 @@ function InterestPage() {
   }
 
   function AddRandomSubject() {
+    if (!confirm('기존 과목이 모두 삭제되고 8개의 과목이 랜덤으로 추가됩니다.\n그래도 랜덤으로 과목을 추가하시겠습니까?'))
+      return;
+
     setLazyStatus(LazyStatus.Fetching);
     Controller.addRandomInterestedSubject(navigate)
       .then((res) => {
