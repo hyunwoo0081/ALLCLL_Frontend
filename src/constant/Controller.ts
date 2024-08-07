@@ -164,7 +164,7 @@ export default {
       new FetchException(401, 'AUTHENTICATION_FAILED', 'LOW', () => AuthControl.logout(navigate, '/login')),
     ];
 
-    return API.fetch2Json('/api/v2/interestCourse/random', 'POST', {}, errors);
+    return API.fetch2Json('/api/v2/interestedCourse/random', 'POST', {}, errors);
   },
 
 
