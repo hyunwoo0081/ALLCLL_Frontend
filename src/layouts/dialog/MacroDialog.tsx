@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 import DialogTemplate from '../DialogTemplate.tsx';
 import {ApplyDialogType, ISimulationDialog} from '../../constant/types.ts';
-import {IErrorTypes} from '../../constant/CheckFetchError.ts';
 import CheckStringType from '../../constant/CheckStringType.ts';
-import API from '../../constant/API.ts';
+import Controller from '../../constant/Controller.ts';
 import '@styles/dialog/MacroDialog.scss';
 
 function MacroDialog({useSimulation}: ISimulationDialog) {
+  const navigate = useNavigate();
   const [captcha, setCaptcha] = useState<string>('');
 
   const {dialogType, macroNumber, simulationId,
@@ -27,16 +28,11 @@ function MacroDialog({useSimulation}: ISimulationDialog) {
     );
   }
   
-  // Fixme: 다른 시뮬레이션 강제 종료 기간 외 다른 에러 발생 시, 강제 종료 해야하는지 확인 필요
   function refreshCaptcha(playId: number) {
-    const Errors: IErrorTypes[] = [
-      {errorBody: 'Mock not found', errorMessage: '시뮬레이션을 찾을 수 없습니다.\n시뮬레이션을 초기화 합니다.'},
-    ]
-
-    API.fetch2Json('/api/v2/mock/captcha', 'GET',
-      {playId}, Errors)
+    Controller.getMockCaptcha(playId, navigate)
       .then((res) => setCaptcha(res.image))
       .catch((err) => {
+        // Fixme: 다른 시뮬레이션 강제 종료 기간 외 다른 에러 발생 시, 강제 종료 해야하는지 확인 필요
         stepError(err.message, true);
       });
   }

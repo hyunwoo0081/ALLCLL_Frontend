@@ -24,13 +24,13 @@ async function CheckFetchError(response: Response, errorTypes: Array<IErrorTypes
         errorType.action();
 
       if (errorType instanceof FetchException)
-        throw new FetchError(resJson.message, errorType.priority);
+        throw new FetchError(resJson.errorCode, resJson.message, errorType.priority);
       else
-        throw new FetchError(errorType.errorMessage, 'HIGH');
+        throw new FetchError(errorType.errorBody, errorType.errorMessage, 'HIGH');
     }
   });
 
-  throw new FetchError(resJson ? resJson.message : '알 수 없는 오류가 발생했습니다.', 'HIGH');
+  throw new FetchError('UNKNOWN_ERROR', resJson ? resJson.message : '알 수 없는 오류가 발생했습니다.', 'HIGH');
 }
 
 export default CheckFetchError;

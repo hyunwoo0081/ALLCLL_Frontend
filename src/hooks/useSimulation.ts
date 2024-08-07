@@ -1,18 +1,17 @@
 import {useEffect, useReducer, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import {ApplyDialogType, IApplyStatus, ISubject} from '../constant/types.ts';
+import {ApplyDialogType, IApplyStatus} from '../constant/types.ts';
 import {reducer, simulationInitialState} from './simulationReducer.ts';
-import {IErrorTypes} from '../constant/CheckFetchError.ts';
+import {Subject, SubjectNames} from '../constant/fetchTypes.ts';
 import Controller from '../constant/Controller.ts';
-import API from '../constant/API.ts';
 
 
 function useSimulation() {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState<boolean>(false);
-  const [subjects, setSubjects] = useState<ISubject[]>([]);
-  const [appliedSubjects, setAppliedSubjects] = useState<ISubject[]>([]);
+  const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [appliedSubjects, setAppliedSubjects] = useState<SubjectNames[]>([]);
   const [submitStatus, setSubmitStatus] = useState<IApplyStatus[]>([]);
 
   const[state, dispatch] = useReducer(reducer, simulationInitialState);
@@ -23,17 +22,8 @@ function useSimulation() {
     const playId = Number(localStorage.getItem('playId'));
     if (isNaN(playId) || playId <= 0) return;
 
-    const Errors: IErrorTypes[] = [
-      {errorBody: '모의 수강 신청을 진행하고 있지 않습니다.', errorMessage: '모의 수강 신청을 진행하고 있지 않습니다.',
-        action: () => {
-          dispatch({type: 'FINISH_SIMULATION_FORCE'});
-          resetSimulation();
-        }
-      },
-    ]
-
     setLoading(true);
-    API.fetch2Json('/api/v2/mock/status', 'GET', {playId}, Errors)
+    Controller.getMockStatus(playId, navigate)
       .then((res) => {
         if (res.interestedCourseToRegister.numberOfCourses === 0) {
           dispatch({type: 'FINISH_SIMULATION_FORCE'});
@@ -43,17 +33,20 @@ function useSimulation() {
 
         setSubjects(res.interestedCourseToRegister.courses);
         setAppliedSubjects(res.registeredCourse.courses);
-        setSubmitStatus(res.registeredCourse.courses.map((sub: ISubject) => ({...sub, applyType: ApplyDialogType.SUCCESS})));
+        setSubmitStatus(res.registeredCourse.courses.map(sub => ({...sub, applyType: ApplyDialogType.SUCCESS})));
 
         dispatch({type: 'START_SIMULATION', params: {simulationId: playId}});
       })
-      .catch((err) => console.error(err))
+      .catch(() => {
+        dispatch({type: 'FINISH_SIMULATION_FORCE'});
+        resetSimulation();
+      })
       .finally(() => setLoading(false));
   }, [navigate]);
 
   /** 다이얼로그를 엽니다.
    * @param selectedSubject 선택된 과목 */
-  function startStep(selectedSubject: ISubject) {
+  function startStep(selectedSubject: Subject) {
     dispatch({type: 'OPEN_MACRO_DIALOG', params: {selectedSubject}});
   }
 
@@ -151,37 +144,29 @@ function useSimulation() {
   }
 
   function startSimulation() {
-    const Errors: IErrorTypes[] = [
-      {errorBody: '관심 과목이 존재하지 않습니다. 관심 과목을 등록해 주세요.',
-        errorMessage: '관심 과목이 존재하지 않습니다. 관심 과목을 등록해 주세요.',
-        action: () => {
-          if (confirm('관심 과목이 존재하지 않습니다. 랜덤으로 선택하시겠습니까?')) {
-            Controller.addRandomInterestedSubject(navigate)
-              .then(() => startSimulation())
-              .catch((err) => stepError("랜덤으로 관심담기에서 오류가 발생했습니다\n" + err.message, true));
-          }
-          else {
-            navigate('/interest');
-          }
-        }
-      },
-    ]
-
     setLoading(true);
-    API.fetch2Json('/api/v2/mock/start', 'GET', {}, Errors)
-      .then((res) => {
-        // console.log(res);
-
-        localStorage.setItem('playId', res.playId);
+    Controller.startMockRegistration(navigate, () => {
+      // 관심 과목이 존재하지 않을 때
+      if (confirm('관심 과목이 존재하지 않습니다. 랜덤으로 선택하시겠습니까?')) {
+        Controller.addRandomInterestedSubject(navigate)
+          .then(() => startSimulation())
+          .catch(e => stepError('랜덤으로 관심담기에서 오류가 발생했습니다\n' + e.message, true));
+      }
+      else {
+        navigate('/interest');
+      }
+    })
+      .then(res => {
+        localStorage.setItem('playId', res.playId.toString());
         setSubjects(res.interestedCourse.courses);
         setAppliedSubjects([]);
         setSubmitStatus([]);
 
         dispatch({type: 'START_SIMULATION', params: {simulationId: res.playId}});
       })
-      .catch((err) => {
-        stepError(err.message, true);
-        console.error(err);
+      .catch(e => {
+        if (e.priority === 'HIGH')
+          stepError(e.message, true);
       })
       .finally(() => setLoading(false));
   }
@@ -204,12 +189,8 @@ function useSimulation() {
     const playId = state.simulationId <= 0 ? Number(localStorage.getItem('playId')) : state.simulationId;
     if (isNaN(playId)) return;
 
-    const Errors: IErrorTypes[] = [
-      {errorBody: '모의 수강 신청을 진행하고 있지 않습니다.', errorMessage: '모의 수강 신청을 진행하고 있지 않습니다.'},
-    ]
-
     setLoading(true);
-    API.fetch2Json('/api/v2/mock/status', 'GET', {playId}, Errors)
+    Controller.getMockStatus(playId, navigate)
       .then((res) => {
         if (res.interestedCourseToRegister.numberOfCourses === 0) {
           stepError('시뮬레이션을 찾을 수 없습니다.', true);
@@ -221,9 +202,8 @@ function useSimulation() {
 
         dispatch({type: 'START_SIMULATION', params: {simulationId: Number(playId)}});
       })
-      .catch((err) => {
-        stepError(err.message, true);
-        console.error(err);
+      .catch(e => {
+          stepError(e.message, true);
       })
       .finally(() => setLoading(false));
   }
@@ -234,8 +214,10 @@ function useSimulation() {
   }
 }
 
-function sameSubject(a: ISubject, b: ISubject) {
-  return a.courseId === b.courseId && a.classId === b.classId && a.offeringDepartment === b.offeringDepartment;
+function sameSubject(a: Subject|SubjectNames, b: Subject|SubjectNames) {
+  if ('courseId' in a && 'courseId' in b)
+    return a.courseId === b.courseId && a.classId === b.classId && a.offeringDepartment === b.offeringDepartment;
+  return a.courseTitle === b.courseTitle && a.instructorName === b.instructorName;
 }
 
 export default useSimulation;

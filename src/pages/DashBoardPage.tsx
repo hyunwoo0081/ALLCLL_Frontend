@@ -12,7 +12,7 @@ function DashBoardPage() {
 
   useEffect(() => {
     setFetching(true);
-    Controller.getMockResults(navigate)
+    Controller.getRecentResults(navigate)
       .then(res => setRecentRecords(res.results))
       .finally(() => setFetching(false));
 

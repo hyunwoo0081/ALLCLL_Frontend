@@ -1,9 +1,11 @@
 import DialogTemplate from '../DialogTemplate.tsx';
+import {useNavigate} from 'react-router-dom';
 import {ApplyDialogType, ISimulationDialog} from '../../constant/types.ts';
-import API from '../../constant/API.ts';
+import Controller from '../../constant/Controller.ts';
 import '@styles/dialog/MacroDialog.scss';
 
 function SubjectApplyDialog({useSimulation}: ISimulationDialog) {
+  const navigate = useNavigate();
   const {dialogType, selectedSubject, macroNumber, nextStep, stopStep, stepError} = useSimulation;
   
   function submit() {
@@ -19,22 +21,8 @@ function SubjectApplyDialog({useSimulation}: ISimulationDialog) {
       stepError('선택 된 과목을 찾을 수 없습니다\n다시 시도해주세요.');
       return;
     }
-
-    const request = {
-      playId,
-      answer: macroNumber,
-      courseId,
-      classId,
-      offeringDepartment
-    }
-
-    const Errors = [
-      {errorBody: 'Mock not found', errorMessage: '수강신청이 존재하지 않습니다', action: closeDialog},
-      {errorBody: 'Course not found', errorMessage: '존재하지 않는 과목입니다', action: closeDialog},
-      {errorBody: 'Registered already', errorMessage: '이미 신청된 과목입니다', action: () => nextStep(ApplyDialogType.DONE)},
-      {errorBody: 'Captcha authentication failed', errorMessage: '캡챠 인증 실패', action: () => nextStep(ApplyDialogType.MACRO_FAILED)},
-    ];
-    API.fetch2Json('/api/v2/mock/register', 'POST', request, Errors)
+    
+    Controller.submitMockRegistration(playId, macroNumber, courseId, classId, offeringDepartment, navigate)
       .then((res) => {
         console.log(res);
         if (res.succeed)
@@ -43,7 +31,20 @@ function SubjectApplyDialog({useSimulation}: ISimulationDialog) {
           nextStep(ApplyDialogType.FAILED, res.finished);
       })
       .catch((err) => {
-        console.error(err);
+        switch (err.errorCode) {
+          case 'Captcha authentication failed': // 캡챠 인증 실패
+            nextStep(ApplyDialogType.MACRO_FAILED);
+            break;
+          case 'Registered already': // 이미 신청된 과목입니다
+            nextStep(ApplyDialogType.DONE);
+            break;
+          case 'Course not found': case 'Mock not found': // 존재하지 않는 과목입니다 | 수강신청이 존재하지 않습니다
+            closeDialog();
+            break;
+          default:
+            stepError(err.message, true);
+            break;
+        }
       });
   }
 

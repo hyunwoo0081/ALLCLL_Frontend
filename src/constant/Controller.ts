@@ -1,6 +1,15 @@
 import {NavigateFunction} from 'react-router-dom';
 import FetchException from './FetchException.ts';
-import {MockResults, Notification, SearchedSubjects, Subject, SubjectKeys} from './fetchTypes.ts';
+import {
+  CaptchaImage,
+  MockRecentResults, MockResult,
+  MockStartResponse, MockStatus,
+  MockStatusResponse,
+  Notification,
+  SearchedSubjects,
+  Subject,
+  SubjectKeys
+} from './fetchTypes.ts';
 import AuthControl from './AuthControl.ts';
 import API from './API.ts';
 
@@ -96,8 +105,8 @@ export default {
 
   /** 사용자의 모의 수강 신청 결과 목록을 가져옵니다
    * @param navigate 페이지 이동 함수
-   * @returns {Promise<MockResults>} 200 OK - {MockResults} */
-  getMockResults(navigate: NavigateFunction): Promise<MockResults> {
+   * @returns {Promise<MockRecentResults>} 200 OK - {MockResults} */
+  getRecentResults(navigate: NavigateFunction): Promise<MockRecentResults> {
     const errors = [
       new FetchException(401, 'AUTHENTICATION_FAILED', 'LOW', () => AuthControl.logout(navigate, '/login')),
     ];
@@ -159,20 +168,89 @@ export default {
   },
 
 
+  //////////////////////////////////////////////////////////////////////////////\
+  // Todo: IErrorTypes API 나오면 모두 FetchException 으로 변경
 
+  ////// 모의 수강 신청 관련 API //////
 
+  /** 모의 수강 신청을 시작하고, 플레이 아이디와 관심 과목을 반환합니다
+   * @param navigate 페이지 이동 함수
+   * @param reject 모의 수강 신청 시작 실패 시 실행할 함수
+   * @returns {Promise<MockStartResponse>} 200 OK - {MockStartResponse} */
+  startMockRegistration(navigate: NavigateFunction, reject: () => void): Promise<MockStartResponse> {
+    const errors = [
+      new FetchException(401, 'AUTHENTICATION_FAILED', 'LOW', () => AuthControl.logout(navigate, '/login')),
+      new FetchException(401, 'INTERESTED_COURSE_NOT_EXIST', 'LOW', reject),
+      {errorBody: '관심 과목이 존재하지 않습니다. 관심 과목을 등록해 주세요.',
+        errorMessage: '관심 과목이 존재하지 않습니다. 관심 과목을 등록해 주세요.', action: reject}
+    ];
 
+    return API.fetch2Json('/api/v2/mock/start', 'GET', {}, errors);
+  },
 
+  /** 모의 수강 신청 플레이 아이디에 대한 연습 상태를 반환합니다. 만약 존재한다면 현재 상태를 반환합니다
+   * @param playId 플레이 아이디
+   * @param navigate 페이지 이동 함수
+   * @returns {Promise<MockStatusResponse>} 200 OK - {MockStatusResponse} */
+  getMockStatus(playId: number, navigate: NavigateFunction): Promise<MockStatusResponse> {
+    const errors = [
+      new FetchException(401, 'AUTHENTICATION_FAILED', 'LOW', () => AuthControl.logout(navigate, '/login')),
+      new FetchException(400, '모의 수강 신청을 진행하고 있지 않습니다.', 'LOW'),
+      {errorBody: '모의 수강 신청을 진행하고 있지 않습니다.', errorMessage: '모의 수강 신청을 진행하고 있지 않습니다.'}
+    ];
 
+    return API.fetch2Json('/api/v2/mock/status', 'GET', {playId}, errors);
+  },
 
+  /** 캡차 코드를 생성합니다
+   * @param playId 플레이 아이디
+   * @param navigate 페이지 이동 함수
+   * @returns {Promise<CaptchaImage>} 200 OK - {CaptchaImage} */
+  getMockCaptcha(playId: number, navigate: NavigateFunction): Promise<CaptchaImage> {
+    const errors = [
+      new FetchException(401, 'AUTHENTICATION_FAILED', 'LOW', () => AuthControl.logout(navigate, '/login')),
+      new FetchException(400, '모의 수강 신청을 진행하고 있지 않습니다.', 'HIGH'),
+      {errorBody: 'Mock not found', errorMessage: '시뮬레이션을 찾을 수 없습니다.\n시뮬레이션을 초기화 합니다.'},
+    ];
 
+    return API.fetch2Json('/api/v2/mock/captcha', 'GET', {playId}, errors);
+  },
 
+  /** 캡차 코드를 인증하고, 해당 과목의 수강 신청을 시도합니다.
+   * @param playId 플레이 아이디
+   * @param answer 캡차 코드
+   * @param courseId 수강 신청할 과목 ID
+   * @param classId 수강 신청할 과목의 수업 ID
+   * @param offeringDepartment 수강 신청할 과목의 개설 학과
+   * @param navigate 페이지 이동 함수
+   * @returns {Promise<MockStatus>} 200 OK - {MockStatus} */
+  submitMockRegistration(playId: number, answer: string, courseId: number, classId: number, offeringDepartment: string, navigate: NavigateFunction): Promise<MockStatus> {
+    const errors = [
+      new FetchException(401, 'AUTHENTICATION_FAILED', 'LOW', () => AuthControl.logout(navigate, '/login')),
 
-  //////////////////////////////////////////////////////////////////////////////
+      {errorBody: 'Mock not found', errorMessage: '수강신청이 존재하지 않습니다'},
+      {errorBody: 'Course not found', errorMessage: '존재하지 않는 과목입니다'},
+      {errorBody: 'Registered already', errorMessage: '이미 신청된 과목입니다'},
+      {errorBody: 'Captcha authentication failed', errorMessage: '캡챠 인증 실패'},
+    ];
 
-  ////// 사용자 관련 API //////
+    return API.fetch2Json('/api/v2/mock/register', 'POST', {playId, answer, courseId, classId, offeringDepartment}, errors);
+  },
 
+  /** 종료된 모의 수강 신청에 대해 결과를 가져옵니다
+   * @param playId 플레이 아이디
+   * @param navigate 페이지 이동 함수
+   * @returns {Promise<MockResult>} 200 OK - {MockResult} */
+  getMockResult(playId: number, navigate: NavigateFunction): Promise<MockResult> {
+    const errors = [
+      new FetchException(401, 'AUTHENTICATION_FAILED', 'LOW', () => AuthControl.logout(navigate, '/login')),
+      new FetchException(400, '모의 수강 신청을 진행하고 있지 않습니다.', 'HIGH'),
 
+      {errorBody: 'Mock did not terminate successfully', errorMessage: '종료되지 않은 시뮬레이션입니다'},
+    ];
+
+    return API.fetch2Json('/api/v2/mock/result', 'GET', {playId}, errors);
+  },
 
   ////// 관리자 관련 API //////
 
@@ -187,13 +265,13 @@ export default {
 
     return API.fetch2Json('/api/v2/semesters', 'GET', {}, errors);
   },
-  /** 데이터 베이스에 학기를 추가합니다
-   * @deprecated
-   * @param semester 추가할 학기
-   * @returns {Promise<''>} 204 No Content */
-  addSemester(semester: string): Promise<''> {
-    return API.fetch2Json('/api/v2/semester', 'POST', {semester}, []);
-  },
+  // /** 데이터 베이스에 학기를 추가합니다
+  //  * @deprecated
+  //  * @param semester 추가할 학기
+  //  * @returns {Promise<''>} 204 No Content */
+  // addSemester(semester: string): Promise<''> {
+  //   return API.fetch2Json('/api/v2/semester', 'POST', {semester}, []);
+  // },
   /** 수강 신청 학기를 설정합니다
    * @deprecated
    * @param semester 설정할 학기

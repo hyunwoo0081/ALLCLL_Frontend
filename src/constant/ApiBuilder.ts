@@ -7,10 +7,10 @@ type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
 export default class ApiBuilder {
   url: string;
   method: Method;
-  body: object;
+  body: Record<string, unknown>;
   errors: Array<IErrorTypes|FetchException>;
   
-  constructor(url: string, method: Method, body: object) {
+  constructor(url: string, method: Method, body: Record<string, unknown>) {
     this.url = url;
     this.method = method;
     this.body = body;

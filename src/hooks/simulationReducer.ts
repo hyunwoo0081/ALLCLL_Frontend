@@ -1,8 +1,9 @@
-import {ApplyDialogType, ISubject} from '../constant/types.ts';
+import {ApplyDialogType} from '../constant/types.ts';
+import {Subject} from '../constant/fetchTypes.ts';
 
 export interface ISimulation {
   dialogType: ApplyDialogType;
-  selectedSubject: ISubject|null;
+  selectedSubject: Subject|null;
   macroNumber: string;
   onSimulation: boolean;
   simulationId: number;
@@ -14,7 +15,7 @@ export interface ISimulationActions {
   params?: {
     dialogType?: ApplyDialogType;
     macroNumber?: string;
-    selectedSubject?: ISubject|null;
+    selectedSubject?: Subject|null;
     onSimulation?: boolean;
     simulationId?: number;
     errorMessage?: string;

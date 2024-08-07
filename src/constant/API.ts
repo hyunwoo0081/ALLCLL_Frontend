@@ -2,9 +2,7 @@ import CheckFetchError, {IErrorTypes} from './CheckFetchError.ts';
 import FetchException from './FetchException.ts';
 import AuthControl from './AuthControl.ts';
 
-interface IBody {
-  [key: string]: any;
-}
+type IBody = Record<string, unknown>
 
 const API = {
   async fetch(url: string, method: string = 'GET', body: IBody = {}, errors: Array<IErrorTypes|FetchException>) {
@@ -20,7 +18,7 @@ const API = {
         body: JSON.stringify(body),
       }
     else {
-      const params = new URLSearchParams(body);
+      const params = new URLSearchParams(body as Record<string, string>);
       if (params.toString() !== '')
         url += '?' + params.toString();
     }
