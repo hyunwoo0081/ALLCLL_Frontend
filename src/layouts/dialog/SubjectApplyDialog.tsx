@@ -32,17 +32,23 @@ function SubjectApplyDialog({useSimulation}: ISimulationDialog) {
       })
       .catch((err) => {
         switch (err.errorCode) {
-          case 'Captcha authentication failed': // 캡챠 인증 실패
+          case 'Captcha authentication failed':
+          case 'CAPTCHA_CODE_EXPIRED':
+          case 'CAPTCHA_CODE_NOT_MATCHED': // 캡챠 인증 실패
             nextStep(ApplyDialogType.MACRO_FAILED);
             break;
-          case 'Registered already': // 이미 신청된 과목입니다
+          case 'Registered already':
+          case 'MOCK_REQUEST_ALREADY_EXIST': // 이미 신청된 과목입니다
             nextStep(ApplyDialogType.DONE);
             break;
-          case 'Course not found': case 'Mock not found': // 존재하지 않는 과목입니다 | 수강신청이 존재하지 않습니다
+          case 'Course not found':
+          case 'Mock not found': // 존재하지 않는 과목입니다 | 수강신청이 존재하지 않습니다
             closeDialog();
             break;
           default:
-            stepError(err.message, true);
+            if (err.priority === 'HIGH')
+              console.error(err);
+            stepError(err.message, err.priority !== 'LOW');
             break;
         }
       });

@@ -195,7 +195,8 @@ export default {
   getMockStatus(playId: number, navigate: NavigateFunction): Promise<MockStatusResponse> {
     const errors = [
       new FetchException(401, 'AUTHENTICATION_FAILED', 'LOW', () => AuthControl.logout(navigate, '/login')),
-      new FetchException(400, '모의 수강 신청을 진행하고 있지 않습니다.', 'LOW'),
+      new FetchException(400, 'MOCK_NOT_FOUND', 'MEDIUM'),
+      new FetchException(400, 'MOCK_ILLEGAL_ACCESS', 'MEDIUM'),
       {errorBody: '모의 수강 신청을 진행하고 있지 않습니다.', errorMessage: '모의 수강 신청을 진행하고 있지 않습니다.'}
     ];
 
@@ -209,7 +210,8 @@ export default {
   getMockCaptcha(playId: number, navigate: NavigateFunction): Promise<CaptchaImage> {
     const errors = [
       new FetchException(401, 'AUTHENTICATION_FAILED', 'LOW', () => AuthControl.logout(navigate, '/login')),
-      new FetchException(400, '모의 수강 신청을 진행하고 있지 않습니다.', 'HIGH'),
+      new FetchException(400, 'MOCK_NOT_FOUND', 'MEDIUM'),
+      new FetchException(400, 'MOCK_ILLEGAL_ACCESS', 'MEDIUM'),
       {errorBody: 'Mock not found', errorMessage: '시뮬레이션을 찾을 수 없습니다.\n시뮬레이션을 초기화 합니다.'},
     ];
 
@@ -227,6 +229,14 @@ export default {
   submitMockRegistration(playId: number, answer: string, courseId: number, classId: number, offeringDepartment: string, navigate: NavigateFunction): Promise<MockStatus> {
     const errors = [
       new FetchException(401, 'AUTHENTICATION_FAILED', 'LOW', () => AuthControl.logout(navigate, '/login')),
+      new FetchException(400, 'MOCK_NOT_FOUND', 'MEDIUM'),
+      new FetchException(400, 'MOCK_ILLEGAL_ACCESS', 'MEDIUM'),
+
+      new FetchException(400, 'COURSE_NOT_FOUND', 'LOW'),
+      new FetchException(400, 'MOCK_REQUEST_NOT_IN_INTEREST', 'LOW'),
+      new FetchException(400, 'MOCK_REQUEST_ALREADY_EXIST', 'LOW'),
+      new FetchException(400, 'CAPTCHA_CODE_NOT_MATCHED', 'LOW'),
+      new FetchException(400, 'CAPTCHA_CODE_EXPIRED', 'LOW'),
 
       {errorBody: 'Mock not found', errorMessage: '수강신청이 존재하지 않습니다'},
       {errorBody: 'Course not found', errorMessage: '존재하지 않는 과목입니다'},
@@ -244,7 +254,9 @@ export default {
   getMockResult(playId: number, navigate: NavigateFunction): Promise<MockResult> {
     const errors = [
       new FetchException(401, 'AUTHENTICATION_FAILED', 'LOW', () => AuthControl.logout(navigate, '/login')),
-      new FetchException(400, '모의 수강 신청을 진행하고 있지 않습니다.', 'HIGH'),
+      new FetchException(400, 'MOCK_NOT_FOUND', 'MEDIUM'),
+      new FetchException(400, 'MOCK_ILLEGAL_ACCESS', 'MEDIUM'),
+      new FetchException(400, 'MOCK_NOT_FINISHED', 'LOW'),
 
       {errorBody: 'Mock did not terminate successfully', errorMessage: '종료되지 않은 시뮬레이션입니다'},
     ];
