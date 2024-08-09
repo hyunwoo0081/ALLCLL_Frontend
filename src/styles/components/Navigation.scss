@@ -13,6 +13,10 @@ nav.navigation {
   border-bottom: 1px solid var(--light-gray, #E6E6E6);
   z-index: 90;
 
+  a {
+    font-size: 18px;
+  }
+
   div.navigation_flex {
     display: flex;
     justify-content: space-between;
