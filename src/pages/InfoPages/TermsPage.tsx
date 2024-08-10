@@ -1,5 +1,5 @@
-import PageDefaultLayout from '../../layouts/PageDefaultLayout.tsx';
-import Terms from '../../layouts/Terms.tsx';
+import PageDefaultLayout from '@layouts/PageDefaultLayout.tsx';
+import Terms from '@layouts/Terms.tsx';
 
 function TermsPage() {
   document.title = 'ALLCLL | 개인정보이용약관';

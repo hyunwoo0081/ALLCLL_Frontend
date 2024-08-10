@@ -1,4 +1,4 @@
-import {ISimulation} from '../hooks/simulationReducer.ts';
+import {ISimulation} from '@hooks/simulationReducer.ts';
 import {Subject, SubjectNames} from './fetchTypes.ts';
 
 export interface IRecentData {

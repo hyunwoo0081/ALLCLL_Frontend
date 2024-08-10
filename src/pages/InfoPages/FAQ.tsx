@@ -1,4 +1,4 @@
-import PageDefaultLayout from '../../layouts/PageDefaultLayout.tsx';
+import PageDefaultLayout from '@layouts/PageDefaultLayout.tsx';
 
 function FAQ() {
   document.title = 'ALLCLL | FAQ';

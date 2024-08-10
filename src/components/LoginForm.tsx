@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
-import useLoginErrorBox from '../hooks/useLoginErrorBox.tsx';
-import CheckStringType from '../constant/CheckStringType.ts';
+import useLoginErrorBox from '@hooks/useLoginErrorBox.tsx';
+import CheckStringType from '@constant/CheckStringType.ts';
 
 interface ILoginForm {
   title: string;

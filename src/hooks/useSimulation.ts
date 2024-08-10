@@ -1,9 +1,9 @@
 import {useEffect, useReducer, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import {ApplyDialogType, IApplyStatus} from '../constant/types.ts';
+import {ApplyDialogType, IApplyStatus} from '@constant/types.ts';
 import {reducer, simulationInitialState} from './simulationReducer.ts';
-import {Subject, SubjectNames} from '../constant/fetchTypes.ts';
-import Controller from '../constant/Controller.ts';
+import {Subject, SubjectNames} from '@constant/fetchTypes.ts';
+import Controller from '@constant/Controller.ts';
 
 
 function useSimulation() {

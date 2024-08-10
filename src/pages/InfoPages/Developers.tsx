@@ -1,4 +1,4 @@
-import PageDefaultLayout from '../../layouts/PageDefaultLayout.tsx';
+import PageDefaultLayout from '@layouts/PageDefaultLayout.tsx';
 import {ReactNode, useEffect, useState} from 'react';
 import '@styles/components/DevCard.scss';
 

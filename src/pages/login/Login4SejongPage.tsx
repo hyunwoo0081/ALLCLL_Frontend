@@ -1,9 +1,9 @@
 import {useEffect} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import PageDefaultLayout from '../../layouts/PageDefaultLayout.tsx';
-import LoginForm from '../../components/LoginForm.tsx';
-import AuthControl from '../../constant/AuthControl.ts';
-import Controller from '../../constant/Controller.ts';
+import PageDefaultLayout from '@layouts/PageDefaultLayout.tsx';
+import LoginForm from '@components/LoginForm.tsx';
+import AuthControl from '@constant/AuthControl.ts';
+import Controller from '@constant/Controller.ts';
 import '@styles/LoginPage.scss';
 
 function Login4PasswordPage() {

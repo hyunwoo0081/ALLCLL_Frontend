@@ -1,4 +1,4 @@
-import AdminNavigation from '../../components/AdminNavigation.tsx';
+import AdminNavigation from '@components/AdminNavigation.tsx';
 
 function ArenaSetting() {
   return (

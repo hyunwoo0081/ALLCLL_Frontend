@@ -1,7 +1,7 @@
 import {useRef, useState} from 'react';
 import {Link, useLocation, useNavigate} from 'react-router-dom';
 import NavModal from './NavModal.tsx';
-import useNavHook from '../hooks/useNavHook.ts';
+import useNavHook from '@hooks/useNavHook.ts';
 import '@styles/components/Navigation.scss';
 
 const NavRoutes = [

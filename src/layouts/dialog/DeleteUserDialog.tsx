@@ -1,9 +1,9 @@
 import React, {useRef} from 'react';
 import {useNavigate} from 'react-router-dom';
-import DialogTemplate from '../DialogTemplate.tsx';
-import AuthControl from '../../constant/AuthControl.ts';
-import Controller from '../../constant/Controller.ts';
-import CheckStringType from '../../constant/CheckStringType.ts';
+import DialogTemplate from '@layouts/DialogTemplate.tsx';
+import AuthControl from '@constant/AuthControl.ts';
+import Controller from '@constant/Controller.ts';
+import CheckStringType from '@constant/CheckStringType.ts';
 import '@styles/dialog/MacroDialog.scss';
 
 interface IDeleteUser {

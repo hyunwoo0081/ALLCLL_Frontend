@@ -1,9 +1,9 @@
 import {useEffect, useRef, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import PageDefaultLayout from '../../../layouts/PageDefaultLayout.tsx';
-import useLoginErrorBox from '../../../hooks/useLoginErrorBox.tsx';
-import CheckFetchError from '../../../constant/CheckFetchError.ts';
-import CheckStringType from '../../../constant/CheckStringType.ts';
+import PageDefaultLayout from '@layouts/PageDefaultLayout.tsx';
+import useLoginErrorBox from '@hooks/useLoginErrorBox.tsx';
+import CheckFetchError from '@constant/CheckFetchError.ts';
+import CheckStringType from '@constant/CheckStringType.ts';
 import '@styles/LoginPage.scss';
 
 export const AUTH_LIMIT_TIME = 10 * 60 * 1000;

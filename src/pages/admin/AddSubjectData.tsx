@@ -1,8 +1,8 @@
 import {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import AdminNavigation from '../../components/AdminNavigation.tsx';
-import {Subject} from '../../constant/fetchTypes.ts';
-import Controller from '../../constant/Controller.ts';
+import AdminNavigation from '@components/AdminNavigation.tsx';
+import {Subject} from '@constant/fetchTypes.ts';
+import Controller from '@constant/Controller.ts';
 import * as XLSX from 'xlsx';
 import '@styles/AddSubjectPage.scss';
 

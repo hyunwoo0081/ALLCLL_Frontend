@@ -1,6 +1,6 @@
 import {Fragment} from 'react';
-import DialogTemplate from '../DialogTemplate.tsx';
-import {ApplyDialogType, ISimulationDialog} from '../../constant/types.ts';
+import DialogTemplate from '@layouts/DialogTemplate.tsx';
+import {ApplyDialogType, ISimulationDialog} from '@constant/types.ts';
 import '@styles/dialog/MacroDialog.scss';
 
 

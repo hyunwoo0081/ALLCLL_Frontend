@@ -1,4 +1,4 @@
-import DialogTemplate from '../DialogTemplate.tsx';
+import DialogTemplate from '@layouts/DialogTemplate.tsx';
 import '@styles/dialog/MacroDialog.scss';
 
 interface IMacroDialog {

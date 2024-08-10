@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import PageDefaultLayout from '../layouts/PageDefaultLayout.tsx';
-import {DataFormats} from '../constant/types.ts';
-import {Subject} from '../constant/fetchTypes.ts';
-import Controller from '../constant/Controller.ts';
+import PageDefaultLayout from '@layouts/PageDefaultLayout.tsx';
+import {DataFormats} from '@constant/types.ts';
+import {Subject} from '@constant/fetchTypes.ts';
+import Controller from '@constant/Controller.ts';
 import '@styles/InterestPage.scss';
 import '@styles/components/TableStyle.scss';
 

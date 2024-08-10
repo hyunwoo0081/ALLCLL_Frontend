@@ -7,7 +7,7 @@ import path from 'path';
 const TargetServer = 'http://localhost:8090';
 // const TargetServer = 'https://allcll.site';
 // const TargetServer = 'http://43.201.17.130';
-// const TargetServer = 'http://3.34.47.74:8080';
+
 export default defineConfig({
   plugins: [react(), sentryVitePlugin({
     org: 'allcll',
@@ -21,8 +21,10 @@ export default defineConfig({
 
   resolve: {
     alias: {
-      '@static': path.resolve(__dirname, 'static'),
+      '@public': path.resolve(__dirname, 'public'),
       '@components': path.resolve(__dirname, 'src/components'),
+      '@constant': path.resolve(__dirname, 'src/constant'),
+      '@hooks': path.resolve(__dirname, 'src/hooks'),
       '@layouts': path.resolve(__dirname, 'src/layouts'),
       '@pages': path.resolve(__dirname, 'src/pages'),
       '@styles': path.resolve(__dirname, 'src/styles')

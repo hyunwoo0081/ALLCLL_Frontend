@@ -1,9 +1,9 @@
 import {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import DialogTemplate from '../DialogTemplate.tsx';
-import {getTimerString} from '../../constant/TimeString.ts';
-import {ApplyDialogType, ISimulationDialog} from '../../constant/types.ts';
-import Controller from '../../constant/Controller.ts';
+import DialogTemplate from '@layouts/DialogTemplate.tsx';
+import {getTimerString} from '@constant/TimeString.ts';
+import {ApplyDialogType, ISimulationDialog} from '@constant/types.ts';
+import Controller from '@constant/Controller.ts';
 import '@styles/dialog/MacroDialog.scss';
 
 

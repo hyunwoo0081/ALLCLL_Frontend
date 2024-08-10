@@ -1,10 +1,10 @@
 import {useEffect, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
-import useMobile from '../hooks/useMobile.ts';
-import NoticeDialog from '../layouts/dialog/NoticeDialog.tsx';
-import RouteMap from '../constant/RouteMap.tsx';
-import Controller from '../constant/Controller.ts';
-import AuthControl from '../constant/AuthControl.ts';
+import useMobile from '@hooks/useMobile.ts';
+import NoticeDialog from '@layouts/dialog/NoticeDialog.tsx';
+import RouteMap from '@constant/RouteMap.tsx';
+import Controller from '@constant/Controller.ts';
+import AuthControl from '@constant/AuthControl.ts';
 
 function RoutingHelper() {
   const location = useLocation();

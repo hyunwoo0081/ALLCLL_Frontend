@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
-import Navigation from '../components/Navigation.tsx';
-import Footer from '../components/Footer.tsx';
+import Navigation from '@components/Navigation.tsx';
+import Footer from '@components/Footer.tsx';
 
 interface IPageDefaultLayout { className?: string, children?: React.ReactNode }
 

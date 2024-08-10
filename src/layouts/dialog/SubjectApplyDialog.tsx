@@ -1,7 +1,7 @@
-import DialogTemplate from '../DialogTemplate.tsx';
+import DialogTemplate from '@layouts/DialogTemplate.tsx';
 import {useNavigate} from 'react-router-dom';
-import {ApplyDialogType, ISimulationDialog} from '../../constant/types.ts';
-import Controller from '../../constant/Controller.ts';
+import {ApplyDialogType, ISimulationDialog} from '@constant/types.ts';
+import Controller from '@constant/Controller.ts';
 import '@styles/dialog/MacroDialog.scss';
 
 function SubjectApplyDialog({useSimulation}: ISimulationDialog) {

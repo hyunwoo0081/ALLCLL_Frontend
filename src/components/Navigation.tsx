@@ -1,9 +1,9 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {Link, useLocation, useNavigate} from 'react-router-dom';
-import useMobile from '../hooks/useMobile.ts';
-import useLogin from '../hooks/useLogin.ts';
+import useMobile from '@hooks/useMobile.ts';
+import useLogin from '@hooks/useLogin.ts';
 import NavModal from './NavModal.tsx';
-import AuthControl from '../constant/AuthControl.ts';
+import AuthControl from '@constant/AuthControl.ts';
 import '@styles/components/Navigation.scss';
 
 interface IUnderlineStyle {

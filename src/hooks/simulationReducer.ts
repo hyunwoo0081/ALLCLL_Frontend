@@ -1,5 +1,5 @@
-import {ApplyDialogType} from '../constant/types.ts';
-import {Subject} from '../constant/fetchTypes.ts';
+import {ApplyDialogType} from '@constant/types.ts';
+import {Subject} from '@constant/fetchTypes.ts';
 
 export interface ISimulation {
   dialogType: ApplyDialogType;

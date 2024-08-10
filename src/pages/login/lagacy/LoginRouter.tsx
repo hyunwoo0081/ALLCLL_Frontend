@@ -1,7 +1,7 @@
 import {useNavigate} from 'react-router-dom';
 import {useEffect} from 'react';
 import Login4PasswordPage from './Login4PasswordPage.tsx';
-import useLogin from '../../../hooks/useLogin.ts';
+import useLogin from '@hooks/useLogin.ts';
 
 function LoginRouter() {
   const navigate = useNavigate();

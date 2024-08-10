@@ -1,9 +1,9 @@
 import {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import PageDefaultLayout from '../layouts/PageDefaultLayout.tsx';
-import {DataFormats, IRecentData} from '../constant/types.ts';
-import {getDateString, getTimerString} from '../constant/TimeString.ts';
-import Controller from '../constant/Controller.ts';
+import PageDefaultLayout from '@layouts/PageDefaultLayout.tsx';
+import {DataFormats, IRecentData} from '@constant/types.ts';
+import {getDateString, getTimerString} from '@constant/TimeString.ts';
+import Controller from '@constant/Controller.ts';
 
 function DashBoardPage() {
   const navigate = useNavigate();

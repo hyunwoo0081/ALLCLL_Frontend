@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import DialogTemplate from '../DialogTemplate.tsx';
-import {ApplyDialogType, ISimulationDialog} from '../../constant/types.ts';
-import CheckStringType from '../../constant/CheckStringType.ts';
-import Controller from '../../constant/Controller.ts';
+import DialogTemplate from '@layouts/DialogTemplate.tsx';
+import {ApplyDialogType, ISimulationDialog} from '@constant/types.ts';
+import CheckStringType from '@constant/CheckStringType.ts';
+import Controller from '@constant/Controller.ts';
 import '@styles/dialog/MacroDialog.scss';
 
 function MacroDialog({useSimulation}: ISimulationDialog) {

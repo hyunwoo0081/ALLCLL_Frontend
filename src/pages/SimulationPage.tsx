@@ -1,14 +1,14 @@
-import PageDefaultLayout from '../layouts/PageDefaultLayout.tsx';
-import MacroDialog from '../layouts/dialog/MacroDialog.tsx';
-import SubjectApplyDialog from '../layouts/dialog/SubjectApplyDialog.tsx';
-import ApplySuccessDialog from '../layouts/dialog/ApplySuccessDialog.tsx';
-import ApplyFailDialog from '../layouts/dialog/ApplyFailDialog.tsx';
-import ApplyDoneDialog from '../layouts/dialog/ApplyDoneDialog.tsx';
-import FailedMacroDialog from '../layouts/dialog/FailedMacroDialog.tsx';
-import FinishDialog from '../layouts/dialog/FinishDialog.tsx';
-import ErrorDialog from '../layouts/dialog/ErrorDialog.tsx';
-import useSimulation from '../hooks/useSimulation.ts';
-import {ApplyDialogType, DataFormats} from '../constant/types.ts';
+import PageDefaultLayout from '@layouts/PageDefaultLayout.tsx';
+import MacroDialog from '@layouts/dialog/MacroDialog.tsx';
+import SubjectApplyDialog from '@layouts/dialog/SubjectApplyDialog.tsx';
+import ApplySuccessDialog from '@layouts/dialog/ApplySuccessDialog.tsx';
+import ApplyFailDialog from '@layouts/dialog/ApplyFailDialog.tsx';
+import ApplyDoneDialog from '@layouts/dialog/ApplyDoneDialog.tsx';
+import FailedMacroDialog from '@layouts/dialog/FailedMacroDialog.tsx';
+import FinishDialog from '@layouts/dialog/FinishDialog.tsx';
+import ErrorDialog from '@layouts/dialog/ErrorDialog.tsx';
+import useSimulation from '@hooks/useSimulation.ts';
+import {ApplyDialogType, DataFormats} from '@constant/types.ts';
 import '@styles/components/TableStyle.scss';
 
 const StatusClass = ['', '', '', 'success', 'fail', 'done'];

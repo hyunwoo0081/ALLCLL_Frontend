@@ -1,8 +1,8 @@
 import {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-// import {IErrorTypes} from '../constant/CheckFetchError.ts';
-import AuthControl from '../constant/AuthControl.ts';
-// import API from '../constant/API.ts';
+// import {IErrorTypes} from '@constant/CheckFetchError.ts';
+import AuthControl from '@constant/AuthControl.ts';
+// import API from '@constant/API.ts';
 
 enum ToastView {
   CLOSED, TOAST_NORMAL, TOAST_ERROR

@@ -1,5 +1,5 @@
 import {useNavigate} from 'react-router-dom';
-import AuthControl from '../constant/AuthControl.ts';
+import AuthControl from '@constant/AuthControl.ts';
 import '@styles/components/Footer.scss';
 
 const footerCenters = [

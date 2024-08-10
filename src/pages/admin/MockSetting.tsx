@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import AdminNavigation from '../../components/AdminNavigation.tsx';
-import Controller from '../../constant/Controller.ts';
+import AdminNavigation from '@components/AdminNavigation.tsx';
+import Controller from '@constant/Controller.ts';
 
 function MockSetting() {
   const navigate = useNavigate();
