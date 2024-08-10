@@ -230,3 +230,27 @@ div.toast_box {
     }
   }
 }
+
+@media (max-width: 500px) {
+  nav.navigation div.navigation_flex {
+    height: 48px;
+
+    div.logo h2 {
+      font-size: 24px;
+    }
+  }
+  nav.navigation div.navigation_shortcuts ul {
+    li {
+      padding: 2px 0 12px 0;
+
+      &.selected {
+        padding: 2px 0 11px 0;
+      }
+
+      a {
+        padding: 2px 8px 12px 8px;
+        font-size: 14px;
+      }
+    }
+  }
+}

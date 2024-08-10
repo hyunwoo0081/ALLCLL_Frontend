@@ -35,9 +35,8 @@ export const DataFormats = {
   RecentDataTitles: {
     id: -1,
     date: '날짜',
-    numberOfCoursesToRegister: '신청할 과목 수',
     takenTime: '소요 시간',
-    numberOfRegisteredCourses: '신청한 과목 수',
+    numberOfRegisteredCourses: '신청한 과목 수/신청할 과목 수',
     coursesDetail: '과목 상세 정보',
   },
 }
